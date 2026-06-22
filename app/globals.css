@@ -47,3 +47,114 @@ a {
     color-scheme: dark;
   }
 }
+.dashboard-wrapper {
+  border-radius: 12px;
+  background: #f8f9fa;
+}
+
+.dashboard-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 15px;
+}.slider_btn {
+  width: 100%;
+  background: transparent !important;
+  border: none !important;
+  color: #fffbfb !important;
+  text-align: left;
+  transition: 0.3s;
+}
+
+.slider_btn:hover {
+  background-color: #36d97e !important;
+  color: white !important;
+}
+
+
+.card-underline {
+  height: 4px;
+  width: 100%;
+}
+
+/* Underline Colors */
+.underline-purple {
+  background-color: #864AD1;
+}
+
+.underline-green {
+  background-color: #36d97e;
+}
+
+.underline-blue {
+  background-color: #3ECDFF;
+}
+
+.underline-orange {
+  background-color: #FFB930;
+}.underline-pink{
+   background-color: #D758E2;
+}
+
+/* Icon Colors */
+.icon {
+  font-size: 24px;
+}
+
+.icon-purple {
+  color: #864AD1;
+}
+
+.icon-green {
+  color: #36d97e;
+}
+
+.icon-blue {
+  color: #3ECDFF;
+}
+
+.icon-orange {
+  color: #FFB930;
+}.icon-pink{
+  color: #D758E2;
+}
+/* Todo-List */
+.to-do{
+  background-color: #864AD1;
+}.todo-text{
+  color: #e5e7eb;
+}.icon-plus{
+ color: #864AD1;
+  background-color: #FFFFFF;
+  border-radius: 50px;
+}.graphic-designer{
+  color: #BA8B54;
+}.avatar-group {
+  position: relative;
+  width: 110px;
+  height: 36px;
+}
+
+.avatar-group-img {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  object-fit: cover;
+  justify-content: end;
+}.yoast{
+  color: #43DC80;
+}.new_message {
+  background-color: #43DC80;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.new_message:hover {
+  background-color: #39c970;
+}
