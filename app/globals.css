@@ -57,6 +57,7 @@ a {
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   padding: 15px;
+  width: 100%;
 }.slider_btn {
   width: 100%;
   background: transparent !important;
