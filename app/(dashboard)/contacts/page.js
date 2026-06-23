@@ -1,8 +1,9 @@
-'use client'; 
+'use client';
 import React from 'react';
 import { Container, Row, Col, Card, Button, Badge } from 'react-bootstrap';
 import './../../../public/user.png'
 import { FaPhone, FaCommentDots, FaVideo, FaUserPlus, FaEllipsisVertical } from 'react-icons/fa6';
+import { Grid3x3GapFill, List } from 'react-bootstrap-icons';
 const contactsData = [
   { id: 1, name: "Abdul Kean", company: "Highspeed Inc.", activeChat: false },
   { id: 2, name: "Angela Moss", company: "Redblue Studios", activeChat: false },
@@ -21,18 +22,27 @@ const contactsData = [
 const Contacts = () => {
   return (
     <Container className="py-4 bg-light" fluid="lg">
-
-      {/* Dashboard Header */}
       <header className="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
         <div className="d-flex gap-4 align-items-center">
-          <h5 className="mb-0 fw-bold text-dark">All Contact <Badge bg="success" pill className="ms-1">154</Badge></h5>
+          <h5 className="mb-0 fw-bold text-dark">All Contact<Button
+            className="ms-1 rounded-pill px-3 py-1 btn-sm border-0"
+            style={{ backgroundColor: "#43DC80", color: "#ffffff" }} // Swap with your preferred Hex color
+          >
+            154
+          </Button></h5>
           <h5 className="mb-0 text-muted fw-normal d-none d-sm-block">Pending Invitation <Badge bg="warning" text="dark" pill className="ms-1">6</Badge></h5>
         </div>
         <div>
-          <Button variant="success" className="d-flex align-items-center gap-2">
-            <FaUserPlus /> New Contact
-          </Button>
-        </div>
+          <div className="d-flex align-items-center gap-3">
+                     <Button variant="success" className="px-4 py-2 rounded-3 fw-bold border-0" style={{ backgroundColor: '#4de193' }}>
+                       New Project
+                     </Button>
+                     <div className="d-flex text-muted gap-2 fs-5">
+                       <List style={{ cursor: 'pointer' }} className="text-secondary" />
+                       <Grid3x3GapFill style={{ cursor: 'pointer', opacity: 0.5,color:"#43DC80" }} />
+                     </div>
+                   </div>
+                 </div>
       </header>
       <Row xs={1} sm={2} md={3} lg={4} className="g-4">
         {contactsData.map((contact) => (
@@ -45,7 +55,7 @@ const Contacts = () => {
 
               <div>
                 <img src='user.png' />
-              </div>  
+              </div>
               {/* Text Info */}
               <Card.Body>
                 <Card.Title className="h6 fw-bold mb-1 text-dark">{contact.name}</Card.Title>

@@ -205,94 +205,8 @@ const avatars = [
 
 ];
 const Dashboard = () => (
-  <Container fluid>
+
     <Row className="g-4">
-      {/* Sidebar */}
-      {/* <Col lg={2}>
-     <div className="dashboard-card sidebar-card">
-     
-      <Button
-        as={Link}
-        href="/projects/new"
-        className="w-100 mb-4 rounded-pill"
-        style={{ background: "#36d97e", border: "none" }}
-      >
-        + New Project
-      </Button>
-
-      <div className="d-grid gap-3 text-start">
-      
-        <Button 
-          as={Link} 
-          href="/" 
-          variant="outline-secondary" 
-          className="rounded-pill border text-start d-flex align-items-center"
-        >
-          <HouseExclamationFill className="me-2" />
-          Dashboard
-        </Button>
-
-    
-        <Button 
-          as={Link} 
-          href="/projects" 
-          variant="outline-secondary" 
-          className="rounded-pill border text-start d-flex align-items-center"
-        >
-          <StarFill className="me-2" /> Projects
-        </Button>
-
-       
-        <Button 
-          as={Link} 
-          href="/contacts" 
-          variant="outline-secondary" 
-          className="rounded-pill border text-start d-flex align-items-center"
-        >
-          <PersonFill className="me-2" /> Contacts
-        </Button>
-
-     
-        <Button 
-          as={Link} 
-          href="/kanban" 
-          variant="outline-secondary" 
-          className="rounded-pill border text-start d-flex align-items-center"
-        >
-          <GridFill className="me-2" /> Kanban
-        </Button>
-
-        
-        <Button 
-          as={Link} 
-          href="/calendar" 
-          variant="outline-secondary" 
-          className="rounded-pill border text-start d-flex align-items-center"
-        >
-          <Calendar2Fill className="me-2" /> Calendar
-        </Button>
-
-        <Button 
-          as={Link} 
-          href="/messages" 
-          variant="outline-secondary" 
-          className="rounded-pill border text-start d-flex align-items-center"
-        >
-          <Messenger className="me-2" /> Messages
-        </Button>
-
-        <Button 
-          as={Link} 
-          href="/settings" 
-          variant="outline-secondary" 
-          className="rounded-pill border text-start d-flex align-items-center"
-        >
-          <GearFill className="me-2" /> Setting
-        </Button>
-      </div>
-    </div>
-    </Col> */}
-
       {/* Main Content */}
       <Col md={12} lg={12}>
         <Row className="g-4">
@@ -627,7 +541,7 @@ const Dashboard = () => (
         </Row>
       </Col>
     </Row>
-  </Container>
+ 
 );
 
 export default Dashboard;

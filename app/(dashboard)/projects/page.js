@@ -85,7 +85,7 @@ export default function ProjectDashboard() {
             </Button>
             <div className="d-flex text-muted gap-2 fs-5">
               <List style={{ cursor: 'pointer' }} className="text-secondary" />
-              <Grid3x3GapFill style={{ cursor: 'pointer', opacity: 0.5 }} />
+              <Grid3x3GapFill style={{ cursor: 'pointer', opacity: 0.5,color:"#43DC80" }} />
             </div>
           </div>
         </div>

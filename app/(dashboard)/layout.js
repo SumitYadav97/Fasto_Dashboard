@@ -10,12 +10,12 @@ export default function Layout({ children }) {
     <>
       <Container fluid>
         <Header />
-        <Row className="g-0 min-vh-100">
+        <Row className="g-0 ">
 
-          <Col md={2} className="bg-light border-end min-vh-100">
-            <Sidebar />
-          </Col>
-          <Col md={10} className="p-4 bg-light-subtle">
+        <Col md={2} className="bg-light min-vh-100">
+          <Sidebar />
+        </Col>
+          <Col md={10} className="bg-ligh">
             {children}
           </Col>
 

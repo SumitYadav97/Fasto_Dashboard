@@ -11,7 +11,7 @@ export default function Home() {
         <Col md={2} className="bg-light min-vh-100">
           <Sidebar />
         </Col>
-        <Col md={9} className="p-4">
+        <Col md={10} className="p-4">
           <Dashboard />
         </Col>
       </Row>
