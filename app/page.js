@@ -1,11 +1,20 @@
-
-import Slider from "./(dasahboard)/layout";
-import Dashboard from "./(dasahboard)/page";
+import { Container, Row, Col } from "react-bootstrap";
+import Sidebar from "./(dashboard)/Sidebar/page";
+import Header from "./(dashboard)/header/page";
+import Dashboard from "./(dashboard)/page";
 
 export default function Home() {
-  return (<>
-    <Slider />
-    {/* <Dashboard/> */}
-  </>
+  return (
+    <Container fluid>
+    <Header/>
+      <Row>
+        <Col md={2} className="bg-light min-vh-100">
+          <Sidebar />
+        </Col>
+        <Col md={9} className="p-4">
+          <Dashboard />
+        </Col>
+      </Row>
+    </Container>
   );
 }

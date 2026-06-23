@@ -106,7 +106,7 @@ export default function ProjectDashboard() {
                 </Col>
                 {/* Client Info */}
                 <Col md={2} className="d-flex align-items-center gap-3">
-                   <div > <img src='user2.png' size={18}  style={{height:"40px", width:"40px"}}/></div>
+                  <div > <img src='user2.png' size={18} style={{ height: "40px", width: "40px" }} /></div>
                   <div>
                     <div className="text-muted small" style={{ fontSize: '0.75rem' }}>Client</div>
                     <div className="fw-bold small">{project.client}</div>
@@ -115,7 +115,7 @@ export default function ProjectDashboard() {
 
                 {/* Person in Charge Info */}
                 <Col md={2} className="d-flex align-items-center gap-3">
-                  <div > <img src='user2.png' size={18} style={{height:"40px", width:"40px"}} /></div>
+                  <div > <img src='user2.png' size={18} style={{ height: "40px", width: "40px" }} /></div>
                   <div>
                     <div className="text-muted small" style={{ fontSize: '0.75rem' }}>Person in charge</div>
                     <div className="fw-bold small">{project.pic}</div>
@@ -124,7 +124,7 @@ export default function ProjectDashboard() {
 
                 {/* Deadline */}
                 <Col md={2} className="d-flex align-items-center gap-3">
-                  <div> <div > <img src='deadline.png' size={18} style={{height:"40px", width:"40px"}} /></div></div>
+                  <div> <div > <img src='deadline.png' size={18} style={{ height: "40px", width: "40px" }} /></div></div>
                   <div>
                     <div className="text-muted small" style={{ fontSize: '0.75rem' }}>Deadline</div>
                     <div className="fw-bold small">{project.deadline}</div>
