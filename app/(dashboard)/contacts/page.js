@@ -1,13 +1,8 @@
-'use client'; // Required in Next.js for interactive third-party UI components
-
+'use client'; 
 import React from 'react';
-// Correct named imports from react-bootstrap
 import { Container, Row, Col, Card, Button, Badge } from 'react-bootstrap';
 import './../../../public/user.png'
-
-// Standardized completely to 'react-icons/fa6' to fix Next.js bundle errors
 import { FaPhone, FaCommentDots, FaVideo, FaUserPlus, FaEllipsisVertical } from 'react-icons/fa6';
-
 const contactsData = [
   { id: 1, name: "Abdul Kean", company: "Highspeed Inc.", activeChat: false },
   { id: 2, name: "Angela Moss", company: "Redblue Studios", activeChat: false },
@@ -50,7 +45,7 @@ const Contacts = () => {
 
               <div>
                 <img src='user.png' />
-              </div>
+              </div>  
               {/* Text Info */}
               <Card.Body>
                 <Card.Title className="h6 fw-bold mb-1 text-dark">{contact.name}</Card.Title>
