@@ -76,8 +76,8 @@ const Contacts = () => {
           </Col>
         ))}
       </Row>
-      <footer className="text-center mt-5">
-        <Button variant="outline-success" className="px-5 rounded-3 fw-semibold">
+      <footer className="text-center mt-5" >
+        <Button className="px-5 rounded-3  " style={{background:"#43DC80" ,border:"#43DC80"}}>
           Load More
         </Button>
       </footer>
