@@ -39,31 +39,23 @@ const Contacts = () => {
           </Button>
         </div>
       </header>
-
       <Row xs={1} sm={2} md={3} lg={4} className="g-4">
         {contactsData.map((contact) => (
           <Col key={contact.id}>
             <Card className="text-center h-100 border-0 shadow-sm position-relative p-3 rounded-4">
-
               {/* Menu Dot */}
               <Button variant="link" className="text-muted position-absolute top-0 end-0 m-2 p-1">
                 <FaEllipsisVertical size={14} />
               </Button>
 
-              {/* <div className="position-relative mx-auto my-3" style={{ width: '80px', height: '80px' }}>
-                <div className="w-100 h-100 rounded-circle bg-secondary bg-opacity-25"></div>
-                <span className="position-absolute bottom-0 end-0 border border-white border-2 bg-success rounded-circle p-1" style={{ width: '12px', height: '12px' }}></span>
-              </div> */}
               <div>
                 <img src='user.png' />
               </div>
-
               {/* Text Info */}
               <Card.Body>
                 <Card.Title className="h6 fw-bold mb-1 text-dark">{contact.name}</Card.Title>
                 <Card.Text className="text-muted small mb-4">{contact.company}</Card.Text>
               </Card.Body>
-
               <div className="d-flex justify-content-center gap-2 mt-auto">
                 <Button variant="light" className="rounded-circle text-success d-flex align-items-center justify-content-center border-0" style={{ width: '38px', height: '38px', backgroundColor: '#ebfaf1' }}>
                   <FaPhone size={14} />
@@ -75,7 +67,6 @@ const Contacts = () => {
                   <FaVideo size={14} />
                 </Button>
               </div>
-
             </Card>
           </Col>
         ))}
