@@ -205,342 +205,342 @@ const avatars = [
 ];
 const Dashboard = () => (
 
-    <Row className="g-4">
-      {/* Main Content */}
-      <Col md={12} lg={12}>
-        <Row className="g-4">
-          {/* Card 1 */}
-          <Col lg={3} md={6}>
-            <Card className="border-0 shadow-sm stat-card">
-              <div className="card-underline underline-purple"></div>
-              <Card.Body className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h2 className="fw-bold">78</h2>
-                  <small>Total Project Handled</small>
+  <Row className="g-4">
+    {/* Main Content */}
+    <Col md={12} lg={12}>
+      <Row className="g-4">
+        {/* Card 1 */}
+        <Col lg={3} md={6}>
+          <Card className="border-0 shadow-sm stat-card">
+            <div className="card-underline underline-purple"></div>
+            <Card.Body className="d-flex justify-content-between align-items-center">
+              <div>
+                <h2 className="fw-bold">78</h2>
+                <small>Total Project Handled</small>
+              </div>
+              <StarFill className=" icon-purple" />
+            </Card.Body>
+          </Card>
+        </Col>
+
+        {/* Card 2 */}
+        <Col lg={3} md={6}>
+          <Card className="border-0 shadow-sm stat-card">
+            <div className="card-underline underline-orange"></div>
+
+            <Card.Body className="d-flex justify-content-between align-items-center">
+              <div>
+                <h2 className="fw-bold">214</h2>
+                <small>Contacts You Have</small>
+              </div>
+
+              <PersonFill className="icon icon-orange" />
+            </Card.Body>
+          </Card>
+        </Col>
+
+        {/* Card 3 */}
+        <Col lg={3} md={6}>
+          <Card className="border-0 shadow-sm stat-card">
+            <div className="card-underline underline-pink"></div>
+
+            <Card.Body className="d-flex justify-content-between align-items-center">
+              <div>
+                <h2 className="fw-bold">93</h2>
+                <small>Total Unfinished Task</small>
+              </div>
+
+              <GridFill className="icon icon-pink" />
+            </Card.Body>
+          </Card>
+        </Col>
+
+        {/* Card 4 */}
+        <Col lg={3} md={6}>
+          <Card className="border-0 shadow-sm stat-card">
+            <div className="card-underline underline-blue"></div>
+
+            <Card.Body className="d-flex justify-content-between align-items-center">
+              <div>
+                <h2 className="fw-bold">12</h2>
+                <small>Unread Messages</small>
+              </div>
+
+              <ChatLeftTextFill className="icon icon-blue" />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      {/* Top Stats */}
+      <Row className="g-4 mb-4 mt-3">
+        <Col md={6}>
+          <div className="dashboard-card">
+            <ApexChart title="North Region" />
+          </div>
+        </Col>
+
+        <Col md={3}>
+          <div className="dashboard-card">
+            <TemperatureChart />
+          </div>
+        </Col>
+
+        <Col md={3}>
+          <div className="dashboard-card">
+            <DonutChart />
+          </div>
+        </Col>
+      </Row>
+
+      <Row className="g-4">
+        {/* Left */}
+        <Col lg={6}>
+          <Row className="g-4 mb-4">
+            <Col md={6}>
+              <div className="dashboard-card">
+                <h6>Project Released</h6>
+                <ReleasedChart />
+              </div>
+            </Col>
+
+            <Col md={6}>
+              <div className="dashboard-card">
+                <h6>Contacts Added</h6>
+                <Contacts />
+              </div>
+            </Col>
+          </Row>
+
+          <div className="dashboard-card">
+            <h6>Recent Messages</h6>
+            <Card className="border-0 shadow-sm p-2">
+              <Card.Body>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <h6 className="fw-bold mb-0">Recent Messages</h6>
+
+                  <button className="new_message rounded-pill">
+                    + New Message
+                  </button>
                 </div>
-                <StarFill className=" icon-purple" />
+
+                {/* Message 1 */}
+                <div className="d-flex mb-4">
+                  <div className="position-relative me-3">
+                    <img src="/user.png"
+                      alt=""
+                      width="45"
+                      height="45"
+                      className="rounded-circle"
+                    />
+
+                  </div>
+
+                  <div>
+                    <h6 className="mb-1">Laura Chyan</h6>
+                    <p className="small text-muted mb-2">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    </p>
+                    <small className="text-muted">5m ago</small>
+                  </div>
+                </div>
+
+                {/* Message 2 */}
+                <div className="d-flex mb-4">
+                  <div className="me-3">
+                    <img src="/user2.png"
+                      alt=""
+                      width="45"
+                      height="45"
+                      className="rounded-circle"
+                    />
+                  </div>
+
+                  <div>
+                    <h6 className="mb-1">Olivia Rellaq</h6>
+                    <p className="small text-muted mb-2">
+                      Nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.
+                    </p>
+                    <small className="text-muted">25m ago</small>
+                  </div>
+                </div>
+
+                {/* Message 3 */}
+                <div className="d-flex">
+                  <div className="position-relative me-3">
+                    <img src="/user.png"
+                      alt=""
+                      width="45"
+                      height="45"
+                      className="rounded-circle"
+                    />
+
+                  </div>
+                  <div>
+                    <h6 className="mb-1">Keanu Tipes</h6>
+                    <p className="small text-muted mb-2">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    </p>
+                    <small className="text-muted">41m ago</small>
+                  </div>
+                </div>
               </Card.Body>
             </Card>
-          </Col>
+          </div>
+        </Col>
 
-          {/* Card 2 */}
-          <Col lg={3} md={6}>
-            <Card className="border-0 shadow-sm stat-card">
-              <div className="card-underline underline-orange"></div>
+        {/* Right */}
+        <Col lg={6}>
+          <Row className="g-4 ">
+            <Col md={6} lg={6}>
+              <div className="dashboard-card border-bottom">
 
-              <Card.Body className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h2 className="fw-bold">214</h2>
-                  <small>Contacts You Have</small>
-                </div>
+                <div><h5>Upcoming Projects</h5></div>
+                <div className="mt-3 "><b>Redesign Kripton <div>Mobile App</div>
+                </b></div>
+                <div className="yoast mt-3">Yoast Esac</div>
+                <div className="text-muted mt-3"><Calendar /> Created on sep 8th 2020</div>
+                <div className="mt-3 text-muted"><img src="/deadline.png" alt="Deadline" style={{ height: "50px", width: "50px" }} />Deadline</div>
+                <div className="mt-3"><b>Tuesday,Sep 29th 2020</b></div>
 
-                <PersonFill className="icon icon-orange" />
-              </Card.Body>
-            </Card>
-          </Col>
+              </div>
+              <div className="dashboard-card  border-bottom">
 
-          {/* Card 3 */}
-          <Col lg={3} md={6}>
-            <Card className="border-0 shadow-sm stat-card">
-              <div className="card-underline underline-pink"></div>
+                <div><h5>Upcoming Projects</h5></div>
+                <div className="mt-3 "><b>Redesign Kripton <div>Mobile App</div>
+                </b></div>
+                <div className="text-muted mt-3"><Calendar /> Created on sep 8th 2020</div>
+                <div className="mt-3 text-muted"><img src="/deadline.png" alt="Deadline" style={{ height: "50px", width: "50px" }} />Deadline</div>
+                <div className="mt-3"><b>Tuesday,Sep 29th 2020</b></div>
 
-              <Card.Body className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h2 className="fw-bold">93</h2>
-                  <small>Total Unfinished Task</small>
-                </div>
+              </div>
+              <div className="dashboard-card  border-bottom">
 
-                <GridFill className="icon icon-pink" />
-              </Card.Body>
-            </Card>
-          </Col>
+                <div><h5>Upcoming Projects</h5></div>
+                <div className="mt-3 "><b>Redesign Kripton <div>Mobile App</div>
+                </b></div>
+                <div className="text-muted mt-3"><Calendar /> Created on sep 8th 2020</div>
+                <div className="mt-3 text-muted"><img src="/deadline.png" alt="Deadline" style={{ height: "50px", width: "50px" }} />Deadline</div>
+                <div className="mt-3"><b>Tuesday,Sep 29th 2020</b></div>
 
-          {/* Card 4 */}
-          <Col lg={3} md={6}>
-            <Card className="border-0 shadow-sm stat-card">
-              <div className="card-underline underline-blue"></div>
+              </div>
+            </Col>
 
-              <Card.Body className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h2 className="fw-bold">12</h2>
-                  <small>Unread Messages</small>
-                </div>
-
-                <ChatLeftTextFill className="icon icon-blue" />
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-        {/* Top Stats */}
-        <Row className="g-4 mb-4 mt-3">
-          <Col md={6}>
-            <div className="dashboard-card">
-              <ApexChart title="North Region" />
-            </div>
-          </Col>
-
-          <Col md={3}>
-            <div className="dashboard-card">
-              <TemperatureChart />
-            </div>
-          </Col>
-
-          <Col md={3}>
-            <div className="dashboard-card">
-              <DonutChart />
-            </div>
-          </Col>
-        </Row>
-
-        <Row className="g-4">
-          {/* Left */}
-          <Col lg={6}>
-            <Row className="g-4 mb-4">
-              <Col md={6}>
-                <div className="dashboard-card">
-                  <h6>Project Released</h6>
-                  <ReleasedChart />
-                </div>
-              </Col>
-
-              <Col md={6}>
-                <div className="dashboard-card">
-                  <h6>Contacts Added</h6>
-                  <Contacts />
-                </div>
-              </Col>
-            </Row>
-
-            <div className="dashboard-card">
-              <h6>Recent Messages</h6>
-              <Card className="border-0 shadow-sm p-2">
-                <Card.Body>
-                  <div className="d-flex justify-content-between align-items-center mb-4">
-                    <h6 className="fw-bold mb-0">Recent Messages</h6>
-
-                    <button className="new_message rounded-pill">
-                      + New Message
-                    </button>
-                  </div>
-
-                  {/* Message 1 */}
-                  <div className="d-flex mb-4">
-                    <div className="position-relative me-3">
-                      <img src="/user.png"
-                        alt=""
-                        width="45"
-                        height="45"
-                        className="rounded-circle"
-                      />
-
+            <Col md={6} lg={6}>
+              <div>
+                <div className="todo-card">
+                  <Card.Body className="d-flex justify-content-between align-items-center to-do"
+                    style={{ height: "110px", borderRadius: "20px" }}>
+                    <div className="todo-text">
+                      <h5> <b>Quick To-Do List</b></h5>
+                      <p>Lorem ipsum</p>
                     </div>
-
-                    <div>
-                      <h6 className="mb-1">Laura Chyan</h6>
-                      <p className="small text-muted mb-2">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      </p>
-                      <small className="text-muted">5m ago</small>
-                    </div>
-                  </div>
-
-                  {/* Message 2 */}
-                  <div className="d-flex mb-4">
-                    <div className="me-3">
-                      <img src="/user2.png"
-                        alt=""
-                        width="45"
-                        height="45"
-                        className="rounded-circle"
-                      />
-                    </div>
-
-                    <div>
-                      <h6 className="mb-1">Olivia Rellaq</h6>
-                      <p className="small text-muted mb-2">
-                        Nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.
-                      </p>
-                      <small className="text-muted">25m ago</small>
-                    </div>
-                  </div>
-
-                  {/* Message 3 */}
-                  <div className="d-flex">
-                    <div className="position-relative me-3">
-                      <img src="/user.png"
-                        alt=""
-                        width="45"
-                        height="45"
-                        className="rounded-circle"
-                      />
-
-                    </div>
-                    <div>
-                      <h6 className="mb-1">Keanu Tipes</h6>
-                      <p className="small text-muted mb-2">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      </p>
-                      <small className="text-muted">41m ago</small>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </div>
-          </Col>
-
-          {/* Right */}
-          <Col lg={6}>
-            <Row className="g-4 ">
-              <Col md={6} lg={6}>
-                <div className="dashboard-card border-bottom">
-
-                  <div><h5>Upcoming Projects</h5></div>
-                  <div className="mt-3 "><b>Redesign Kripton <div>Mobile App</div>
-                  </b></div>
-                  <div className="yoast mt-3">Yoast Esac</div>
-                  <div className="text-muted mt-3"><Calendar /> Created on sep 8th 2020</div>
-                  <div className="mt-3 text-muted"><img src="/deadline.png" alt="Deadline" style={{ height: "50px", width: "50px" }} />Deadline</div>
-                  <div className="mt-3"><b>Tuesday,Sep 29th 2020</b></div>
-
+                    <PlusSquare className="icon icon-plus" />
+                  </Card.Body>
                 </div>
-                <div className="dashboard-card  border-bottom">
+                {/* To-do-card=1 */}
+                <Card className="mt-3">
+                  <Card.Body>
+                    <p className="graphic-designer mt-3">
+                      <b>Graphic Designer</b>
+                    </p>
 
-                  <div><h5>Upcoming Projects</h5></div>
-                  <div className="mt-3 "><b>Redesign Kripton <div>Mobile App</div>
-                  </b></div>
-                  <div className="text-muted mt-3"><Calendar /> Created on sep 8th 2020</div>
-                  <div className="mt-3 text-muted"><img src="/deadline.png" alt="Deadline" style={{ height: "50px", width: "50px" }} />Deadline</div>
-                  <div className="mt-3"><b>Tuesday,Sep 29th 2020</b></div>
+                    <p>
+                      <b>Visual Graphic for Presentation to Client</b>
+                    </p>
 
-                </div>
-                <div className="dashboard-card  border-bottom">
 
-                  <div><h5>Upcoming Projects</h5></div>
-                  <div className="mt-3 "><b>Redesign Kripton <div>Mobile App</div>
-                  </b></div>
-                  <div className="text-muted mt-3"><Calendar /> Created on sep 8th 2020</div>
-                  <div className="mt-3 text-muted"><img src="/deadline.png" alt="Deadline" style={{ height: "50px", width: "50px" }} />Deadline</div>
-                  <div className="mt-3"><b>Tuesday,Sep 29th 2020</b></div>
+                    <div className="d-flex align-items-center justify-content-between">
+                      <p className="text-muted mb-0">Aug 4 2020</p>
 
-                </div>
-              </Col>
-
-              <Col md={6} lg={6}>
-                <div>
-                  <div className="todo-card">
-                    <Card.Body className="d-flex justify-content-between align-items-center to-do"
-                      style={{ height: "110px", borderRadius: "20px" }}>
-                      <div className="todo-text">
-                        <h5> <b>Quick To-Do List</b></h5>
-                        <p>Lorem ipsum</p>
+                      <div className="avatar-group">
+                        {avatars.map((avatar, index) => (
+                          <img
+                            key={index}
+                            src={avatar}
+                            alt={`avatar-${index}`}
+                            className="avatar-group-img"
+                            style={{
+                              left: `${index * 18}px`,
+                              zIndex: avatars.length - index,
+                            }}
+                          />
+                        ))}
                       </div>
-                      <PlusSquare className="icon icon-plus" />
-                    </Card.Body>
-                  </div>
-                  {/* To-do-card=1 */}
-                  <Card className="mt-3">
-                    <Card.Body>
-                      <p className="graphic-designer mt-3">
-                        <b>Graphic Designer</b>
-                      </p>
+                    </div>
+                  </Card.Body>
+                </Card>
+                {/* To-do-card=2 */}
+                <Card className="mt-3">
+                  <Card.Body>
+                    <p className="graphic-designer mt-3">
+                      <b>Graphic Designer</b>
+                    </p>
 
-                      <p>
-                        <b>Visual Graphic for Presentation to Client</b>
-                      </p>
+                    <p>
+                      <b>Visual Graphic for Presentation to Client</b>
+                    </p>
 
 
-                      <div className="d-flex align-items-center justify-content-between">
-                        <p className="text-muted mb-0">Aug 4 2020</p>
+                    <div className="d-flex align-items-center justify-content-between">
+                      <p className="text-muted mb-0">Aug 4 2020</p>
 
-                        <div className="avatar-group">
-                          {avatars.map((avatar, index) => (
-                            <img
-                              key={index}
-                              src={avatar}
-                              alt={`avatar-${index}`}
-                              className="avatar-group-img"
-                              style={{
-                                left: `${index * 18}px`,
-                                zIndex: avatars.length - index,
-                              }}
-                            />
-                          ))}
-                        </div>
+                      <div className="avatar-group">
+                        {avatars.map((avatar, index) => (
+                          <img
+                            key={index}
+                            src={avatar}
+                            alt={`avatar-${index}`}
+                            className="avatar-group-img"
+                            style={{
+                              left: `${index * 18}px`,
+                              zIndex: avatars.length - index,
+                            }}
+                          />
+                        ))}
                       </div>
-                    </Card.Body>
-                  </Card>
-                  {/* To-do-card=2 */}
-                  <Card className="mt-3">
-                    <Card.Body>
-                      <p className="graphic-designer mt-3">
-                        <b>Graphic Designer</b>
-                      </p>
+                    </div>
+                  </Card.Body>
+                </Card>
+                {/* To-do-card=1 */}
+                <Card className="mt-3">
+                  <Card.Body>
+                    <p className="graphic-designer mt-3">
+                      <b>Graphic Designer</b>
+                    </p>
 
-                      <p>
-                        <b>Visual Graphic for Presentation to Client</b>
-                      </p>
+                    <p>
+                      <b>Visual Graphic for Presentation to Client</b>
+                    </p>
 
+                    {/* Date + Avatar Group */}
+                    <div className="d-flex align-items-center justify-content-between">
+                      <p className="text-muted mb-0">Aug 4 2020</p>
 
-                      <div className="d-flex align-items-center justify-content-between">
-                        <p className="text-muted mb-0">Aug 4 2020</p>
-
-                        <div className="avatar-group">
-                          {avatars.map((avatar, index) => (
-                            <img
-                              key={index}
-                              src={avatar}
-                              alt={`avatar-${index}`}
-                              className="avatar-group-img"
-                              style={{
-                                left: `${index * 18}px`,
-                                zIndex: avatars.length - index,
-                              }}
-                            />
-                          ))}
-                        </div>
+                      <div className="avatar-group">
+                        {avatars.map((avatar, index) => (
+                          <img
+                            key={index}
+                            src={avatar}
+                            alt={`avatar-${index}`}
+                            className="avatar-group-img"
+                            style={{
+                              left: `${index * 18}px`,
+                              zIndex: avatars.length - index,
+                            }}
+                          />
+                        ))}
                       </div>
-                    </Card.Body>
-                  </Card>
-                  {/* To-do-card=1 */}
-                  <Card className="mt-3">
-                    <Card.Body>
-                      <p className="graphic-designer mt-3">
-                        <b>Graphic Designer</b>
-                      </p>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </div>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </Col>
+  </Row>
 
-                      <p>
-                        <b>Visual Graphic for Presentation to Client</b>
-                      </p>
-
-                      {/* Date + Avatar Group */}
-                      <div className="d-flex align-items-center justify-content-between">
-                        <p className="text-muted mb-0">Aug 4 2020</p>
-
-                        <div className="avatar-group">
-                          {avatars.map((avatar, index) => (
-                            <img
-                              key={index}
-                              src={avatar}
-                              alt={`avatar-${index}`}
-                              className="avatar-group-img"
-                              style={{
-                                left: `${index * 18}px`,
-                                zIndex: avatars.length - index,
-                              }}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </Card.Body>
-                  </Card>
-                </div>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Col>
-    </Row>
- 
 );
 
 export default Dashboard;
