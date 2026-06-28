@@ -1,10 +1,8 @@
-
 "use client";
 import Link from 'next/link';
 import React from 'react'
 import { Button, } from 'react-bootstrap';
 import { Calendar2Fill, GearFill, GridFill, HouseExclamationFill, Messenger, PersonFill, StarFill } from "react-bootstrap-icons";
-
 
 const Sidebar = () => {
   return (<>
@@ -18,7 +16,6 @@ const Sidebar = () => {
       >
         + New Project
       </Button>
-
       <div className="d-grid gap-3 text-start sidebar_btns">
         <Button as={Link} href="/" variant="outline-secondary" className="rounded-pill border text-start d-flex align-items-center">
           <HouseExclamationFill className="me-2" /> Dashboard
@@ -38,7 +35,7 @@ const Sidebar = () => {
         <Button as={Link} href="/messages" variant="outline-secondary" className="rounded-pill border text-start d-flex align-items-center">
           <Messenger className="me-2" /> Messages
         </Button>
-        <Button as={Link} href="/settings" variant="outline-secondary" className="rounded-pill border text-start d-flex align-items-center">
+        <Button variant="outline-secondary" className="rounded-pill border text-start d-flex align-items-center">
           <GearFill className="me-2" /> Setting
         </Button>
       </div>
