@@ -28,14 +28,14 @@ const Messages = () => {
                             </div>
                         </Card>
                         {/* Messages Navigation & List Card */}
-                        <Card className="border-0 shadow-sm flex-grow-1 p-3 rounded-4 d-flex flex-column overflow-hidden">
+                        <Card className="border-0 shadow-sm flex-grow-1 p-3 rounded-4 d-flex flex-column ">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <Nav variant="pills" defaultActiveKey="all" className="gap-2">
-                                    <Nav.Item><Nav.Link eventKey="all" className="text-dark fw-bold px-2 py-1 bg-transparent">All Messages</Nav.Link></Nav.Item>
-                                    <Nav.Item><Nav.Link eventKey="unread" className="text-muted px-2 py-1 bg-transparent">Unread</Nav.Link></Nav.Item>
-                                    <Nav.Item><Nav.Link eventKey="archived" className="text-muted px-2 py-1 bg-transparent">Archived</Nav.Link></Nav.Item>
+                                    <Nav.Item><Nav.Link eventKey="all" className="text-dark fw-bold  bg-transparent">All Messages</Nav.Link></Nav.Item>
+                                    <Nav.Item><Nav.Link eventKey="unread" className="text-muted  bg-transparent">Unread</Nav.Link></Nav.Item>
+                                    <Nav.Item><Nav.Link eventKey="archived" className="text-muted  bg-transparent">Archived</Nav.Link></Nav.Item>
                                 </Nav>
-                                <ThreeDotsVertical className="text-muted cursor-pointer" />
+                                <ThreeDotsVertical className="text-muted" />
                             </div>
                             {/* Search Bar */}
                             <Form className="mb-3">
@@ -50,7 +50,7 @@ const Messages = () => {
                                 </InputGroup>
                             </Form>
                             <div className="flex-grow-1 overflow-auto pe-1">
-                                <div className="p-3 mb-2 rounded-3  d-flex align-items-start gap-3 cursor-pointer" style={{ background: "#FFFCE4" }}>
+                                <div className="p-3 mb-2 rounded-3  d-flex align-items-start gap-3" style={{ background: "#FFFCE4" }}>
                                     <div className="position-relative ">
                                         <div className="bg-secondary rounded-circle" style={{ width: '45px', height: '45px' }}></div>
                                         <span className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1"></span>
@@ -65,7 +65,7 @@ const Messages = () => {
                                 </div>
 
                                 {/* Standard Chat Item */}
-                                <div className="p-3 mb-2 rounded-3 d-flex align-items-start gap-3 cursor-pointer hover-bg-light">
+                                <div className="p-3 mb-2 rounded-3 d-flex align-items-start gap-3 hover-bg-light">
                                     <div className="position-relative ">
                                         <div className="bg-secondary rounded-circle" style={{ width: '45px', height: '45px' }}></div>
                                         <span className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1"></span>
@@ -92,7 +92,7 @@ const Messages = () => {
                                 </div>
                                 <div className="d-flex align-items-center gap-3">
                                     <span className="text-muted small">Last seen 4:23 AM</span>
-                                    <ThreeDotsVertical className="text-muted cursor-pointer" />
+                                    <ThreeDotsVertical className="text-muted" />
                                 </div>
                             </div>
                             <div>
@@ -138,8 +138,8 @@ const Messages = () => {
                                         className="border-0 shadow-none ps-2"
                                     />
                                     <div className="d-flex align-items-center gap-2 px-2">
-                                        <Image className="text-muted cursor-pointer" size={20} />
-                                        <Paperclip className="text-muted cursor-pointer" size={20} />
+                                        <Image className="text-muted" size={20} />
+                                        <Paperclip className="text-muted" size={20} />
                                         <Button  className="rounded-3 px-4 py-2 bg-emerald border-0 d-flex align-items-center gap-2" style={{background:"#43DC80"}}>
                                             <span className="fw-bold small">SEND</span>
                                         </Button>

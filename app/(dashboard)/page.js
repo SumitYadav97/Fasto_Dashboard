@@ -204,7 +204,6 @@ const avatars = [
 
 ];
 const Dashboard = () => (
-
   <Row className="g-4">
     {/* Main Content */}
     <Col md={12} lg={12}>
@@ -222,7 +221,6 @@ const Dashboard = () => (
             </Card.Body>
           </Card>
         </Col>
-
         {/* Card 2 */}
         <Col lg={3} md={6}>
           <Card className="border-0 shadow-sm stat-card">

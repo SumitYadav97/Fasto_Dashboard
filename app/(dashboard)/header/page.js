@@ -4,6 +4,7 @@ import { IoNotifications } from 'react-icons/io5';
 
 const Header = () => {
   return (
+    
      <div className='mt-3 mb-3'>
       <div
         style={{
@@ -44,7 +45,7 @@ const Header = () => {
         <div style={{ marginLeft: "20px" }} className='text-muted'>
           <IoNotifications />
         </div>
-        <div style={{ marginLeft: "80px" }} > <img src="/user2.png"
+        <div style={{ marginLeft: "65px" }} > <img src="/user2.png"
           alt=""
           width="42"
           height="42"

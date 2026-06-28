@@ -1,10 +1,7 @@
 "use client";
-
-
 import { Container, Row, Col } from "react-bootstrap";
 import Header from "./header/page";
 import Sidebar from "./Sidebar/page";
-
 export default function Layout({ children }) {
   return (
     <>
@@ -18,7 +15,6 @@ export default function Layout({ children }) {
           <Col md={10} className="bg-ligh">
             {children}
           </Col>
-
         </Row>
       </Container>
     </>

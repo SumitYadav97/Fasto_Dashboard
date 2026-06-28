@@ -9,7 +9,6 @@ import { Calendar2Fill, GearFill, GridFill, HouseExclamationFill, Messenger, Per
 const Sidebar = () => {
   return (<>
     {/* Sidebar */}
-
     <div className="dashboard-card sidebar-card">
       <Button
         as={Link}
@@ -20,7 +19,7 @@ const Sidebar = () => {
         + New Project
       </Button>
 
-      <div className="d-grid gap-3 text-start">
+      <div className="d-grid gap-3 text-start sidebar_btns">
         <Button as={Link} href="/" variant="outline-secondary" className="rounded-pill border text-start d-flex align-items-center">
           <HouseExclamationFill className="me-2" /> Dashboard
         </Button>
