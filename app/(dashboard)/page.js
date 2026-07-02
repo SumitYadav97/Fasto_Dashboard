@@ -1,9 +1,11 @@
 "use client";
 import React from "react";
 import { Row, Col, Card } from "react-bootstrap";
-import { Calendar, PlusSquare, StarFill, PersonFill, GridFill, ChatLeftTextFill, ChevronRight } from "react-bootstrap-icons";
+import { Calendar, PlusSquare, StarFill, PersonFill, GridFill, ChatLeftTextFill, ChevronRight, ChatLeft } from "react-bootstrap-icons";
 import dynamic from "next/dynamic";
+
 const ReactApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
+
 const ProjectCreatedChart = () => {
   const categories = ["06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
 
@@ -145,6 +147,7 @@ const NewClientsChart = () => {
     </div>
   );
 };
+
 const MonthlyTargetChart = () => {
   const options = {
     chart: {
@@ -192,32 +195,175 @@ const MonthlyTargetChart = () => {
     </div>
   );
 };
+
 const ReleasedChart = () => {
   const options = {
-    chart: { type: "line", height: 350, stacked: false, toolbar: { show: false } },
-    stroke: { width: [0, 2, 5], curve: "smooth" },
-    plotOptions: { bar: { columnWidth: "50%" } },
-    xaxis: { categories: [] },
+    chart: {
+      type: "line",
+      sparkline: { enabled: true },
+      background: "transparent"
+    },
+    colors: ["#2ed573"],
+    stroke: {
+      curve: "smooth",
+      width: 2.5
+    },
+    tooltip: { enabled: false }
   };
+
   const series = [
-    { name: "TEAM A", type: "column", data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30] },
-    { name: "TEAM B", type: "area", data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43] },
+    {
+      name: "Project Released",
+      data: [35, 32, 45, 33, 30, 52, 38, 43, 14, 28, 25, 42, 36, 28]
+    }
   ];
-  return <ReactApexChart options={options} series={series} type="line" height={230} />;
+
+  return (
+    <div style={{ backgroundColor: "#fff", borderRadius: "16px", padding: "24px 20px 0 24px", overflow: "hidden", height: "126px" }}>
+      <div className="d-flex justify-content-between align-items-center" style={{ marginBottom: "16px" }}>
+        <span style={{ color: "#475569", fontSize: "13.5px", fontWeight: "600" }}>Project Released</span>
+        <div className="d-flex align-items-center gap-1">
+          <span style={{ color: "#f97316", fontSize: "10px" }}>▼</span>
+          <span style={{ fontSize: "18px", fontWeight: "700", color: "#0f172a" }}>4%</span>
+        </div>
+      </div>
+      <div style={{ margin: "0 -24px -2px -24px" }}>
+        <ReactApexChart options={options} series={series} type="line" height={72} />
+      </div>
+    </div>
+  );
 };
 
 const ContactsChart = () => {
   const options = {
-    chart: { type: "radialBar" },
-    labels: ["Contacts"],
-    plotOptions: { radialBar: { hollow: { size: "70%" } } },
+    chart: {
+      type: "radialBar",
+      sparkline: { enabled: true }
+    },
+    colors: ["#2ed573"],
+    plotOptions: {
+      radialBar: {
+        hollow: {
+          size: "65%"
+        },
+        track: {
+          background: "#f1f5f9"
+        },
+        dataLabels: {
+          name: { show: false },
+          value: {
+            show: true,
+            fontSize: "13px",
+            fontWeight: "600",
+            color: "#2ed573",
+            offsetY: 4
+          }
+        }
+      }
+    },
+    stroke: {
+      lineCap: "round"
+    }
   };
-  const series = [70];
-  return <ReactApexChart options={options} series={series} type="radialBar" height={230} />;
+
+  const series = [29];
+
+  return (
+    <div style={{ backgroundColor: "#fff", borderRadius: "16px", padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: "126px" }}>
+      <div style={{ width: "85px", height: "85px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <ReactApexChart options={options} series={series} type="radialBar" height={115} width={115} />
+      </div>
+      <div className="text-end">
+        <h3 style={{ fontSize: "32px", fontWeight: "700", color: "#0f172a", margin: "0 0 2px 0", lineHeight: "1" }}>567</h3>
+        <p style={{ fontSize: "13px", color: "#64748b", margin: 0, fontWeight: "500" }}>Contacts Added</p>
+      </div>
+    </div>
+  );
+};
+
+const UpcomingProjects = () => {
+  const projects = [
+    {
+      client: "Yoast Esac",
+      title: "Redesign Kripton Mobile App",
+      created: "Sep 8th, 2020",
+      deadline: "Tuesday, Sep 29th 2020"
+    },
+    {
+      client: "Yoast Esac",
+      title: "Build Branding Persona for Etza.id",
+      created: "Sep 8th, 2020",
+      deadline: "Tuesday, Sep 29th 2020"
+    },
+    {
+      client: "Yoast Esac",
+      title: "Manage SEO for Eclan Company Profile",
+      created: "Sep 8th, 2020",
+      deadline: "Tuesday, Sep 29th 2020"
+    }
+  ];
+
+  return (
+    <div style={{ backgroundColor: "#fff", borderRadius: "16px", padding: "24px", height: "100%", boxShadow: "0 2px 12px rgba(0,0,0,0.02)" }}>
+      <h5 style={{ color: "#0f172a", fontWeight: "700", fontSize: "16px", marginBottom: "24px" }}>Upcoming Projects</h5>
+
+      {projects.map((proj, idx) => (
+        <div key={idx} style={{ marginBottom: idx !== projects.length - 1 ? "28px" : "0" }}>
+          <div style={{ color: "#2ed573", fontSize: "12px", fontWeight: "600", marginBottom: "4px" }}>
+            {proj.client}
+          </div>
+
+          <div className="d-flex justify-content-between align-items-start">
+            <h6 style={{ color: "#0f172a", fontWeight: "700", fontSize: "14.5px", lineHeight: "1.4", margin: 0, maxWidth: "85%" }}>
+              {proj.title}
+            </h6>
+            <span style={{ color: "#64748b", fontSize: "16px", cursor: "pointer", marginTop: "-2px" }}>⋮</span>
+          </div>
+
+          <div className="d-flex align-items-center gap-2 mt-2" style={{ color: "#94a3b8", fontSize: "12px" }}>
+            <Calendar size={12} />
+            <span>Created on {proj.created}</span>
+          </div>
+
+          <div className="d-flex align-items-center gap-3 mt-3">
+            <img src="deadline.png" alt="Deadline" style={{ width: "42px", height: "42px", objectFit: "contain" }} />
+            <div>
+              <div style={{ color: "#94a3b8", fontSize: "11px", fontWeight: "500" }}>Deadline</div>
+              <div style={{ color: "#0f172a", fontSize: "13px", fontWeight: "600", marginTop: "1px" }}>{proj.deadline}</div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 const sampleAvatar = "https://cdn-icons-png.flaticon.com/512/1999/1999625.png";
-const avatars = [sampleAvatar, sampleAvatar, sampleAvatar, sampleAvatar];
+const taskCardsData = [
+  {
+    category: "Graphic Designer",
+    categoryColor: "#d97706",
+    title: "Visual Graphic for Presentation to Client",
+    date: "Aug 4, 2020",
+    avatarsCount: 4,
+  },
+  {
+    category: "Database Engineer",
+    categoryColor: "#22c55e",
+    title: "Build Database Design for Fasto Admin v2",
+    date: "Aug 4, 2020",
+    avatarsCount: 3,
+  },
+  {
+    category: "Digital Marketing",
+    categoryColor: "#a855f7",
+    title: "Make Promotional Ads for Instagram Fasto's",
+    date: "Aug 4, 2020",
+    avatarsCount: 3,
+    hasComments: true,
+    commentsText: "2 Comment"
+  }
+];
 
 const Dashboard = () => (
   <Row className="g-4">
@@ -295,14 +441,12 @@ const Dashboard = () => (
         <Col lg={6}>
           <Row className="g-4 mb-4">
             <Col md={6}>
-              <div className="dashboard-card">
-                <h6>Project Released</h6>
+              <div className="dashboard-card p-0 border-0">
                 <ReleasedChart />
               </div>
             </Col>
             <Col md={6}>
-              <div className="dashboard-card">
-                <h6>Contacts Added</h6>
+              <div className="dashboard-card p-0 border-0">
                 <ContactsChart />
               </div>
             </Col>
@@ -323,7 +467,7 @@ const Dashboard = () => (
                   </div>
                   <div>
                     <h6 className="mb-1">Laura Chyan</h6>
-                    <p className="small text-muted mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p className="small text-muted mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
                     <small className="text-muted">5m ago</small>
                   </div>
                 </div>
@@ -334,7 +478,17 @@ const Dashboard = () => (
                   </div>
                   <div>
                     <h6 className="mb-1">Olivia Rellaq</h6>
-                    <p className="small text-muted mb-2">Nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>
+                    <p className="small text-muted mb-2">Nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor</p>
+                    <small className="text-muted">25m ago</small>
+                  </div>
+                </div>
+                <div className="d-flex mb-4">
+                  <div className="me-3">
+                    <img src="/user2.png" alt="" width="45" height="45" className="rounded-circle" />
+                  </div>
+                  <div>
+                    <h6 className="mb-1">Keanu Tipes</h6>
+                    <p className="small text-muted mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut</p>
                     <small className="text-muted">25m ago</small>
                   </div>
                 </div>
@@ -347,50 +501,80 @@ const Dashboard = () => (
         <Col lg={6}>
           <Row className="g-4">
             <Col md={6} lg={6}>
-              <div className="dashboard-card border-bottom">
-                <h5>Upcoming Projects</h5>
-                <div className="mt-3"><b>Redesign Kripton <div>Mobile App</div></b></div>
-                <div className="yoast mt-3">Yoast Esac</div>
-                <div className="text-muted mt-3"><Calendar /> Created on sep 8th 2020</div>
-                <div className="mt-3"><b>Tuesday,Sep 29th 2020</b></div>
-              </div>
+              <UpcomingProjects />
             </Col>
 
             <Col md={6} lg={6}>
               <div>
                 <div className="todo-card">
-                  <Card.Body className="d-flex justify-content-between align-items-center to-do" style={{ height: "110px", borderRadius: "20px" }}>
-                    <div className="todo-text">
-                      <h5><b>Quick To-Do List</b></h5>
-                      <p>Lorem ipsum</p>
+                  <Card.Body
+                    className="d-flex justify-content-between align-items-center to-do text-white p-4"
+                    style={{
+                      height: "110px",
+                      borderRadius: "20px",
+                      backgroundColor: "#8A42CE"
+                    }}
+                  >
+                    <div className="todo-text text-start">
+                      <h5 className="mb-1"><b>Quick To-Do List</b></h5>
+                      <p className="mb-0 opacity-50 small" style={{ fontSize: '0.8rem' }}>Lorem ipsum dolor sit amet</p>
                     </div>
-                    <PlusSquare className="icon icon-plus" />
+
+                    <div
+                      className="d-flex align-items-center justify-content-center text-white"
+                      style={{
+                        backgroundColor: "#AB6BFA",
+                        width: "46px",
+                        height: "46px",
+                        borderRadius: "14px",
+                        cursor: "pointer"
+                      }}
+                    >
+                      <PlusSquare size={20} className="fw-bold" />
+                    </div>
                   </Card.Body>
                 </div>
-
-                <Card className="mt-3">
-                  <Card.Body>
-                    <p className="graphic-designer mt-3"><b>Graphic Designer</b></p>
-                    <p><b>Visual Graphic for Presentation to Client</b></p>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <p className="text-muted mb-0">Aug 4 2020</p>
-                      <div className="avatar-group">
-                        {avatars.map((avatar, index) => (
-                          <img
-                            key={index}
-                            src={avatar}
-                            alt={`avatar-${index}`}
-                            className="avatar-group-img"
-                            style={{
-                              left: `${index * 18}px`,
-                              zIndex: avatars.length - index,
-                            }}
-                          />
-                        ))}
+                {taskCardsData.map((task, idx) => (
+                  <Card key={idx} className="mt-3 border-0 shadow-sm" style={{ borderRadius: "16px" }}>
+                    <Card.Body className="p-4">
+                      <div style={{ color: task.categoryColor, fontSize: "13px", fontWeight: "600", marginBottom: "8px" }}>
+                        {task.category}
                       </div>
-                    </div>
-                  </Card.Body>
-                </Card>
+                      <h6 style={{ color: "#0f172a", fontWeight: "700", fontSize: "14px", lineHeight: "1.5", marginBottom: "20px" }}>
+                        {task.title}
+                      </h6>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <span style={{ fontSize: "13px", color: "#94a3b8", fontWeight: "500" }}>{task.date}</span>
+                        <div className="avatar-group" style={{ height: "28px", position: "relative", minWidth: `${task.avatarsCount * 15 + 10}px` }}>
+                          {Array.from({ length: task.avatarsCount }).map((_, avatarIdx) => (
+                            <img
+                              key={avatarIdx}
+                              src={sampleAvatar}
+                              alt=""
+                              className="avatar-group-img"
+                              style={{
+                                width: "28px",
+                                height: "28px",
+                                left: `${avatarIdx * 14}px`,
+                                zIndex: task.avatarsCount - avatarIdx,
+                                position: "absolute",
+                                borderRadius: "50%",
+                                border: "2px solid #fff",
+                                backgroundColor: "#cbd5e1"
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      {task.hasComments && (
+                        <div className="d-flex align-items-center gap-2 mt-3 pt-2" style={{ borderTop: "1px solid #f1f5f9", color: "#64748b", fontSize: "12px", fontWeight: "500" }}>
+                          <ChatLeft size={13} />
+                          <span>{task.commentsText}</span>
+                        </div>
+                      )}
+                    </Card.Body>
+                  </Card>
+                ))}
               </div>
             </Col>
           </Row>
