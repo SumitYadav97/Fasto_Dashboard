@@ -1,11 +1,9 @@
 import React from 'react'
 import { Messenger, Search } from 'react-bootstrap-icons';
 import { IoNotifications } from 'react-icons/io5';
-
-const Header = () => {
+const Header = ({ onToggleSidebar }) => {
   return (
-    
-     <div className='mt-3 mb-3'>
+    <div className='mt-3 mb-3'>
       <div
         style={{
           display: "flex",
@@ -15,13 +13,15 @@ const Header = () => {
           marginLeft: "40px"
         }}
       >
-        <img src="/fasto.png"
-          alt=""
-          width="42"
-          height="42"
+        <img src="/fasto.png" alt="" width="42" height="42" />
+        <h3 style={{ color: "#4B8067" }}> <b>Fasto</b></h3>
+        <img
+          src='grid.png'
+          alt="toggle menu"
+          onClick={onToggleSidebar}
+          style={{ marginLeft: "50px", cursor: "pointer" }}
         />
 
-        <h3 style={{ color: "#4B8067" }}> <b>Fasto</b></h3>
         <h4 style={{ marginLeft: "170px" }}> <b>Dashboard</b></h4>
         <div style={{ marginLeft: "250px" }}>
           <input
@@ -35,7 +35,6 @@ const Header = () => {
               padding: "10px 10px 10px 35px",
               borderRadius: "50px",
               outline: "none",
-
             }}
           />
         </div>
@@ -45,15 +44,13 @@ const Header = () => {
         <div style={{ marginLeft: "20px" }} className='text-muted'>
           <IoNotifications />
         </div>
-        <div style={{ marginLeft: "65px" }} > <img src="/user2.png"
-          alt=""
-          width="42"
-          height="42"
-        /></div>
+        <div style={{ marginLeft: "65px" }} >
+          <img src="/user2.png" alt="" width="42" height="42" />
+        </div>
         <div><b>Caryadee</b></div>
       </div>
     </div>
   )
 }
 
-export default Header
+export default Header;

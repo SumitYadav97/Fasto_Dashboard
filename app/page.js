@@ -1,18 +1,41 @@
+"use client";
+import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Sidebar from "./(dashboard)/Sidebar/page";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./(dashboard)/header/page";
+import Sidebar from "./(dashboard)/Sidebar/page";
 import Dashboard from "./(dashboard)/page";
 
 export default function Home() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const handleToggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
   return (
-    <Container fluid>
-    <Header/>
-      <Row>
-        <Col md={2} className="bg-light min-vh-100">
-          <Sidebar />
+    <Container fluid className="overflow-hidden p-0">
+      <Header onToggleSidebar={handleToggleSidebar} />
+
+      <Row className="g-0 flex-nowrap">
+
+        <Col
+          style={{
+            transition: "all 0.3s ease-in-out",
+            width: isSidebarOpen ? "240px" : "0px",
+            minWidth: isSidebarOpen ? "240px" : "0px",
+            maxWidth: isSidebarOpen ? "240px" : "0px",
+            opacity: isSidebarOpen ? 1 : 0,
+            overflow: "hidden",
+          }}
+          className="bg-light min-vh-100"
+        >
+          <Sidebar isOpen={isSidebarOpen} />
         </Col>
-        <Col md={10} className="p-4">
-          <Dashboard />
+
+        <Col className="bg-light min-vh-100 overflow-auto">
+          <div className="p-4">
+            <Dashboard />
+          </div>
         </Col>
       </Row>
     </Container>
