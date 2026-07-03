@@ -43,14 +43,12 @@ const ProjectCreatedChart = () => {
     tooltip: { theme: "light" },
     dataLabels: { enabled: false },
   };
-
   const series = [
     {
       name: "Projects Created",
       data: [35, 48, 80, 42, 48, 48, 30, 45, 33, 46, 49, 40, 62, 70, 85],
     },
   ];
-
   return (
     <div style={{ backgroundColor: "#fff", borderRadius: "12px", padding: "20px" }}>
       <div className="d-flex justify-content-between align-items-start mb-2">
@@ -70,7 +68,6 @@ const ProjectCreatedChart = () => {
     </div>
   );
 };
-
 const NewClientsChart = () => {
   const options = {
     chart: {
@@ -147,7 +144,6 @@ const NewClientsChart = () => {
     </div>
   );
 };
-
 const MonthlyTargetChart = () => {
   const options = {
     chart: {
@@ -179,9 +175,7 @@ const MonthlyTargetChart = () => {
       lineCap: "round"
     }
   };
-
   const series = [60];
-
   return (
     <div style={{ backgroundColor: "#fff", borderRadius: "12px", padding: "20px" }}>
       <div className="d-flex justify-content-between align-items-center mb-1">
@@ -265,7 +259,6 @@ const ContactsChart = () => {
       lineCap: "round"
     }
   };
-
   const series = [29];
 
   return (
@@ -308,7 +301,7 @@ const UpcomingProjects = () => {
       <h5 style={{ color: "#0f172a", fontWeight: "700", fontSize: "16px", marginBottom: "24px" }}>Upcoming Projects</h5>
 
       {projects.map((proj, idx) => (
-        <div key={idx} style={{ marginBottom: idx !== projects.length - 1 ? "28px" : "0" }}>
+        <div key={idx} style={{ marginBottom: idx !== projects.length - 1 ? "40px" : "0" }}>
           <div style={{ color: "#2ed573", fontSize: "12px", fontWeight: "600", marginBottom: "4px" }}>
             {proj.client}
           </div>
@@ -338,32 +331,32 @@ const UpcomingProjects = () => {
   );
 };
 
-const sampleAvatar = "https://cdn-icons-png.flaticon.com/512/1999/1999625.png";
-const taskCardsData = [
-  {
-    category: "Graphic Designer",
-    categoryColor: "#d97706",
-    title: "Visual Graphic for Presentation to Client",
-    date: "Aug 4, 2020",
-    avatarsCount: 4,
-  },
-  {
-    category: "Database Engineer",
-    categoryColor: "#22c55e",
-    title: "Build Database Design for Fasto Admin v2",
-    date: "Aug 4, 2020",
-    avatarsCount: 3,
-  },
-  {
-    category: "Digital Marketing",
-    categoryColor: "#a855f7",
-    title: "Make Promotional Ads for Instagram Fasto's",
-    date: "Aug 4, 2020",
-    avatarsCount: 3,
-    hasComments: true,
-    commentsText: "2 Comment"
-  }
-];
+// const sampleAvatar = "https://cdn-icons-png.flaticon.com/512/1999/1999625.png";
+// const taskCardsData = [
+//   {
+//     category: "Graphic Designer",
+//     categoryColor: "#d97706",
+//     title: "Visual Graphic for Presentation to Client",
+//     date: "Aug 4, 2020",
+//     avatarsCount: 4,
+//   },
+//   {
+//     category: "Database Engineer",
+//     categoryColor: "#22c55e",
+//     title: "Build Database Design for Fasto Admin v2",
+//     date: "Aug 4, 2020",
+//     avatarsCount: 3,
+//   },
+//   {
+//     category: "Digital Marketing",
+//     categoryColor: "#a855f7",
+//     title: "Make Promotional Ads for Instagram Fasto's",
+//     date: "Aug 4, 2020",
+//     avatarsCount: 3,
+//     hasComments: true,
+//     commentsText: "2 Comment"
+//   }
+// ];
 
 const Dashboard = () => (
   <Row className="g-4">
@@ -496,7 +489,6 @@ const Dashboard = () => (
             </Card>
           </div>
         </Col>
-
         {/* Right Elements  */}
         <Col lg={6}>
           <Row className="g-4">
@@ -512,69 +504,148 @@ const Dashboard = () => (
                     style={{
                       height: "110px",
                       borderRadius: "20px",
-                      backgroundColor: "#8A42CE"
+                      backgroundColor: "#8A42CE",
+                      width: "auto"
                     }}
                   >
-                    <div className="todo-text text-start">
+                    <div className="todo-text text-start overflow-hidden me-auto">
                       <h5 className="mb-1"><b>Quick To-Do List</b></h5>
-                      <p className="mb-0 opacity-50 small" style={{ fontSize: '0.8rem' }}>Lorem ipsum dolor sit amet</p>
+                      <p className="mb-0 opacity-50 text-nowrap" style={{ fontSize: '0.8rem' }}>
+                        Lorem ipsum dolor sit amet
+                      </p>
                     </div>
 
                     <div
                       className="d-flex align-items-center justify-content-center text-white"
                       style={{
                         backgroundColor: "#AB6BFA",
-                        width: "46px",
-                        height: "46px",
-                        borderRadius: "14px",
-                        cursor: "pointer"
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "12px",
+                        cursor: "pointer",
+                        fontSize: "1.35rem",
+                        lineHeight: "0",
+                        userSelect: "none"
                       }}
                     >
-                      <PlusSquare size={20} className="fw-bold" />
+                      +
                     </div>
                   </Card.Body>
                 </div>
-                {taskCardsData.map((task, idx) => (
-                  <Card key={idx} className="mt-3 border-0 shadow-sm" style={{ borderRadius: "16px" }}>
+                <div className="p-3" style={{ backgroundColor: "#f8fafc", maxWidth: "400px" }}>
+
+                  <Card className="border-0 shadow-sm" style={{ borderRadius: "16px" }}>
                     <Card.Body className="p-4">
-                      <div style={{ color: task.categoryColor, fontSize: "13px", fontWeight: "600", marginBottom: "8px" }}>
-                        {task.category}
+                      <div style={{ color: "#BA8B54", fontSize: "13px", fontWeight: "600", marginBottom: "8px" }}>
+                        Graphic Deisgner
                       </div>
                       <h6 style={{ color: "#0f172a", fontWeight: "700", fontSize: "14px", lineHeight: "1.5", marginBottom: "20px" }}>
-                        {task.title}
+                        Visual Graphic for Presentation to Client
                       </h6>
                       <div className="d-flex align-items-center justify-content-between">
-                        <span style={{ fontSize: "13px", color: "#94a3b8", fontWeight: "500" }}>{task.date}</span>
-                        <div className="avatar-group" style={{ height: "28px", position: "relative", minWidth: `${task.avatarsCount * 15 + 10}px` }}>
-                          {Array.from({ length: task.avatarsCount }).map((_, avatarIdx) => (
-                            <img
-                              key={avatarIdx}
-                              src={sampleAvatar}
-                              alt=""
-                              className="avatar-group-img"
-                              style={{
-                                width: "28px",
-                                height: "28px",
-                                left: `${avatarIdx * 14}px`,
-                                zIndex: task.avatarsCount - avatarIdx,
-                                position: "absolute",
-                                borderRadius: "50%",
-                                border: "2px solid #fff",
-                                backgroundColor: "#cbd5e1"
-                              }}
-                            />
-                          ))}
+                        <span style={{ fontSize: "13px", color: "#94a3b8", fontWeight: "500" }}>Oct 12, 2026</span>
+
+                        {/* Avatar Group Container */}
+                        <div className="avatar-group" style={{ height: "40px", position: "relative", minWidth: "70px" }}>
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX1UudzAjmRWshl8nje_qRavdCv5V9IqDvvGNmPMmS6A&s=10"
+                            alt="Google Logo 1"
+                            style={{ width: "40px", height: "40px", left: "0px", zIndex: "4", position: "absolute", borderRadius: "50%", border: "2px solid #fff", backgroundColor: "#fff", objectFit: "contain", padding: "3px" }}
+                          />
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX1UudzAjmRWshl8nje_qRavdCv5V9IqDvvGNmPMmS6A&s=10"
+                            alt="Google Logo 2"
+                            style={{ width: "40px", height: "40px", left: "14px", zIndex: "3", position: "absolute", borderRadius: "50%", border: "2px solid #fff", backgroundColor: "#fff", objectFit: "contain", padding: "3px" }}
+                          />
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX1UudzAjmRWshl8nje_qRavdCv5V9IqDvvGNmPMmS6A&s=10"
+                            alt="Google Logo 3"
+                            style={{ width: "40px", height: "40px", left: "40px", zIndex: "2", position: "absolute", borderRadius: "50%", border: "2px solid #fff", backgroundColor: "#fff", objectFit: "contain", padding: "3px" }}
+                          />
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX1UudzAjmRWshl8nje_qRavdCv5V9IqDvvGNmPMmS6A&s=10"
+                            alt="Google Logo 4"
+                            style={{ width: "40px", height: "40px", left: "42px", zIndex: "1", position: "absolute", borderRadius: "50%", border: "2px solid #fff", backgroundColor: "#fff", objectFit: "contain", padding: "3px" }}
+                          />
                         </div>
                       </div>
-                      {task.hasComments && (
-                        <div className="d-flex align-items-center gap-2 mt-3 pt-2" style={{ borderTop: "1px solid #f1f5f9", color: "#64748b", fontSize: "12px", fontWeight: "500" }}>
-                          <ChatLeft size={13} />
-                          <span>{task.commentsText}</span>
-                        </div>
-                      )}
+
+                      <div className="d-flex align-items-center gap-2 mt-3 pt-2" style={{ borderTop: "1px solid #f1f5f9", color: "#64748b", fontSize: "12px", fontWeight: "500" }}>
+                        <ChatLeft size={13} />
+                        <span>4 comments</span>
+                      </div>
                     </Card.Body>
                   </Card>
-                ))}
+
+                  {/* --- CARD 2: --- */}
+                  <Card className="mt-3 border-0 shadow-sm" style={{ borderRadius: "16px" }}>
+                    <Card.Body className="p-4">
+                      <div style={{ color: "#68E35D", fontSize: "13px", fontWeight: "600", marginBottom: "8px" }}>
+                        Database Engineer
+                      </div>
+                      <h6 style={{ color: "#0f172a", fontWeight: "700", fontSize: "14px", lineHeight: "1.5", marginBottom: "20px" }}>
+                        Build Database Design for Fasto Admin v2
+                      </h6>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <span style={{ fontSize: "13px", color: "#94a3b8", fontWeight: "500" }}>Oct 15, 2026</span>
+
+                        {/* Avatar Group Container */}
+                        <div className="avatar-group" style={{ height: "40px", position: "relative", minWidth: "55px" }}>
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX1UudzAjmRWshl8nje_qRavdCv5V9IqDvvGNmPMmS6A&s=10"
+                            alt="Google Logo 1"
+                            style={{ width: "40px", height: "40px", left: "0px", zIndex: "3", position: "absolute", borderRadius: "50%", border: "2px solid #fff", backgroundColor: "#fff", objectFit: "contain", padding: "3px" }}
+                          />
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX1UudzAjmRWshl8nje_qRavdCv5V9IqDvvGNmPMmS6A&s=10"
+                            alt="Google Logo 2"
+                            style={{ width: "40px", height: "40px", left: "14px", zIndex: "2", position: "absolute", borderRadius: "50%", border: "2px solid #fff", backgroundColor: "#fff", objectFit: "contain", padding: "3px" }}
+                          />
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX1UudzAjmRWshl8nje_qRavdCv5V9IqDvvGNmPMmS6A&s=10"
+                            alt="Google Logo 3"
+                            style={{ width: "40px", height: "40px", left: "40px", zIndex: "1", position: "absolute", borderRadius: "50%", border: "2px solid #fff", backgroundColor: "#fff", objectFit: "contain", padding: "3px" }}
+                          />
+                        </div>
+                      </div>
+
+                    </Card.Body>
+                  </Card>
+                  {/* --- CARD : 3  --- */}
+                  <Card className="mt-3 border-0 shadow-sm" style={{ borderRadius: "16px" }}>
+                    <Card.Body className="p-4">
+                      <div style={{ color: "#BC37DD", fontSize: "13px", fontWeight: "600", marginBottom: "8px" }}>
+                        Digital Marketing
+                      </div>
+                      <h6 style={{ color: "#0f172a", fontWeight: "700", fontSize: "14px", lineHeight: "1.5", marginBottom: "20px" }}>
+                        Make Promotional Ads for Instagram Fasto’s                      </h6>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <span style={{ fontSize: "13px", color: "#94a3b8", fontWeight: "500" }}>Oct 15, 2026</span>
+
+                        {/* Avatar Group Container */}
+                        <div className="avatar-group" style={{ height: "40px", position: "relative", minWidth: "55px" }}>
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX1UudzAjmRWshl8nje_qRavdCv5V9IqDvvGNmPMmS6A&s=10"
+                            alt="Google Logo 1"
+                            style={{ width: "40px", height: "40px", left: "0px", zIndex: "3", position: "absolute", borderRadius: "50%", border: "2px solid #fff", backgroundColor: "#fff", objectFit: "contain", padding: "3px" }}
+                          />
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX1UudzAjmRWshl8nje_qRavdCv5V9IqDvvGNmPMmS6A&s=10"
+                            alt="Google Logo 2"
+                            style={{ width: "40px", height: "40px", left: "14px", zIndex: "2", position: "absolute", borderRadius: "50%", border: "2px solid #fff", backgroundColor: "#fff", objectFit: "contain", padding: "3px" }}
+                          />
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX1UudzAjmRWshl8nje_qRavdCv5V9IqDvvGNmPMmS6A&s=10"
+                            alt="Google Logo 3"
+                            style={{ width: "40px", height: "40px", left: "40px", zIndex: "1", position: "absolute", borderRadius: "50%", border: "2px solid #fff", backgroundColor: "#fff", objectFit: "contain", padding: "3px" }}
+                          />
+                        </div>
+                      </div>
+
+                    </Card.Body>
+                  </Card>
+
+                </div>
               </div>
             </Col>
           </Row>
