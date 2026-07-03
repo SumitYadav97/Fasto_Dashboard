@@ -18,5 +18,5 @@ export const mockarooData = [
   { id: '#P-000441417', title: 'Multi-Tenant SaaS Deployment', createdDate: 'Sep 16th, 2020', client: 'Ignatius Crosier', pic: 'icrosierg@icq.com', deadline: 'Thursday, Oct 22nd 2020', status: 'CLOSED' },
   { id: '#P-000441418', title: 'Real-time Chat Feature Sync', createdDate: 'Sep 17th, 2020', client: 'Wynny Mees', pic: 'wmeesh@etsy.com', deadline: 'Friday, Oct 23rd 2020', status: 'PENDING' },
   { id: '#P-000441419', title: 'Enterprise CRM Tool Setup', createdDate: 'Sep 18th, 2020', client: 'Loren Chalfain', pic: 'lchalfaini@irs.gov', deadline: 'Tuesday, Oct 27th 2020', status: 'ON PROGRESS' },
-  { id: '#P-000441420', title: 'Internal Knowledge Base Wiki', createdDate: 'Sep 18th, 2020', client: 'Freddie Wassell', pic: 'fwassellj@blogtalkradio.com', deadline: 'Wednesday, Oct 28th 2020', status: 'CLOSED' }
+  { id: '#P-000441420', title: 'Internal Knowledge Base Wiki', createdDate: 'Sep 18th, 2020', client: 'Freddie Wassell', pic: 'fwassellj@blogtalkradio.com', deadline: 'Wednesday, Oct 28th 2020', status: 'CLOSED' },
 ];
