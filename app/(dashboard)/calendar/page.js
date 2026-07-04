@@ -6,7 +6,6 @@ const Calendar = () => {
     return (
         <Container fluid className="p-0 h-100 bg-light">
             <Row className="h-100">
-
                 <Col md={3} className="sidebar-panel h-100 p-4 bg-white border-right">
                     <h2 className="font-weight-bold mb-1">Projects Details</h2>
                     <p className="text-muted mb-4">September, 1st Week</p>
@@ -53,7 +52,6 @@ const Calendar = () => {
                             </Col>
                         </Row>
                     </Card>
-
                     <Card className="mb-3 border-0 shadow-sm rounded p-3">
                         <Row className="align-items-center no-gutters">
                             <Col xs="auto" className="pr-3">
@@ -77,7 +75,6 @@ const Calendar = () => {
                         <Row className="align-items-center no-gutters">
                             <Col xs="auto" className="pr-3">
                                 <div className="p-2 rounded-circle bg-warning text-white d-flex align-items-center justify-content-center">
-
                                 </div>
                             </Col>
                             <Col>
@@ -94,13 +91,10 @@ const Calendar = () => {
                             </Col>
                         </Row>
                     </Card>
-
-
                     <Card className="mb-3 border-0 shadow-sm rounded p-3">
                         <Row className="align-items-center no-gutters">
                             <Col xs="auto" className="pr-3">
                                 <div className="p-2 rounded-circle bg-none text-white d-flex align-items-center justify-content-center">
-
                                 </div>
                             </Col>
                             <Col>
@@ -117,11 +111,8 @@ const Calendar = () => {
                             </Col>
                         </Row>
                     </Card>
-
                 </Col>
                 <Col md={9} className="calendar-panel h-100 p-4">
-
-
                     <Row className="mb-4 d-flex align-items-center justify-content-between">
                         <Col xs="auto">
                             <Button variant="outline-none" style={{ color: "#43DC80", }} className="font-weight-bold p-2 px-3">Today 26</Button>
@@ -139,7 +130,6 @@ const Calendar = () => {
                             </Button>
                         </Col>
                     </Row>
-
                     {/* Days of the Week Row */}
                     <Row className="mb-2 calendar-days-header text-center text-muted no-gutters border-bottom pb-2">
                         <Col><small className="font-weight-bold text-uppercase">Monday</small></Col>

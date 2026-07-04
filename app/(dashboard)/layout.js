@@ -1,19 +1,32 @@
 "use client";
 import React, { useState } from "react";
+import { usePathname } from "next/navigation";
 import { Container, Row, Col } from "react-bootstrap";
 import Header from "./header/page";
 import Sidebar from "./Sidebar/page";
 
 export default function DashboardLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const pathname = usePathname();
 
   const handleToggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
+  const getHeaderTitle = (path) => {
+    switch (path) {
+      case "/calendar": return "Calendar";
+      case "/contacts": return "Contacts";
+      case "/Data": return "Data Management";
+      case "/kanban": return "Kanban Board";
+      case "/messages": return "Messages";
+      case "/projects": return "Projects";
+      case "/": return "Dashboard";
+      default: return "Dashboard";
+    }
+  };
   return (
     <Container fluid className="overflow-hidden p-0">
-      <Header onToggleSidebar={handleToggleSidebar} />
+      <Header title={getHeaderTitle(pathname)} onToggleSidebar={handleToggleSidebar} />
       <Row className="g-0 flex-nowrap">
         <Col
           style={{

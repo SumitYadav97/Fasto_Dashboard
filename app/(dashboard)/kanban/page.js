@@ -5,7 +5,7 @@ import { TbWriting } from "react-icons/tb";
 
 const kanban = () => {
     return (<>
-        <Container>
+        <Container fluid>
             <section>
                 <div><h3><b>Project Fasto V2.1</b></h3></div>
             </section>

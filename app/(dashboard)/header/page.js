@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import { Messenger, Search } from 'react-bootstrap-icons';
 import { IoNotifications } from 'react-icons/io5';
-const Header = ({ onToggleSidebar }) => {
+const Header = ({ onToggleSidebar, title }) => {
   return (
     <div className='mt-3 mb-3'>
       <div
@@ -22,7 +22,8 @@ const Header = ({ onToggleSidebar }) => {
           style={{ marginLeft: "50px", cursor: "pointer" }}
         />
 
-        <h4 style={{ marginLeft: "170px" }}> <b>Dashboard</b></h4>
+        <h4 style={{ marginLeft: "170px" }}> <b>{title}</b></h4>
+        
         <div style={{ marginLeft: "250px" }}>
           <input
             type="text"

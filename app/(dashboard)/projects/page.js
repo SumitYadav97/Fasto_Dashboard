@@ -1,10 +1,8 @@
 "use client";
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Badge, Button, Pagination } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Pagination } from 'react-bootstrap';
 import { Calendar2DateFill, ThreeDotsVertical, List, Grid3x3GapFill, ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
 import { mockarooData } from '../Data/page';
-import './../../../public/user2.png';
-import './../../../public/deadline.png';
 
 const getStatusConfig = (status) => {
   switch (status?.toUpperCase()) {
@@ -17,6 +15,7 @@ const getStatusConfig = (status) => {
       return { bg: '#FFF5E6', color: '#FFAB2D' };
   }
 };
+
 export default function ProjectDashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -31,7 +30,7 @@ export default function ProjectDashboard() {
 
   return (
     <div style={{ backgroundColor: '#F8F9FA', minHeight: '100vh', padding: '1.5rem' }}>
-      <Container fluid className="px-4">
+      <Container fluid >
         <div
           className="d-flex justify-content-between align-items-center mb-4 p-3 bg-white"
           style={{ borderRadius: '16px', boxShadow: '0px 2px 6px rgba(0,0,0,0.02)' }}
@@ -85,10 +84,10 @@ export default function ProjectDashboard() {
               <Card.Body className="p-4">
                 <Row className="align-items-center">
 
-                  {/* Project ID, Title, Creation Date Metrics */}
                   <Col md={4}>
+                    {/* Fixed: Directly display your data string ID safely */}
                     <div className="fw-bold mb-1" style={{ color: '#2ECC71', fontSize: '0.8rem', letterSpacing: '0.02em' }}>
-                      #P-000441{425 + project.id}
+                      {project.id}
                     </div>
                     <h5 className="fw-bold mb-2 text-dark" style={{ fontSize: '1.05rem', letterSpacing: '-0.01em' }}>
                       {project.title}
@@ -98,38 +97,46 @@ export default function ProjectDashboard() {
                     </div>
                   </Col>
 
-                  {/* Client Info Mapping Section */}
+                  {/* Client Column - Modified to display client field with network avatar */}
                   <Col md={2} className="d-flex align-items-center gap-3">
-                    <img src='user2.png' />
+                    <img 
+                      src={project.pic} 
+                      alt="Client Avatar"
+                      style={{ width: "32px", height: "32px", borderRadius: "50%", objectFit: "contain", padding: "2px", backgroundColor: "#fff" }}
+                    />
                     <div>
                       <div className="text-muted" style={{ fontSize: '0.75rem' }}>Client</div>
                       <div className="fw-bold text-dark" style={{ fontSize: '0.85rem' }}>
-                        {project.first_name} {project.last_name || ''}
+                        {project.client}
                       </div>
                     </div>
                   </Col>
 
-                  {/* Person in Charge Meta Mapping */}
+                  {/* Person In Charge Column - Falling back securely to project.client or pic */}
                   <Col md={2} className="d-flex align-items-center gap-3">
-                    <img src='user2.png' />
+                    <img 
+                      src={project.pic} 
+                      alt="PIC Avatar"
+                      style={{ width: "32px", height: "32px", borderRadius: "50%", objectFit: "contain", border: "1px solid #e2e8f0", padding: "2px", backgroundColor: "#fff" }}
+                    />
                     <div>
                       <div className="text-muted" style={{ fontSize: '0.75rem' }}>Person in charge</div>
-                      <div className="fw-bold text-dark text-truncate" style={{ fontSize: '0.85rem', maxWidth: '120px' }} title={project.email}>
-                        {project.email ? project.email.split('@')[0] : 'N/A'}
+                      <div className="fw-bold text-dark text-truncate" style={{ fontSize: '0.85rem', maxWidth: '120px' }} title={project.client}>
+                        {project.client ? project.client.split(' ')[0] : 'N/A'}
                       </div>
                     </div>
                   </Col>
 
                   {/* Deadline Data Point Section */}
                   <Col md={2} className="d-flex align-items-center gap-3">
-                    <img src='deadline.png' />
+                    {/* Kept file fallback, but wrapped safely for runtime image parsing layout */}
+                    <img src='/deadline.png' alt="Deadline icon" style={{ width: "24px", height: "24px", objectFit: "contain" }} onError={(e) => { e.target.style.display = 'none'; }} />
                     <div>
                       <div className="text-muted" style={{ fontSize: '0.75rem' }}>Deadline</div>
                       <div className="fw-bold text-dark" style={{ fontSize: '0.85rem' }}>{project.deadline}</div>
                     </div>
                   </Col>
 
-                  {/* Custom Pill Component Styling Matching image_52da9e.png */}
                   <Col md={2} className="d-flex justify-content-end align-items-center gap-3">
                     <Button
                       className="text-center d-inline-flex align-items-center justify-content-center fw-bold text-uppercase border-0 shadow-none"

@@ -36,7 +36,6 @@ a {
   }
 }
 
-
 .dashboard-wrapper {
   border-radius: 12px;
   background: #f8f9fa;
@@ -48,7 +47,7 @@ a {
   border-radius: 12px;
   padding: 15px;
   width: 100%;
-  min-width: 0; 
+  min-width: 0;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
@@ -66,9 +65,8 @@ a {
   color: white !important;
 }
 
-
 .stat-card {
-  overflow: hidden; 
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -80,23 +78,51 @@ a {
 }
 
 /* Underline Colors */
-.underline-purple { background-color: #864AD1; }
-.underline-green  { background-color: #36d97e; }
-.underline-blue   { background-color: #3ECDFF; }
-.underline-orange { background-color: #FFB930; }
-.underline-pink   { background-color: #D758E2; }
+.underline-purple {
+  background-color: #864AD1;
+}
+
+.underline-green {
+  background-color: #36d97e;
+}
+
+.underline-blue {
+  background-color: #3ECDFF;
+}
+
+.underline-orange {
+  background-color: #FFB930;
+}
+
+.underline-pink {
+  background-color: #D758E2;
+}
 
 /* Icon Colors & Sizing */
 .icon {
   font-size: 24px;
-  flex-shrink: 0; 
+  flex-shrink: 0;
 }
 
-.icon-purple { color: #864AD1; }
-.icon-green  { color: #36d97e; }
-.icon-blue   { color: #3ECDFF; }
-.icon-orange { color: #FFB930; }
-.icon-pink   { color: #D758E2; }
+.icon-purple {
+  color: #864AD1;
+}
+
+.icon-green {
+  color: #36d97e;
+}
+
+.icon-blue {
+  color: #3ECDFF;
+}
+
+.icon-orange {
+  color: #FFB930;
+}
+
+.icon-pink {
+  color: #D758E2;
+}
 
 /* --- To-Do Component Fixes --- */
 .to-do {
@@ -111,7 +137,8 @@ a {
 .icon-plus {
   color: #864AD1;
   background-color: #FFFFFF;
-  border-radius: 50%; /* Changed from 50px to 50% for a perfect responsive circle */
+  border-radius: 50%;
+  /* Changed from 50px to 50% for a perfect responsive circle */
   font-size: 24px;
   flex-shrink: 0;
 }
@@ -134,17 +161,18 @@ a {
   border-radius: 50%;
   border: 2px solid #fff;
   object-fit: cover;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
 }
 
 .avatar-group-img:not(:first-child) {
-  margin-left: -12px; 
+  margin-left: -12px;
 }
 
 .avatar-group-img:hover {
   transform: translateY(-2px);
-  z-index: 99 !important; /* Forces hovered avatar to top */
+  z-index: 99 !important;
+  /* Forces hovered avatar to top */
 }
 
 .yoast {
@@ -171,5 +199,58 @@ a {
 .sidebar_btns .btn-outline-secondary:hover {
   background-color: #43DC80 !important;
   border-color: #43DC80 !important;
-  color: #ffffff !important; 
+  color: #ffffff !important;
+}
+
+@media (max-width: 767.98px) {
+
+  .sidebar-panel {
+    height: auto !important;
+    border-right: none !important;
+    border-bottom: 1px solid #dee2e6;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .calendar-panel {
+    height: auto !important;
+    padding: 1rem !important;
+  }
+
+  .calendar-panel .row.mb-4 {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .calendar-panel .row.mb-4 .col,
+  .calendar-panel .row.mb-4 .col-xs-auto {
+    width: 100%;
+
+  }
+
+  .calendar-grid .row {
+    flex-wrap: wrap;
+  }
+
+  .calendar-grid h2 {
+    font-size: 1.1rem !important;
+    margin-bottom: 2px;
+  }
+
+  .calendar-grid .card {
+    padding: 0.5rem !important;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .calendar-grid .card-text b {
+    font-size: 0.7rem;
+  }
+
+  .calendar-days-header small {
+    font-size: 0.65rem;
+    letter-spacing: 0;
+  }
 }
