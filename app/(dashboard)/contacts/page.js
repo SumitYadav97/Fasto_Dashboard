@@ -30,7 +30,7 @@ const Contacts = () => {
           >
             154
           </Button></h5>
-          <h5 className="mb-0 text-muted fw-normal d-none d-sm-block">Pending Invitation <Badge bg="warning" text="dark" pill className="ms-1">6</Badge></h5>
+          <h5 className="mb-0 text-muted fw-normal d-none d-sm-block">Pending Invitation <Badge bg="warning" text="light" pill className="ms-1">6</Badge></h5>
         </div>
         <div>
           <div className="d-flex align-items-center gap-3">
@@ -75,7 +75,7 @@ const Contacts = () => {
                   style={{
                     width: '38px',
                     height: '38px',
-                    backgroundColor: contact.activeChat ? '#32b866' : '#43DC80' // Slightly darker green if chat is active, otherwise your hex
+                    backgroundColor: contact.activeChat ? '#32b866' : '#43DC80' 
                   }}
                 >
                   <FaCommentDots size={14} />
