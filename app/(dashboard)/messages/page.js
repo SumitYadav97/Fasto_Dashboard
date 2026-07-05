@@ -52,7 +52,7 @@ const Messages = () => {
                             <div className="flex-grow-1 overflow-auto pe-1">
                                 <div className="p-3 mb-2 rounded-3  d-flex align-items-start gap-3" style={{ background: "#FFFCE4" }}>
                                     <div className="position-relative ">
-                                        <div className="bg-secondary rounded-circle" style={{ width: '45px', height: '45px' }}></div>
+                                         <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10' style={{ width: '45px', height: '45px' }}/>
                                         <span className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1"></span>
                                     </div>
                                     <div className="flex-grow-1 min-w-0">
@@ -67,7 +67,7 @@ const Messages = () => {
                                 {/* Standard Chat Item */}
                                 <div className="p-3 mb-2 rounded-3 d-flex align-items-start gap-3 hover-bg-light">
                                     <div className="position-relative ">
-                                        <div className="bg-secondary rounded-circle" style={{ width: '45px', height: '45px' }}></div>
+                                         <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10' style={{ width: '45px', height: '45px' }}/>
                                         <span className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1"></span>
                                     </div>
                                     <div className="flex-grow-1 min-w-0">
@@ -99,7 +99,7 @@ const Messages = () => {
                                 {/* Left  Message */}
                                 <div className="d-flex align-items-start gap-3 max-w-75">
                                     <div className="position-relative ">
-                                        <div className="bg-secondary rounded-circle" style={{ width: '40px', height: '40px' }}></div>
+                                         <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10' style={{ width: '45px', height: '45px' }}/>
                                         <span className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1"></span>
                                     </div>
                                     <div>
@@ -125,7 +125,7 @@ const Messages = () => {
                                         <small className="text-muted d-block mt-1 pe-2">9:30 AM</small>
                                     </div>
                                     <div className="position-relative ">
-                                        <div className="bg-secondary rounded-circle" style={{ width: '40px', height: '40px' }}></div>
+                                         <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10' style={{ width: '45px', height: '45px' }}/>
                                         <span className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1"></span>
                                     </div>
                                 </div>
