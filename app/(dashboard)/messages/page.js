@@ -1,10 +1,36 @@
 "use client";
+import { useRef } from "react";
+import * as Yup from 'yup';
+import { Formik } from 'formik';
 import React from 'react';
 import { Container, Row, Col, Card, Form, InputGroup, Button, Nav } from 'react-bootstrap';
 import { Plus, Search, ThreeDotsVertical, Image, Paperclip, Send } from 'react-bootstrap-icons';
+
 const Messages = () => {
+    const imageRef = useRef(null);
+    const fileRef = useRef(null);
+
+    const handleImageClick = () => {
+        imageRef.current?.click();
+    };
+    const handleFileClick = () => {
+        fileRef.current?.click();
+    };
     return (
         <div>
+            <input
+                type="file"
+                accept="image/*"
+                ref={imageRef}
+                style={{ display: "none" }}
+                onChange={(e) => console.log("image selected", e.target.files[0])}
+            />
+            <input
+                type="file"
+                ref={fileRef}
+                style={{ display: "none" }}
+                onChange={(e) => console.log("file selected", e.target.files[0])}
+            />
             <Container fluid className="vh-100 bg-light p-4">
                 <Row className="h-100">
                     {/* LEFT SIDEBAR: User Profile & Message List */}
@@ -22,7 +48,7 @@ const Messages = () => {
                                         <small className="text-muted">Available</small>
                                     </div>
                                 </div>
-                                <Button  className="rounded-pill px-3 py-2 d-flex align-items-center gap-1 bg-emerald border-0" style={{background:"#43DC80"}}>
+                                <Button className="rounded-pill px-3 py-2 d-flex align-items-center gap-1 bg-emerald border-0" style={{ background: "#43DC80" }}>
                                     <Plus size={18} /> <span className="small fw-bold">New</span>
                                 </Button>
                             </div>
@@ -52,7 +78,7 @@ const Messages = () => {
                             <div className="flex-grow-1 overflow-auto pe-1">
                                 <div className="p-3 mb-2 rounded-3  d-flex align-items-start gap-3" style={{ background: "#FFFCE4" }}>
                                     <div className="position-relative ">
-                                         <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10' style={{ width: '45px', height: '45px' }}/>
+                                        <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10' style={{ width: '45px', height: '45px' }} />
                                         <span className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1"></span>
                                     </div>
                                     <div className="flex-grow-1 min-w-0">
@@ -67,7 +93,7 @@ const Messages = () => {
                                 {/* Standard Chat Item */}
                                 <div className="p-3 mb-2 rounded-3 d-flex align-items-start gap-3 hover-bg-light">
                                     <div className="position-relative ">
-                                         <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10' style={{ width: '45px', height: '45px' }}/>
+                                        <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10' style={{ width: '45px', height: '45px' }} />
                                         <span className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1"></span>
                                     </div>
                                     <div className="flex-grow-1 min-w-0">
@@ -99,7 +125,7 @@ const Messages = () => {
                                 {/* Left  Message */}
                                 <div className="d-flex align-items-start gap-3 max-w-75">
                                     <div className="position-relative ">
-                                         <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10' style={{ width: '45px', height: '45px' }}/>
+                                        <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10' style={{ width: '45px', height: '45px' }} />
                                         <span className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1"></span>
                                     </div>
                                     <div>
@@ -125,31 +151,66 @@ const Messages = () => {
                                         <small className="text-muted d-block mt-1 pe-2">9:30 AM</small>
                                     </div>
                                     <div className="position-relative ">
-                                         <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10' style={{ width: '45px', height: '45px' }}/>
+                                        <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10' style={{ width: '45px', height: '45px' }} />
                                         <span className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1"></span>
                                     </div>
                                 </div>
                             </div>
                             {/* Message Input Box */}
-                            <Form className="mt-auto">
-                                <InputGroup className="border border-success rounded-4 p-2 align-items-center bg-white" style={{ borderColor: '#2ECC71' }}>
-                                    <Form.Control
-                                        placeholder="Type message..."
-                                        className="border-0 shadow-none ps-2"
-                                    />
-                                    <div className="d-flex align-items-center gap-2 px-2">
-                                        <Image className="text-muted" size={20} />
-                                        <Paperclip className="text-muted" size={20} />
-                                        <Button  className="rounded-3 px-4 py-2 bg-emerald border-0 d-flex align-items-center gap-2" style={{background:"#43DC80"}}>
-                                            <span className="fw-bold small">SEND</span>
-                                        </Button>
-                                    </div>
-                                </InputGroup>
-                            </Form>
+                            <Formik
+                                initialValues={{ message: "" }}
+                                validationSchema={Yup.object({
+                                    message: Yup.string().trim().required("Message is required"),
+                                })}
+                                onSubmit={(values, { resetForm }) => {
+                                    console.log(values);
+                                    resetForm();
+                                }}
+                            >
+                                {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
+                                    <Form onSubmit={handleSubmit} className="mt-auto">
 
+                                        <InputGroup
+                                            className="border border-success rounded-4 p-2 align-items-center bg-white"
+                                            style={{ borderColor: "#2ECC71" }}
+                                        >
+
+                                            <Form.Control
+                                                type="text"
+                                                name="message"
+                                                placeholder="Type message..."
+                                                className="border-0 shadow-none ps-2"
+                                                value={values.message}
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                            />
+                                            <div className="d-flex align-items-center gap-2 px-2">
+                                                <Image
+                                                    size={20}
+                                                    style={{ cursor: "pointer" }}
+                                                    onClick={handleImageClick}
+                                                />
+
+                                                <Paperclip
+                                                    size={20}
+                                                    style={{ cursor: "pointer" }}
+                                                    onClick={handleFileClick}
+                                                />
+                                            </div>
+                                            <Button
+                                                type="submit"
+                                                className="rounded-3 px-4 py-2 border-0 d-flex align-items-center gap-2"
+                                                style={{ background: "#43DC80" }}
+                                            >
+                                                <span className="fw-bold small">SEND</span>
+                                            </Button>
+                                        </InputGroup>
+
+                                    </Form>
+                                )}
+                            </Formik>
                         </Card>
                     </Col>
-
                 </Row>
             </Container>
         </div>
