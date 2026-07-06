@@ -15,15 +15,14 @@ const getStatusConfig = (status) => {
       return { bg: '#FFF5E6', color: '#FFAB2D' };
   }
 };
-
 export default function ProjectDashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = mockarooData.slice(indexOfFirstItem, indexOfLastItem);
+  const LastItem = currentPage * itemsPerPage;
+  const FirstItem = LastItem - itemsPerPage;
+  const currentItems = mockarooData.slice(FirstItem, LastItem);
   const totalPages = Math.ceil(mockarooData.length / itemsPerPage);
-  const totalProjects = mockarooData.length;
+  const totalProjects = mockarooData.length; // Data Lenght from mockarooData
   const onProgressCount = mockarooData.filter(p => p.status?.toUpperCase() === 'ON PROGRESS').length;
   const pendingCount = mockarooData.filter(p => p.status?.toUpperCase() === 'PENDING').length;
   const closedCount = mockarooData.filter(p => p.status?.toUpperCase() === 'CLOSED').length;
@@ -100,7 +99,7 @@ export default function ProjectDashboard() {
                   {/* Client Column - Modified to display client field with network avatar */}
                   <Col md={2} className="d-flex align-items-center gap-3">
                     <img 
-                      src={project.pic} 
+                      src={project.pic} //Images from mockarooData
                       alt="Client Avatar"
                       style={{ width: "32px", height: "32px", borderRadius: "50%", objectFit: "contain", padding: "2px", backgroundColor: "#fff" }}
                     />
@@ -164,7 +163,7 @@ export default function ProjectDashboard() {
         {/* Bottom Pagination Bar Component */}
         <div className="d-flex justify-content-between align-items-center mt-4 text-muted small px-1">
           <div style={{ fontSize: '0.85rem' }} className="fw-normal">
-            Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, mockarooData.length)} from {mockarooData.length} data
+            Showing {FirstItem + 1} to {Math.min(LastItem, mockarooData.length)} from {mockarooData.length} data
           </div>
           <Pagination className="mb-0 align-items-center gap-1">
             <Button

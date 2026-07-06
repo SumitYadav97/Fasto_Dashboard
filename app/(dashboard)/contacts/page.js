@@ -53,7 +53,7 @@ const Contacts = () => {
               </Button>
 
               <div>
-                <img src='user.png' />
+                <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10'  height={40}/>
               </div>
               {/* Text Info */}
               <Card.Body>

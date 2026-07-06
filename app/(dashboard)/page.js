@@ -456,7 +456,7 @@ const Dashboard = () => (
 
                 <div className="d-flex mb-4">
                   <div className="me-3">
-                    <img src="/user.png" alt="" width="45" height="45" className="rounded-circle" />
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10" alt="" width="45" height="45" className="rounded-circle" />
                   </div>
                   <div>
                     <h6 className="mb-1">Laura Chyan</h6>
@@ -467,7 +467,7 @@ const Dashboard = () => (
 
                 <div className="d-flex mb-4">
                   <div className="me-3">
-                    <img src="/user2.png" alt="" width="45" height="45" className="rounded-circle" />
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10" alt="" width="45" height="45" className="rounded-circle" />
                   </div>
                   <div>
                     <h6 className="mb-1">Olivia Rellaq</h6>
@@ -477,7 +477,7 @@ const Dashboard = () => (
                 </div>
                 <div className="d-flex mb-4">
                   <div className="me-3">
-                    <img src="/user2.png" alt="" width="45" height="45" className="rounded-circle" />
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10" alt="" width="45" height="45" className="rounded-circle" />
                   </div>
                   <div>
                     <h6 className="mb-1">Keanu Tipes</h6>
@@ -524,8 +524,8 @@ const Dashboard = () => (
                         borderRadius: "12px",
                         cursor: "pointer",
                         fontSize: "1.35rem",
-                        lineHeight: "0",
-                        userSelect: "none"
+                       marginBottom:"5px"
+                       
                       }}
                     >
                       +
@@ -641,10 +641,8 @@ const Dashboard = () => (
                           />
                         </div>
                       </div>
-
                     </Card.Body>
                   </Card>
-
                 </div>
               </div>
             </Col>
@@ -654,5 +652,4 @@ const Dashboard = () => (
     </Col>
   </Row>
 );
-
 export default Dashboard;

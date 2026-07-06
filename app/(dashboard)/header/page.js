@@ -5,11 +5,10 @@ import { IoNotifications } from 'react-icons/io5';
 
 const Header = ({ onToggleSidebar, title }) => {
   const badgeStyle = {
-    backgroundColor: '#43DC80 !important',
+    backgroundColor: '#43DC80 ',
     fontSize: '0.65rem',
     transform: 'translate(40%, -40%)'
   };
-
   return (
     <Container fluid>
       <div className="mt-3 mb-3">
@@ -49,11 +48,11 @@ const Header = ({ onToggleSidebar, title }) => {
               }}
             />
           </div>
-          <div className="text-muted position-relative d-inline-block ms-3" style={{ fontSize: '1.4rem', cursor: 'pointer' }}>
+          <div className="text-muted position-relative d-inline-block ms-3 " style={{ fontSize: '1.4rem', cursor: 'pointer' }}>
             <Messenger />
             <Badge
               pill
-              className="position-absolute top-0 start-100 translate-middle rounded-circle px-2 py-1"
+              className="position-absolute top-0 start-100 translate-middle rounded-circle px-2 py-1 bg-success"
               style={badgeStyle}
             >
               6
@@ -63,7 +62,7 @@ const Header = ({ onToggleSidebar, title }) => {
             <IoNotifications />
             <Badge
               pill
-              className="position-absolute top-0 start-100 translate-middle rounded-circle px-2 py-1"
+              className="position-absolute top-0 start-100 translate-middle rounded-circle px-2 py-1 bg-success"
               style={badgeStyle}
             >
               4

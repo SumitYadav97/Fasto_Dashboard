@@ -1,6 +1,6 @@
 'use client';
-import { Row, Col, Button, Container } from 'react-bootstrap';
-import { Grid3x3GapFill, List, Lock } from "react-bootstrap-icons";
+import { Row, Col, Button, Container, Image } from 'react-bootstrap';
+import { Grid3x3GapFill, List, Lock, Plus } from "react-bootstrap-icons";
 import { TbWriting } from "react-icons/tb";
 
 const kanban = () => {
@@ -50,59 +50,141 @@ const kanban = () => {
                                 <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Prepare proposal for client meeting</p>
                                 <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light">
                                     <small className="text-muted" style={{ fontSize: '12px' }}>Aug 4, 2020</small>
-                                    <div className="d-flex align-items-center">
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-20px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-20px",
+                                            }}
+                                        />
                                     </div>
                                 </div>
                             </div>
                             {/* Card 2 */}
                             <div className="card p-3 border-0 shadow-sm rounded-3 bg-white">
-                                <span className="fw-bold mb-2" style={{ color: '#20C997', fontSize: '12px' }}>Content Writer</span>
-                                <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Prepare proposal for client meeting</p>
+                                <span className="fw-bold mb-2" style={{ color: '#E858EB', fontSize: '12px' }}>Public Relations</span>
+                                <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Annual Meeting With Marketing Team</p>
                                 <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light">
                                     <small className="text-muted" style={{ fontSize: '12px' }}>Aug 4, 2020</small>
-                                    <div className="d-flex align-items-center">
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <Button style={{ background: "#E7FFF0", color: "#43DC80", border: "#E7FFF0" }}>+Assign People</Button>
                                     </div>
                                 </div>
                             </div>
                             <div className="card p-3 border-0 shadow-sm rounded-3 bg-white">
-                                <span className="fw-bold mb-2" style={{ color: '#20C997', fontSize: '12px' }}>Content Writer</span>
-                                <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Prepare proposal for client meeting</p>
+                                <span className="fw-bold mb-2" style={{ color: '#5867EB', fontSize: '12px' }}>Software Engineer</span>
+                                <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Create Base Project for Fasto v2.1 by v1</p>
                                 <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light">
                                     <small className="text-muted" style={{ fontSize: '12px' }}>Aug 4, 2020</small>
-                                    <div className="d-flex align-items-center">
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <Button style={{ background: "#E7FFF0", color: "#43DC80", border: "#E7FFF0" }}>+Assign People</Button>
+
                                     </div>
                                 </div>
                             </div>
                             <div className="card p-3 border-0 shadow-sm rounded-3 bg-white">
-                                <span className="fw-bold mb-2" style={{ color: '#20C997', fontSize: '12px' }}>Content Writer</span>
-                                <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Prepare proposal for client meeting</p>
+                                <span className="fw-bold mb-2" style={{ color: '#BA8B54', fontSize: '12px' }}>Graphic Deisgner</span>
+                                <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Visual Graphic for Presentation to Client</p>
                                 <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light">
                                     <small className="text-muted" style={{ fontSize: '12px' }}>Aug 4, 2020</small>
-                                    <div className="d-flex align-items-center">
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-20px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-20px",
+                                            }}
+                                        />
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-20px",
+                                            }}
+                                        />
+
                                     </div>
                                 </div>
                             </div>
                             <div className="card p-3 border-0 shadow-sm rounded-3 bg-white">
-                                <span className="fw-bold mb-2" style={{ color: '#20C997', fontSize: '12px' }}>Content Writer</span>
-                                <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Prepare proposal for client meeting</p>
+                                <span className="fw-bold mb-2" style={{ color: '#68E35D', fontSize: '12px' }}>Database Engineer</span>
+                                <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Build Database Design for Fasto Admin v2</p>
                                 <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light">
                                     <small className="text-muted" style={{ fontSize: '12px' }}>Aug 4, 2020</small>
-                                    <div className="d-flex align-items-center">
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-20px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-20px",
+                                            }}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -124,24 +206,74 @@ const kanban = () => {
                                 <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Visual Graphic for Presentation to Client</p>
                                 <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light">
                                     <small className="text-muted" style={{ fontSize: '12px' }}>Aug 4, 2020</small>
-                                    <div className="d-flex align-items-center">
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
+                                     <div style={{ display: "flex", alignItems: "center" }}>
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-20px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-20px",
+                                            }}
+                                        />
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-20px",
+                                            }}
+                                        />
+
                                     </div>
                                 </div>
                             </div>
                             <div className="card p-3 border-0 shadow-sm rounded-3 bg-white">
-                                <span className="fw-bold mb-2" style={{ color: '#FD7E14', fontSize: '12px' }}>Graphic Designer</span>
-                                <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Visual Graphic for Presentation to Client</p>
+                                <span className="fw-bold mb-2" style={{ color: '#29A7CF', fontSize: '12px' }}>UX Writer</span>
+                                <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Create content for onboarding page Fasto Mobile App</p>
                                 <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light">
                                     <small className="text-muted" style={{ fontSize: '12px' }}>Aug 4, 2020</small>
-                                    <div className="d-flex align-items-center">
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-15px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
+                                     
                                     </div>
                                 </div>
                             </div>
@@ -160,38 +292,95 @@ const kanban = () => {
                         <div className="d-flex flex-column gap-3 mt-3">
                             {/* Card 1 */}
                             <div className="card p-3 border-0 shadow-sm rounded-3 bg-white">
-                                <span className="fw-bold mb-2" style={{ color: '#6F42C1', fontSize: '12px' }}>Digital Marketing</span>
+                                <span className="fw-bold mb-2" style={{ color: '#BC37DD', fontSize: '12px' }}>Digital Marketing</span>
                                 <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Make Promotional Ads for Instagram Fasto's</p>
                                 <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light">
                                     <small className="text-muted" style={{ fontSize: '12px' }}>Aug 4, 2020</small>
-                                    <div className="d-flex align-items-center">
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-20px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
+                                     
                                     </div>
                                 </div>
                             </div>
                             <div className="card p-3 border-0 shadow-sm rounded-3 bg-white">
-                                <span className="fw-bold mb-2" style={{ color: '#6F42C1', fontSize: '12px' }}>Digital Marketing</span>
-                                <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Make Promotional Ads for Instagram Fasto's</p>
+                                <span className="fw-bold mb-2" style={{ color: '#68E35D', fontSize: '12px' }}>Database Engineer</span>
+                                <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Build Database Design for Fasto Admin v2</p>
                                 <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light">
                                     <small className="text-muted" style={{ fontSize: '12px' }}>Aug 4, 2020</small>
-                                    <div className="d-flex align-items-center">
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-20px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-20px",
+                                            }}
+                                        />
+                                         <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginLeft: "-20px",
+                                            }}
+                                        />
                                     </div>
                                 </div>
                             </div>
                             <div className="card p-3 border-0 shadow-sm rounded-3 bg-white">
-                                <span className="fw-bold mb-2" style={{ color: '#6F42C1', fontSize: '12px' }}>Digital Marketing</span>
-                                <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Make Promotional Ads for Instagram Fasto's</p>
+                                <span className="fw-bold mb-2" style={{ color: '#E858EB', fontSize: '12px' }}>Public Relations</span>
+                                <p className="fw-bold text-dark mb-3" style={{ fontSize: '14px', lineHeight: '1.4' }}>Annual Meeting With Marketing Team</p>
                                 <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light">
                                     <small className="text-muted" style={{ fontSize: '12px' }}>Aug 4, 2020</small>
-                                    <div className="d-flex align-items-center">
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
-                                        <div className="rounded-circle border border-2 border-white" style={{ width: '24px', height: '24px', backgroundColor: '#c8c8c8', marginLeft: '-8px' }} />
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <Image
+                                            roundedCircle
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                border: "2px solid #fff",
+                                            }}
+                                        />
                                     </div>
                                 </div>
                             </div>
