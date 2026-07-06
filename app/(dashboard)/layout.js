@@ -4,7 +4,8 @@ import { usePathname } from "next/navigation";
 import { Container, Row, Col } from "react-bootstrap";
 import Header from "./header/page";
 import Sidebar from "./Sidebar/page";
-
+import { Provider } from "react-redux";
+import { store } from "./store/store"; 
 export default function DashboardLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const pathname = usePathname();
@@ -24,27 +25,30 @@ export default function DashboardLayout({ children }) {
       default: return "Dashboard";
     }
   };
+
   return (
-    <Container fluid className="overflow-hidden p-0">
-      <Header title={getHeaderTitle(pathname)} onToggleSidebar={handleToggleSidebar} />
-      <Row className="g-0 flex-nowrap">
-        <Col
-          style={{
-            transition: "all 0.3s ease-in-out",
-            width: isSidebarOpen ? "240px" : "0px",
-            minWidth: isSidebarOpen ? "240px" : "0px",
-            maxWidth: isSidebarOpen ? "240px" : "0px",
-            opacity: isSidebarOpen ? 1 : 0,
-            overflow: "hidden",
-          }}
-          className="bg-light min-vh-100"
-        >
-          <Sidebar isOpen={isSidebarOpen} />
-        </Col>
-        <Col className="bg-light min-vh-100 overflow-auto">
-          {children}
-        </Col>
-      </Row>
-    </Container>
+    <Provider store={store}>
+      <Container fluid className="overflow-hidden p-0">
+        <Header title={getHeaderTitle(pathname)} onToggleSidebar={handleToggleSidebar} />
+        <Row className="g-0 flex-nowrap">
+          <Col
+            style={{
+              transition: "all 0.3s ease-in-out",
+              width: isSidebarOpen ? "240px" : "0px",
+              minWidth: isSidebarOpen ? "240px" : "0px",
+              maxWidth: isSidebarOpen ? "240px" : "0px",
+              opacity: isSidebarOpen ? 1 : 0,
+              overflow: "hidden",
+            }}
+            className="bg-light min-vh-100"
+          >
+            <Sidebar isOpen={isSidebarOpen} />
+          </Col>
+          <Col className="bg-light min-vh-100 overflow-auto">
+            {children}
+          </Col>
+        </Row>
+      </Container>
+    </Provider>
   );
 }
