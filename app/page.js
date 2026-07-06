@@ -44,7 +44,6 @@ export default function Home() {
         >
           <Sidebar isOpen={isSidebarOpen} />
         </Col>
-
         <Col className="bg-light min-vh-100 overflow-auto">
           <div className="p-4">
             <Dashboard />

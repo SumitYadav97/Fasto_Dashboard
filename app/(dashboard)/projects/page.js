@@ -1,70 +1,156 @@
 "use client";
-import React, { useState } from 'react';
-import { Container, Row, Col, Card, Button, Pagination } from 'react-bootstrap';
-import { Calendar2DateFill, ThreeDotsVertical, List, Grid3x3GapFill, ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
-import { mockarooData } from '../Data/page';
+import React, { useState } from "react";
+import {Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  Pagination,
+} from "react-bootstrap";
+import {
+  Calendar2DateFill,
+  List,
+  Grid3x3GapFill,
+  ChevronLeft,
+  ChevronRight,
+} from "react-bootstrap-icons";
+import { mockarooData } from "../Data/page";
 
 const getStatusConfig = (status) => {
   switch (status?.toUpperCase()) {
-    case 'ON PROGRESS':
-      return { bg: '#EDF7FF', color: '#32A5FD' };
-    case 'CLOSED':
-      return { bg: '#FFF0F0', color: '#FF544B' };
-    case 'PENDING':
+    case "ON PROGRESS":
+      return { bg: "#EDF7FF", color: "#32A5FD" };
+    case "CLOSED":
+      return { bg: "#FFF0F0", color: "#FF544B" };
+    case "PENDING":
     default:
-      return { bg: '#FFF5E6', color: '#FFAB2D' };
+      return { bg: "#FFF5E6", color: "#FFAB2D" };
   }
 };
+
 export default function ProjectDashboard() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [filter, setFilter] = useState("ALL");
   const itemsPerPage = 5;
+
+  const filteredData = mockarooData.filter((p) => {
+    if (filter === "ALL") return true;
+    return p.status?.toUpperCase() === filter;
+  });
+  const safeData = filteredData || [];
   const LastItem = currentPage * itemsPerPage;
   const FirstItem = LastItem - itemsPerPage;
-  const currentItems = mockarooData.slice(FirstItem, LastItem);
-  const totalPages = Math.ceil(mockarooData.length / itemsPerPage);
-  const totalProjects = mockarooData.length; // Data Lenght from mockarooData
-  const onProgressCount = mockarooData.filter(p => p.status?.toUpperCase() === 'ON PROGRESS').length;
-  const pendingCount = mockarooData.filter(p => p.status?.toUpperCase() === 'PENDING').length;
-  const closedCount = mockarooData.filter(p => p.status?.toUpperCase() === 'CLOSED').length;
+  const currentItems = safeData.slice(FirstItem, LastItem);
+  const totalPages = Math.max(
+    1,
+    Math.ceil(safeData.length / itemsPerPage)
+  );
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [filter]);
+
+  React.useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(1);
+    }
+  }, [totalPages]);
+
+  const getPaginationRange = (current, total) => {
+    const delta = 1;
+    const range = [];
+
+    let left = Math.max(2, current - delta);
+    let right = Math.min(total - 1, current + delta);
+
+    range.push(1);
+
+    if (left > 2) range.push("...");
+
+    for (let i = left; i <= right; i++) {
+      range.push(i);
+    }
+
+    if (right < total - 1) range.push("...");
+
+    if (total > 1) range.push(total);
+
+    return range;
+  };
+
+  const totalProjects = mockarooData.length;
+  const onProgressCount = mockarooData.filter(
+    (p) => p.status?.toUpperCase() === "ON PROGRESS"
+  ).length;
+  const pendingCount = mockarooData.filter(
+    (p) => p.status?.toUpperCase() === "PENDING"
+  ).length;
+  const closedCount = mockarooData.filter(
+    (p) => p.status?.toUpperCase() === "CLOSED"
+  ).length;
 
   return (
-    <div style={{ backgroundColor: '#F8F9FA', minHeight: '100vh', padding: '1.5rem' }}>
-      <Container fluid >
-        <div
-          className="d-flex justify-content-between align-items-center mb-4 p-3 bg-white"
-          style={{ borderRadius: '16px', boxShadow: '0px 2px 6px rgba(0,0,0,0.02)' }}
-        >
+    <div
+      style={{
+        backgroundColor: "#F8F9FA",
+        minHeight: "100vh",
+        padding: "1.5rem",
+      }}
+    >
+      <Container fluid>
+        <div className="d-flex justify-content-between align-items-center mb-4 p-3 bg-white"
+          style={{ borderRadius: "16px", boxShadow: "0px 2px 6px rgba(0,0,0,0.02)" }}>
+
           <div className="d-flex align-items-center gap-4">
-            <span className="d-flex align-items-center gap-2 text-dark fw-bold" style={{ cursor: 'pointer', fontSize: '0.9rem' }}>
+
+            <span
+              onClick={() => setFilter("ALL")}
+              className="d-flex align-items-center gap-2 text-dark fw-bold"
+              style={{ cursor: "pointer", fontSize: "0.9rem" }}
+            >
               All Projects
-              <span className="badge rounded-pill d-flex align-items-center justify-content-center" style={{ backgroundColor: '#2ECC71', color: '#fff', padding: '4px 10px', fontSize: '0.75rem', fontWeight: '700' }}>
+              <span className="badge rounded-pill " style={{background:"#43DC80"}}>
                 {totalProjects}
               </span>
             </span>
-            <span className="d-flex align-items-center gap-2 text-muted fw-normal" style={{ cursor: 'pointer', fontSize: '0.9rem' }}>
+
+            <span
+              onClick={() => setFilter("ON PROGRESS")}
+              className="d-flex align-items-center gap-2 text-muted"
+              style={{ cursor: "pointer" }}
+            >
               On Progress
-              <span className="badge rounded-pill d-flex align-items-center justify-content-center" style={{ backgroundColor: '#32A5FD', color: '#fff', padding: '4px 10px', fontSize: '0.75rem', fontWeight: '700' }}>
+              <span className="badge rounded-pill"
+                style={{ backgroundColor: "#32A5FD", color: "#fff" }}>
                 {onProgressCount}
               </span>
             </span>
-            <span className="d-flex align-items-center gap-2 text-muted fw-normal" style={{ cursor: 'pointer', fontSize: '0.9rem' }}>
+
+            <span
+              onClick={() => setFilter("PENDING")}
+              className="d-flex align-items-center gap-2 text-muted"
+              style={{ cursor: "pointer" }}
+            >
               Pending
-              <span className="badge rounded-pill d-flex align-items-center justify-content-center" style={{ backgroundColor: '#FFAB2D', color: '#fff', padding: '4px 10px', fontSize: '0.75rem', fontWeight: '700' }}>
+              <span className="badge rounded-pill"
+                style={{ backgroundColor: "#FFAB2D", color: "#fff" }}>
                 {pendingCount}
               </span>
             </span>
-            <span className="d-flex align-items-center gap-2 text-muted fw-normal" style={{ cursor: 'pointer', fontSize: '0.9rem' }}>
+
+            <span
+              onClick={() => setFilter("CLOSED")}
+              className="d-flex align-items-center gap-2 text-muted"
+              style={{ cursor: "pointer" }}
+            >
               Closed
-              <span className="badge rounded-pill d-flex align-items-center justify-content-center" style={{ backgroundColor: '#FF544B', color: '#fff', padding: '4px 10px', fontSize: '0.75rem', fontWeight: '700' }}>
+              <span className="badge rounded-pill"
+                style={{ backgroundColor: "#FF544B", color: "#fff" }}>
                 {closedCount}
               </span>
-            </span>
-          </div>
-
-          <div className="d-flex align-items-center gap-3">
+                <div className="d-flex align-items-center gap-3">
             <Button
               className="px-4 py-2 border-0 fw-normal"
-              style={{ backgroundColor: '#2ECC71', color: '#fff', borderRadius: '10px', fontSize: '0.85rem' }}
+              style={{ backgroundColor: '#2ECC71', color: '#fff', borderRadius: '10px', fontSize: '0.85rem',marginLeft:"300px" }}
             >
               New Project
             </Button>
@@ -73,135 +159,109 @@ export default function ProjectDashboard() {
               <Grid3x3GapFill style={{ cursor: 'pointer', color: "#2ECC71" }} size={18} />
             </div>
           </div>
+            </span>
+          </div>
         </div>
-
-        {/* Project List Items Loop */}
+        {/* LIST */}
         {currentItems.map((project, index) => {
           const statusStyle = getStatusConfig(project.status);
+
           return (
-            <Card key={project.id || index} className="mb-3 border-0 shadow-sm" style={{ borderRadius: '16px' }}>
+            <Card
+              key={project.id || index}
+              className="mb-3 border-0 shadow-sm"
+              style={{ borderRadius: "16px" }}
+            >
               <Card.Body className="p-4">
                 <Row className="align-items-center">
 
                   <Col md={4}>
-                    {/* Fixed: Directly display your data string ID safely */}
-                    <div className="fw-bold mb-1" style={{ color: '#2ECC71', fontSize: '0.8rem', letterSpacing: '0.02em' }}>
+                    <div className="fw-bold mb-1 " style={{color:"#43DC80"}}>
                       {project.id}
                     </div>
-                    <h5 className="fw-bold mb-2 text-dark" style={{ fontSize: '1.05rem', letterSpacing: '-0.01em' }}>
-                      {project.title}
-                    </h5>
-                    <div className="text-muted d-flex align-items-center gap-2" style={{ fontSize: '0.8rem' }}>
-                      <Calendar2DateFill size={13} className="opacity-50" /> Created on {project.createdDate}
-                    </div>
+                    <h5>{project.title}</h5>
+                    <small className="text-muted">
+                      <Calendar2DateFill /> {project.createdDate}
+                    </small>
                   </Col>
 
-                  {/* Client Column - Modified to display client field with network avatar */}
-                  <Col md={2} className="d-flex align-items-center gap-3">
-                    <img 
-                      src={project.pic} //Images from mockarooData
-                      alt="Client Avatar"
-                      style={{ width: "32px", height: "32px", borderRadius: "50%", objectFit: "contain", padding: "2px", backgroundColor: "#fff" }}
-                    />
-                    <div>
-                      <div className="text-muted" style={{ fontSize: '0.75rem' }}>Client</div>
-                      <div className="fw-bold text-dark" style={{ fontSize: '0.85rem' }}>
-                        {project.client}
-                      </div>
-                    </div>
-                  </Col>
+                  <Col md={2}>{project.client}</Col>
+                  <Col md={2}>{project.client?.split(" ")[0]}</Col>
+                  <Col md={2}>{project.deadline}</Col>
 
-                  {/* Person In Charge Column - Falling back securely to project.client or pic */}
-                  <Col md={2} className="d-flex align-items-center gap-3">
-                    <img 
-                      src={project.pic} 
-                      alt="PIC Avatar"
-                      style={{ width: "32px", height: "32px", borderRadius: "50%", objectFit: "contain", border: "1px solid #e2e8f0", padding: "2px", backgroundColor: "#fff" }}
-                    />
-                    <div>
-                      <div className="text-muted" style={{ fontSize: '0.75rem' }}>Person in charge</div>
-                      <div className="fw-bold text-dark text-truncate" style={{ fontSize: '0.85rem', maxWidth: '120px' }} title={project.client}>
-                        {project.client ? project.client.split(' ')[0] : 'N/A'}
-                      </div>
-                    </div>
-                  </Col>
-
-                  {/* Deadline Data Point Section */}
-                  <Col md={2} className="d-flex align-items-center gap-3">
-                    {/* Kept file fallback, but wrapped safely for runtime image parsing layout */}
-                    <img src='/deadline.png' alt="Deadline icon" style={{ width: "24px", height: "24px", objectFit: "contain" }} onError={(e) => { e.target.style.display = 'none'; }} />
-                    <div>
-                      <div className="text-muted" style={{ fontSize: '0.75rem' }}>Deadline</div>
-                      <div className="fw-bold text-dark" style={{ fontSize: '0.85rem' }}>{project.deadline}</div>
-                    </div>
-                  </Col>
-
-                  <Col md={2} className="d-flex justify-content-end align-items-center gap-3">
+                  <Col md={2} className="text-end">
                     <Button
-                      className="text-center d-inline-flex align-items-center justify-content-center fw-bold text-uppercase border-0 shadow-none"
                       style={{
                         backgroundColor: statusStyle.bg,
                         color: statusStyle.color,
-                        fontSize: '0.7rem',
-                        letterSpacing: '0.06em',
-                        borderRadius: '100px',
-                        width: '120px',
-                        height: '34px',
-                        cursor: 'default'
+                        border: "none",
+                        borderRadius: "20px",
                       }}
                     >
                       {project.status}
                     </Button>
-                    <ThreeDotsVertical style={{ cursor: 'pointer' }} className="text-muted opacity-50" size={18} />
                   </Col>
+
                 </Row>
               </Card.Body>
             </Card>
           );
         })}
 
-        {/* Bottom Pagination Bar Component */}
-        <div className="d-flex justify-content-between align-items-center mt-4 text-muted small px-1">
-          <div style={{ fontSize: '0.85rem' }} className="fw-normal">
-            Showing {FirstItem + 1} to {Math.min(LastItem, mockarooData.length)} from {mockarooData.length} data
+        {/* PAGINATION */}
+        <div className="d-flex justify-content-between align-items-center mt-4">
+
+          <div>
+            Showing {FirstItem + 1} to{" "}
+            {Math.min(LastItem, safeData.length)} of {safeData.length}
           </div>
-          <Pagination className="mb-0 align-items-center gap-1">
-            <Button
-              variant="outline-light"
-              className="rounded-3 d-flex align-items-center gap-1 border-0 bg-white shadow-sm px-3 py-2 text-muted"
-              style={{ fontSize: '0.8rem', color: '#2ECC71' }}
+
+          <Pagination>
+
+            <Button style={{background:"#2ECC71",border:"#2ECC71"}}
               disabled={currentPage === 1}
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              onClick={() =>
+                setCurrentPage((p) => Math.max(p - 1, 1))
+              }
             >
-              <ChevronLeft size={12} /> Previous
+              <ChevronLeft /> Prev
             </Button>
 
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
-              <Button
-                key={pageNumber}
-                className="border-0 fw-bold d-flex align-items-center justify-content-center shadow-sm"
-                style={{
-                  width: '34px',
-                  height: '34px',
-                  borderRadius: '8px',
-                  fontSize: '0.8rem',
-                  backgroundColor: currentPage === pageNumber ? '#2ECC71' : '#FFFFFF',
-                  color: currentPage === pageNumber ? '#FFFFFF' : '#6C757D'
-                }}
-                onClick={() => setCurrentPage(pageNumber)}
-              >
-                {pageNumber}
-              </Button>
-            ))}
-            <Button
-              variant="outline-light"
-              className="rounded-3 d-flex align-items-center gap-1 border-0 bg-white shadow-sm px-3 py-2 text-muted"
-              style={{ fontSize: '0.8rem', color: '#2ECC71' }}
+            {getPaginationRange(currentPage, totalPages).map(
+              (page, i) =>
+                page === "..." ? (
+                  <span key={i} className="px-2">
+                    ...
+                  </span>
+                ) : (
+                  <Button 
+                    key={`${page}-${i}`}
+                    onClick={() => setCurrentPage(page)}
+                    style={{
+                      background:
+                        currentPage === page ? "#2ECC71" : "#2ECC71",
+                      color:
+                        currentPage === page ? "#fff" : "#000",
+                      margin: "0 2px",
+                      border:"#2ECC71"
+                    }}
+                  >
+                    {page}
+                  </Button>
+                )
+            )}
+
+            <Button style={{background:"#2ECC71",border:"#2ECC71"}}
               disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              onClick={() =>
+                setCurrentPage((p) =>
+                  Math.min(p + 1, totalPages)
+                )
+              }
             >
-              Next <ChevronRight size={12} />
+              Next <ChevronRight />
             </Button>
+
           </Pagination>
         </div>
       </Container>

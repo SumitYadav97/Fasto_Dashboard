@@ -447,7 +447,7 @@ const Dashboard = () => (
 
           <div className="dashboard-card">
             <h6>Recent Messages</h6>
-            <Card className="border-0 shadow-sm p-2">
+            <Card className="border-light shadow-sm p-2">
               <Card.Body>
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <h6 className="fw-bold mb-0">Recent Messages</h6>
