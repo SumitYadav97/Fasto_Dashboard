@@ -104,31 +104,35 @@ export default function ProjectDashboard() {
   };
 
   return (
-    <div style={{ backgroundColor: "#F8F9FA", minHeight: "100vh", padding: "1.5rem" }}>
-      <Container fluid>
-        <div className="d-flex justify-content-between align-items-center mb-4 p-3 bg-white"
+    <div style={{ backgroundColor: "#F8F9FA", minHeight: "100vh", padding: "1rem" }}>
+      <Container fluid className="px-0 px-sm-3">
+        
+        {/* TOP FILTER & ACTIONS HEADER */}
+        <div className="p-3 bg-white mb-4"
           style={{ borderRadius: "16px", boxShadow: "0px 2px 6px rgba(0,0,0,0.02)" }}>
-
-          <div className="d-flex align-items-center gap-4 flex-wrap w-100 justify-content-between">
-            <div className="d-flex align-items-center gap-4">
-              <span onClick={() => setFilter("ALL")} className="d-flex align-items-center gap-2 text-dark fw-bold" style={{ cursor: "pointer", fontSize: "0.9rem" }}>
-                All Projects <span className="badge rounded-pill" style={{ background: "#43DC80" }}>{totalProjects}</span>
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            
+            {/* Filter Tabs - Scrolls horizontally on Mobile if overflow occurs */}
+            <div className="d-flex align-items-center gap-3 flex-nowrap overflow-x-auto pb-2 pb-md-0" style={{ WebkitOverflowScrolling: "touch" }}>
+              <span onClick={() => setFilter("ALL")} className={`d-flex align-items-center gap-2 text-nowrap ${filter === "ALL" ? "text-dark fw-bold" : "text-muted"}`} style={{ cursor: "pointer", fontSize: "0.9rem" }}>
+                All <span className="badge rounded-pill" style={{ background: "#43DC80" }}>{totalProjects}</span>
               </span>
 
-              <span onClick={() => setFilter("ON PROGRESS")} className="d-flex align-items-center gap-2 text-muted" style={{ cursor: "pointer" }}>
+              <span onClick={() => setFilter("ON PROGRESS")} className={`d-flex align-items-center gap-2 text-nowrap ${filter === "ON PROGRESS" ? "text-dark fw-bold" : "text-muted"}`} style={{ cursor: "pointer", fontSize: "0.9rem" }}>
                 On Progress <span className="badge rounded-pill" style={{ backgroundColor: "#32A5FD", color: "#fff" }}>{onProgressCount}</span>
               </span>
 
-              <span onClick={() => setFilter("PENDING")} className="d-flex align-items-center gap-2 text-muted" style={{ cursor: "pointer" }}>
+              <span onClick={() => setFilter("PENDING")} className={`d-flex align-items-center gap-2 text-nowrap ${filter === "PENDING" ? "text-dark fw-bold" : "text-muted"}`} style={{ cursor: "pointer", fontSize: "0.9rem" }}>
                 Pending <span className="badge rounded-pill" style={{ backgroundColor: "#FFAB2D", color: "#fff" }}>{pendingCount}</span>
               </span>
 
-              <span onClick={() => setFilter("CLOSED")} className="d-flex align-items-center gap-2 text-muted" style={{ cursor: "pointer" }}>
+              <span onClick={() => setFilter("CLOSED")} className={`d-flex align-items-center gap-2 text-nowrap ${filter === "CLOSED" ? "text-dark fw-bold" : "text-muted"}`} style={{ cursor: "pointer", fontSize: "0.9rem" }}>
                 Closed <span className="badge rounded-pill" style={{ backgroundColor: "#FF544B", color: "#fff" }}>{closedCount}</span>
               </span>
             </div>
 
-            <div className="d-flex align-items-center gap-3">
+            {/* CTA Buttons */}
+            <div className="d-flex align-items-center justify-content-between justify-content-md-end gap-3 border-top pt-2 pt-md-0 border-md-0">
               <Button
                 onClick={() => setShowModal(true)}
                 className="px-4 py-2 border-0 fw-normal"
@@ -141,31 +145,49 @@ export default function ProjectDashboard() {
                 <Grid3x3GapFill style={{ cursor: 'pointer', color: "#2ECC71" }} size={18} />
               </div>
             </div>
+
           </div>
         </div>
 
-        {/* LIST */}
+        {/* PROJECT LIST */}
         {currentItems.map((project, index) => {
           const statusStyle = getStatusConfig(project.status);
           return (
             <Card key={project.id || index} className="mb-3 border-0 shadow-sm" style={{ borderRadius: "16px" }}>
-              <Card.Body className="p-4">
-                <Row className="align-items-center">
-                  <Col md={4}>
-                    <div className="fw-bold mb-1" style={{ color: "#43DC80" }}>{project.id}</div>
-                    <h5>{project.title}</h5>
-                    <small className="text-muted">
-                      <Calendar2DateFill /> {project.createdDate}
+              <Card.Body className="p-3 p-md-4">
+                <Row className="align-items-center gy-3 gy-md-0">
+                  
+                  {/* Title & Info */}
+                  <Col xs={12} md={5}>
+                    <div className="fw-bold mb-1" style={{ color: "#43DC80", fontSize: "0.85rem" }}>{project.id}</div>
+                    <h5 className="mb-1 text-wrap text-break">{project.title}</h5>
+                    <small className="text-muted d-block mt-1">
+                      <Calendar2DateFill className="me-1" /> Created: {project.createdDate}
                     </small>
                   </Col>
-                  <Col md={2}>{project.client}</Col>
-                  <Col md={2}>{project.client?.split(" ")[0]}</Col>
-                  <Col md={2}>{project.deadline}</Col>
-                  <Col md={2} className="text-end">
-                    <Button style={{ backgroundColor: statusStyle.bg, color: statusStyle.color, border: "none", borderRadius: "20px" }}>
+                  
+                  {/* Client Info */}
+                  <Col xs={6} md={3} className="border-top pt-2 pt-md-0 border-md-0">
+                    <div className="small text-muted d-md-none fw-bold">Client</div>
+                    <div className="text-dark fw-medium">{project.client}</div>
+                  </Col>
+                  
+                  {/* Deadline */}
+                  <Col xs={6} md={2} className="border-top pt-2 pt-md-0 border-md-0">
+                    <div className="small text-muted d-md-none fw-bold">Deadline</div>
+                    <div className="text-secondary">{project.deadline}</div>
+                  </Col>
+                  
+                  {/* Status Badge */}
+                  <Col xs={12} md={2} className="text-start text-md-end border-top pt-3 pt-md-0 border-md-0">
+                    <Button 
+                      className="w-100 w-md-auto px-3 py-1.5 font-weight-bold" 
+                      style={{ backgroundColor: statusStyle.bg, color: statusStyle.color, border: "none", borderRadius: "20px", fontSize: "0.85rem" }}
+                    >
                       {project.status}
                     </Button>
                   </Col>
+
                 </Row>
               </Card.Body>
             </Card>
@@ -174,25 +196,25 @@ export default function ProjectDashboard() {
 
         {/* CUSTOM PILL-STYLE PAGINATION */}
         {totalPages > 1 && (
-          <div className="d-flex justify-content-between align-items-center mt-4 user-select-none flex-wrap gap-3">
-            <div className="text-muted small fw-medium">
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 user-select-none gap-3">
+            <div className="text-muted small fw-medium order-2 order-md-1">
               Showing {FirstItem + 1} to {Math.min(LastItem, safeData.length)} of {safeData.length}
             </div>
 
-            <footer className="d-flex align-items-center gap-3">
+            <footer className="d-flex align-items-center gap-2 gap-sm-3 flex-wrap justify-content-center order-1 order-md-2">
               {/* Previous Capsule Action Button */}
               <button
                 onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                 disabled={currentPage === 1}
-                className="btn bg-white d-inline-flex align-items-center justify-content-center gap-2 fw-medium px-4 py-2 rounded-pill shadow-sm transition-all"
+                className="btn bg-white d-inline-flex align-items-center justify-content-center gap-2 fw-medium px-3 py-2 rounded-pill shadow-sm transition-all"
                 style={{
                   border: '1px solid #43DC80',
                   color: '#32b866',
                   opacity: currentPage === 1 ? 0.4 : 1,
-                  fontSize: '0.95rem'
+                  fontSize: '0.85rem'
                 }}
               >
-                <span>&lt;&lt;</span> Previous
+                <span>&lt;&lt;</span> Prev
               </button>
 
               <div 
@@ -203,7 +225,7 @@ export default function ProjectDashboard() {
                   const isActive = page === currentPage;
                   if (page === "...") {
                     return (
-                      <span key={i} className="px-2 text-muted fw-bold d-flex align-items-center justify-content-center" style={{ width: '36px', height: '36px' }}>
+                      <span key={i} className="px-1 text-muted fw-bold d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}>
                         ...
                       </span>
                     );
@@ -214,12 +236,12 @@ export default function ProjectDashboard() {
                       onClick={() => setCurrentPage(page)}
                       className="border-0 d-flex align-items-center justify-content-center fw-semibold transition-all"
                       style={{
-                        width: '36px',
-                        height: '36px',
+                        width: '32px',
+                        height: '32px',
                         borderRadius: '50%',
                         backgroundColor: isActive ? '#32b866' : 'transparent',
                         color: isActive ? '#ffffff' : '#555555',
-                        fontSize: '0.9rem',
+                        fontSize: '0.85rem',
                         cursor: 'pointer',
                         outline: 'none'
                       }}
@@ -234,12 +256,12 @@ export default function ProjectDashboard() {
               <button
                 onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="btn bg-white d-inline-flex align-items-center justify-content-center gap-2 fw-medium px-4 py-2 rounded-pill shadow-sm transition-all"
+                className="btn bg-white d-inline-flex align-items-center justify-content-center gap-2 fw-medium px-3 py-2 rounded-pill shadow-sm transition-all"
                 style={{
                   border: '1px solid #43DC80',
                   color: '#32b866',
                   opacity: currentPage === totalPages ? 0.4 : 1,
-                  fontSize: '0.95rem'
+                  fontSize: '0.85rem'
                 }}
               >
                 Next <span>&gt;&gt;</span>
@@ -249,8 +271,8 @@ export default function ProjectDashboard() {
         )}
       </Container>
 
-      {/* INPUT FORM */}
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered backdrop="static">
+      {/* INPUT FORM MODAL */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered backdrop="static" size="md">
         <Modal.Header closeButton className="border-0 pb-0">
           <Modal.Title className="fw-bold fs-5">Add New Project</Modal.Title>
         </Modal.Header>
@@ -267,13 +289,13 @@ export default function ProjectDashboard() {
             </Form.Group>
 
             <Row>
-              <Col sm={6}>
+              <Col xs={12} sm={6}>
                 <Form.Group className="mb-3">
                   <Form.Label className="small text-muted fw-bold">Deadline Date</Form.Label>
                   <Form.Control type="date" name="deadline" required value={formData.deadline} onChange={handleInputChange} style={{ borderRadius: "8px" }} />
                 </Form.Group>
               </Col>
-              <Col sm={6}>
+              <Col xs={12} sm={6}>
                 <Form.Group className="mb-3">
                   <Form.Label className="small text-muted fw-bold">Initial Status</Form.Label>
                   <Form.Select name="status" value={formData.status} onChange={handleInputChange} style={{ borderRadius: "8px" }}>
@@ -285,7 +307,7 @@ export default function ProjectDashboard() {
               </Col>
             </Row>
           </Modal.Body>
-          <Modal.Footer className="border-0 pt-0">
+          <Modal.Footer className="border-0 pt-0 d-flex justify-content-end gap-2">
             <Button variant="light" onClick={() => setShowModal(false)} style={{ borderRadius: "8px" }}>
               Cancel
             </Button>
