@@ -8,12 +8,9 @@ import { Grid3x3GapFill, List } from 'react-bootstrap-icons';
 
 // Import the mock data from your data directory
 import { contactsData } from './../Data/contacts/page';
-
 const Contacts = () => {
   const dispatch = useDispatch();
-
   const customContacts = useSelector((state) => state.contacts.customContacts);
-
   const allCombinedData = [...customContacts, ...contactsData];
 
   // --- State Hooks ---
@@ -22,7 +19,7 @@ const Contacts = () => {
   const itemsPerPage = 12;
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
-    name: '', 
+    name: '',
     company: '',
     activeChat: 'false'
   });
