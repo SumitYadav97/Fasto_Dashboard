@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addProject } from "./../store/ProjectSlice"; // Adjust path to your slice
-import {Container, Row, Col, Card, Button, Pagination, Modal, Form,} from "react-bootstrap";
-import {Calendar2DateFill,List,Grid3x3GapFill,ChevronLeft,ChevronRight,} from "react-bootstrap-icons";
+import { Container, Row, Col, Card, Button, Modal, Form } from "react-bootstrap";
+import { Calendar2DateFill, List, Grid3x3GapFill } from "react-bootstrap-icons";
 
 const getStatusConfig = (status) => {
   switch (status?.toUpperCase()) {
@@ -20,14 +20,13 @@ const getStatusConfig = (status) => {
 export default function ProjectDashboard() {
   const dispatch = useDispatch();
   
-  // Read dynamic project list directly from  Redux store
+  // Read dynamic project list directly from Redux store
   const allProjects = useSelector((state) => state.projects.list);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("ALL");
   const itemsPerPage = 5;
 
-  // Modal display states
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
@@ -73,7 +72,6 @@ export default function ProjectDashboard() {
     return range;
   };
 
-  // Metric counts driven dynamically by Redux data
   const totalProjects = allProjects.length;
   const onProgressCount = allProjects.filter((p) => p.status?.toUpperCase() === "ON PROGRESS").length;
   const pendingCount = allProjects.filter((p) => p.status?.toUpperCase() === "PENDING").length;
@@ -87,7 +85,6 @@ export default function ProjectDashboard() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     
-    // Generate  ID and format the creation date
     const newProjectItem = {
       id: `PRJ-${Math.floor(1000 + Math.random() * 9000)}`,
       title: formData.title,
@@ -101,7 +98,6 @@ export default function ProjectDashboard() {
       }),
     };
 
-    // Dispatch to Redux Store
     dispatch(addProject(newProjectItem));
     setFormData({ title: "", client: "", deadline: "", status: "PENDING" });
     setShowModal(false);
@@ -176,42 +172,84 @@ export default function ProjectDashboard() {
           );
         })}
 
-        {/* PAGINATION */}
-        <div className="d-flex justify-content-between align-items-center mt-4">
-          <div>
-            Showing {FirstItem + 1} to {Math.min(LastItem, safeData.length)} of {safeData.length}
+        {/* CUSTOM PILL-STYLE PAGINATION */}
+        {totalPages > 1 && (
+          <div className="d-flex justify-content-between align-items-center mt-4 user-select-none flex-wrap gap-3">
+            <div className="text-muted small fw-medium">
+              Showing {FirstItem + 1} to {Math.min(LastItem, safeData.length)} of {safeData.length}
+            </div>
+
+            <footer className="d-flex align-items-center gap-3">
+              {/* Previous Capsule Action Button */}
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                disabled={currentPage === 1}
+                className="btn bg-white d-inline-flex align-items-center justify-content-center gap-2 fw-medium px-4 py-2 rounded-pill shadow-sm transition-all"
+                style={{
+                  border: '1px solid #43DC80',
+                  color: '#32b866',
+                  opacity: currentPage === 1 ? 0.4 : 1,
+                  fontSize: '0.95rem'
+                }}
+              >
+                <span>&lt;&lt;</span> Previous
+              </button>
+
+              <div 
+                className="d-inline-flex align-items-center gap-1 p-1 rounded-pill"
+                style={{ backgroundColor: '#f0f0f2' }}
+              >
+                {getPaginationRange(currentPage, totalPages).map((page, i) => {
+                  const isActive = page === currentPage;
+                  if (page === "...") {
+                    return (
+                      <span key={i} className="px-2 text-muted fw-bold d-flex align-items-center justify-content-center" style={{ width: '36px', height: '36px' }}>
+                        ...
+                      </span>
+                    );
+                  }
+                  return (
+                    <button
+                      key={`${page}-${i}`}
+                      onClick={() => setCurrentPage(page)}
+                      className="border-0 d-flex align-items-center justify-content-center fw-semibold transition-all"
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '50%',
+                        backgroundColor: isActive ? '#32b866' : 'transparent',
+                        color: isActive ? '#ffffff' : '#555555',
+                        fontSize: '0.9rem',
+                        cursor: 'pointer',
+                        outline: 'none'
+                      }}
+                    >
+                      {page}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Next Capsule Action Button */}
+              <button
+                onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="btn bg-white d-inline-flex align-items-center justify-content-center gap-2 fw-medium px-4 py-2 rounded-pill shadow-sm transition-all"
+                style={{
+                  border: '1px solid #43DC80',
+                  color: '#32b866',
+                  opacity: currentPage === totalPages ? 0.4 : 1,
+                  fontSize: '0.95rem'
+                }}
+              >
+                Next <span>&gt;&gt;</span>
+              </button>
+            </footer>
           </div>
-
-          <Pagination>
-            <Button style={{ background: "#2ECC71", border: "#2ECC71" }} disabled={currentPage === 1} onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}>
-              <ChevronLeft /> Prev
-            </Button>
-
-            {getPaginationRange(currentPage, totalPages).map((page, i) =>
-              page === "..." ? (
-                <span key={i} className="px-2">...</span>
-              ) : (
-                <Button key={`${page}-${i}`} onClick={() => setCurrentPage(page)}
-                  style={{
-                    background: "#2ECC71",
-                    color: currentPage === page ? "#fff" : "#000",
-                    margin: "0 2px",
-                    border: "#2ECC71",
-                    opacity: currentPage === page ? "1" : "0.65"
-                  }}>
-                  {page}
-                </Button>
-              )
-            )}
-
-            <Button style={{ background: "#2ECC71", border: "#2ECC71" }} disabled={currentPage === totalPages} onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}>
-              Next <ChevronRight />
-            </Button>
-          </Pagination>
-        </div>
+        )}
       </Container>
 
-      {/*  INPUT FORM */}
+      {/* INPUT FORM */}
       <Modal show={showModal} onHide={() => setShowModal(false)} centered backdrop="static">
         <Modal.Header closeButton className="border-0 pb-0">
           <Modal.Title className="fw-bold fs-5">Add New Project</Modal.Title>
