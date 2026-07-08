@@ -228,7 +228,7 @@ const Kanban = () => {
                             Cancel
                         </Button>
                         <Button type="submit" variant="success" className="fw-bold px-4" style={{ backgroundColor: '#4de193', border: 'none' }}>
-                            Add to Board
+                            Add
                         </Button>
                     </Modal.Footer>
                 </Form>
