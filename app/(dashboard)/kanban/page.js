@@ -28,11 +28,9 @@ const Kanban = () => {
             id: `card-${Date.now()}`,
             task: task,
             role: role,
-            roleColor: '#0d6efd',
             date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
             assignees: []
         };
-
         const updatedBoard = boardData.map(column => {
             if (column.id === targetColumnId) {
                 return {
@@ -42,7 +40,6 @@ const Kanban = () => {
             }
             return column;
         });
-
         setBoardData(updatedBoard);
         handleClose();
     };
@@ -146,14 +143,12 @@ const Kanban = () => {
                                             </div>
                                         </div>
                                     ))}
-
                                     {column.cards.length === 0 && (
                                         <div className="border border-2 border-secondary rounded-3 p-4 text-center text-muted bg-white opacity-75" style={{ borderStyle: 'dashed' }}>
                                             Move card here
                                         </div>
                                     )}
 
-                                    {/* Updated Dynamic Toggle Button Logic (Loads all on first click, hides on second) */}
                                     {hasMoreThanFive && (
                                         <Button
                                             variant={isExpanded ? "outline-secondary" : "outline-success"}
@@ -164,7 +159,6 @@ const Kanban = () => {
                                             {isExpanded ? "Show Less" : `Load More (+${column.cards.length - 5} items)`}
                                         </Button>
                                     )}
-
                                     {column.hasAddCard && (
                                         <Button
                                             variant="success"
@@ -190,27 +184,25 @@ const Kanban = () => {
                 <Form onSubmit={handleCreateProject}>
                     <Modal.Body>
                         <Form.Group className="mb-3">
-                            <Form.Label className="fw-semibold">Task / Project Name</Form.Label>
+                            <Form.Label className="fw-semibold">Role</Form.Label>
                             <Form.Control
                                 type="text"
-                                placeholder="e.g., Update Landing Page Design"
-                                value={task}
-                                onChange={(e) => setTask(e.target.value)}
-                                required
-                            />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <Form.Label className="fw-semibold">Role / Category</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="e.g., UI/UX DESIGNER or FRONTEND"
+                                placeholder=" UI/UX DESIGNER or FRONTEND"
                                 value={role}
                                 onChange={(e) => setRole(e.target.value)}
                                 required
                             />
                         </Form.Group>
-
+                        <Form.Group className="mb-3">
+                            <Form.Label className="fw-semibold">Description</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter task details..."
+                                value={task} // Fixed: changed from role to task
+                                onChange={(e) => setTask(e.target.value)} // Fixed: changed from setRole to setTask
+                                required
+                            />
+                        </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label className="fw-semibold">Kanban Column Stage</Form.Label>
                             <Form.Select
