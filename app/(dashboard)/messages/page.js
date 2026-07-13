@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
 import { Container, Row, Col, Card, Form, InputGroup, Button, Nav } from 'react-bootstrap';
-import { Plus, Search, ThreeDotsVertical, Image, Paperclip, ArrowLeft } from 'react-bootstrap-icons';
+import { Plus, Search, ThreeDotsVertical, Image, Paperclip, ArrowLeft, FileEarmarkText } from 'react-bootstrap-icons';
 
 const Messages = () => {
     const imageRef = useRef(null);
@@ -16,7 +16,8 @@ const Messages = () => {
             text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam...",
             time: "4:30 AM",
             isMe: false,
-            isImage: false
+            isImage: false,
+            isFile: false
         },
         {
             id: 2,
@@ -24,7 +25,8 @@ const Messages = () => {
             text: "sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est...",
             time: "9:30 AM",
             isMe: true,
-            isImage: false
+            isImage: false,
+            isFile: false
         }
     ]);
 
@@ -43,11 +45,13 @@ const Messages = () => {
             text: messageInput.trim(),
             time: timestamp,
             isMe: true,
-            isImage: false
+            isImage: false,
+            isFile: false
         };
         setChatHistory(prev => [...prev, newMessage]);
         setMessageInput("");
     };
+
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -61,27 +65,52 @@ const Messages = () => {
                 text: reader.result,
                 time: timestamp,
                 isMe: true,
-                isImage: true
+                isImage: true,
+                isFile: false
             };
             setChatHistory(prev => [...prev, newImageMessage]);
         };
         reader.readAsDataURL(file);
         e.target.value = "";
     };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        const newFileMessage = {
+            id: Date.now(),
+            sender: "Me",
+            text: file.name,
+            time: timestamp,
+            isMe: true,
+            isImage: false,
+            isFile: true
+        };
+
+        setChatHistory(prev => [...prev, newFileMessage]);
+        e.target.value = "";
+    };
+
     return (
         <div>
+            {/*  ACCEPT ONLY JPEG AND PNG IMAGES */}
             <input
                 type="file"
-                accept="image/*"
+                accept=".jpeg,.jpg,.png"
                 ref={imageRef}
                 className="d-none"
                 onChange={handleImageChange}
             />
+            {/*  ACCEPT ONLY PDF AND DOC/DOCX FILES */}
             <input
                 type="file"
+                accept=".pdf,.doc,.docx"
                 ref={fileRef}
                 className="d-none"
-                onChange={(e) => console.log("File selected", e.target.files[0])}
+                onChange={handleFileChange}
             />
             <Container fluid className="vh-100 bg-light p-2 p-md-4">
                 <Row className="h-100 g-0 g-md-3">
@@ -150,6 +179,7 @@ const Messages = () => {
                             </div>
                         </Card>
                     </Col>
+
                     <Col
                         md={8}
                         className={`h-100 ps-md-0 ${!showChat ? 'd-none d-md-flex' : 'd-flex'}`}
@@ -188,13 +218,21 @@ const Messages = () => {
                                         <div className={`min-w-0 ${msg.isMe ? 'd-flex flex-column align-items-end' : ''}`}>
                                             <div
                                                 className={`p-2 p-md-3 rounded-4 rounded-top-0 text-break ${msg.isMe
-                                                        ? msg.isImage ? 'p-1 bg-light border' : 'text-white'
-                                                        : 'bg-light text-dark'
+                                                    ? (msg.isImage || msg.isFile) ? 'p-2 bg-light border text-dark' : 'text-white'
+                                                    : 'bg-light text-dark'
                                                     }`}
-                                                style={{ backgroundColor: msg.isMe && !msg.isImage ? '#7B52FF' : undefined }}
+                                                style={{ backgroundColor: msg.isMe && !msg.isImage && !msg.isFile ? '#7B52FF' : undefined }}
                                             >
                                                 {msg.isImage ? (
                                                     <img src={msg.text} alt="Attachment" className="img-fluid rounded-3" style={{ maxHeight: "200px" }} />
+                                                ) : msg.isFile ? (
+                                                    <div className="d-flex align-items-center gap-2 p-1">
+                                                        <FileEarmarkText size={24} className="text-danger flex-shrink-0" />
+                                                        <div className="min-w-0">
+                                                            <div className="text-truncate fw-bold small">{msg.text}</div>
+                                                            <small className="text-muted text-uppercase" style={{ fontSize: '0.65rem' }}>Document</small>
+                                                        </div>
+                                                    </div>
                                                 ) : (
                                                     msg.text
                                                 )}
@@ -212,7 +250,6 @@ const Messages = () => {
                                 ))}
                                 <div ref={messagesEndRef} />
                             </div>
-
 
                             <Form onSubmit={handleSendMessage} className="flex-shrink-0">
                                 <InputGroup
