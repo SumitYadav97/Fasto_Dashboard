@@ -181,7 +181,8 @@ const Messages = () => {
                             <div className="d-flex align-items-center justify-content-between">
                                 <div className="d-flex align-items-center">
                                     <div className="position-relative me-3">
-                                        <div className="rounded-circle bg-secondary-subtle" style={{ width: '50px', height: '50px' }}></div>
+
+                                        <img src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces' style={{ borderRadius: "50px", height: "50px" }} />
                                         <span className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1"></span>
                                     </div>
                                     <div>
@@ -330,10 +331,8 @@ const Messages = () => {
                                         </div>
 
                                         {msg.isMe && (
-                                            <div className="position-relative flex-shrink-0">
-                                                <div className="rounded-circle bg-secondary-subtle" style={{ width: '35px', height: '35px' }}></div>
-                                                <span className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1"></span>
-                                            </div>
+                                            <img src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces' style={{ borderRadius: "30px", height: "30px" }} />
+
                                         )}
                                     </div>
                                 ))}
