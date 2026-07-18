@@ -8,4 +8,4 @@ export default function DashboardSubpage() {
       <Dashboard />
     </div>
   );
-}
+}  
