@@ -1,38 +1,92 @@
 "use client";
 import React, { useState, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import { addAgenda } from "./../store/calendarSlice";
 import { Container, Row, Col, Card, Button, Modal, Form } from "react-bootstrap";
-import { ChevronLeft, ChevronRight, StarFill, Plus, Calendar3 } from "react-bootstrap-icons";
+import { ChevronLeft, ChevronRight, Plus, Calendar3 } from "react-bootstrap-icons";
 import { BsGrid3X3GapFill } from "react-icons/bs";
 
 export default function ProjectCalendar() {
   const dispatch = useDispatch();
-  const router = useRouter(); 
+  const router = useRouter();
 
-  // Select raw projects from Redux
+  // Redux store se projects list lena
   const projectList = useSelector((state) => state.projects?.list) || [];
   const tasksByDate = useSelector((state) => state.calendar?.tasksByDate) || {};
 
-  // Adapt the project data structure to match calendar expectations
+  // Har project ke liye unique real face image resolve karne ke liye helper
+  const getImageUrl = (project, index) => {
+    let img =
+      project.clientImage ||
+      project.image ||
+      project.avatar ||
+      project.client?.image ||
+      project.client?.avatar;
+
+    if (img && typeof img === 'object') {
+      img = img.src || img.url || img.avatar || null;
+    }
+
+    if (typeof img === 'string' && img.trim() !== "" && !img.includes("placeholder")) {
+      return img;
+    }
+
+    const uniqueFaces = [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80",
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80",
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80",
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80",
+      "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80",
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&h=150&q=80",
+      "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=150&h=150&q=80",
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80",
+    ];
+
+    const faceIndex = (project.id ? Number(project.id) : index) % uniqueFaces.length;
+    return uniqueFaces[isNaN(faceIndex) ? 0 : faceIndex];
+  };
+
   const allProjects = useMemo(() => {
-    return projectList.map((project) => {
+    return projectList.map((project, index) => {
       let formattedDate = "";
+      let pYear = null;
+      let pMonth = null;
+      let pDay = null;
+
       if (project.deadline) {
-        const [year, month, day] = project.deadline.split("-").map(Number);
-        const tempDate = new Date(year, month - 1, day);
-        formattedDate = tempDate.toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-        });
+        if (typeof project.deadline === 'string' && project.deadline.includes('-') && !project.deadline.includes('T')) {
+          const parts = project.deadline.split('-');
+          if (parts.length === 3) {
+            pYear = parseInt(parts[0], 10);
+            pMonth = parseInt(parts[1], 10) - 1;
+            pDay = parseInt(parts[2], 10);
+          }
+        }
+
+        if (pYear === null) {
+          const parsedDate = new Date(project.deadline);
+          if (!isNaN(parsedDate.getTime())) {
+            pYear = parsedDate.getFullYear();
+            pMonth = parsedDate.getMonth();
+            pDay = parsedDate.getDate();
+          }
+        }
+
+        if (pYear !== null) {
+          const tempDate = new Date(pYear, pMonth, pDay);
+          formattedDate = tempDate.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          });
+        }
       }
 
       let themeVariant = "success";
       const status = project.status?.toUpperCase();
       if (status === "PENDING") {
         themeVariant = "warning";
-      } else if (status === "ON PROGRESS") {
+      } else if (status === "ON PROGRESS" || status === "IN PROGRESS" || status === "ONGOING") {
         themeVariant = "purple";
       }
 
@@ -40,19 +94,21 @@ export default function ProjectCalendar() {
         id: project.id,
         title: project.title,
         date: formattedDate,
-        rawDeadline: project.deadline,
+        pYear,
+        pMonth,
+        pDay,
         iconBg: themeVariant,
         avatars: 1,
+        image: getImageUrl(project, index),
       };
     });
   }, [projectList]);
 
-  // Calendar View States
+  // Calendar States
   const [currentDate, setCurrentDate] = useState(new Date());
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();
 
-  // Modal Control State
   const [showAgendaModal, setShowAgendaModal] = useState(false);
   const [agendaData, setAgendaData] = useState({ date: "", variant: "success", taskCount: "1" });
 
@@ -105,8 +161,9 @@ export default function ProjectCalendar() {
           id: `agenda-${dateKey}`,
           title: `New Agenda Task Queue`,
           date: friendlyDateStr,
-          avatars: agendaItem.tasks || 1, 
+          avatars: agendaItem.tasks || 1,
           iconBg: agendaItem.variant || "success",
+          image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80",
         });
       }
     });
@@ -116,7 +173,6 @@ export default function ProjectCalendar() {
 
   const combinedSidebarItems = getCombinedSidebarItems();
 
-  // Monday-start calendar matrix calculations
   const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
   const firstDayOfWeek = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -155,44 +211,37 @@ export default function ProjectCalendar() {
     const formattedMonth = String(targetMonth + 1).padStart(2, "0");
     const formattedDay = String(cell.dayNum).padStart(2, "0");
     const localizedStringValue = `${targetYear}-${formattedMonth}-${formattedDay}`;
-
     setAgendaData((prev) => ({
       ...prev,
       date: localizedStringValue
     }));
     setShowAgendaModal(true);
   };
-
   const getTasksInfoForDay = (dayNum, isCurrentMonth) => {
     if (!isCurrentMonth) return { count: 0, variant: "" };
-
     const formattedMonth = String(currentMonth + 1).padStart(2, '0');
     const formattedDay = String(dayNum).padStart(2, '0');
     const lookupKey = `${currentYear}-${formattedMonth}-${formattedDay}`;
-
     let taskCount = tasksByDate[lookupKey]?.tasks || 0;
     let variant = tasksByDate[lookupKey]?.variant || "";
-
     const matchingProjects = allProjects.filter((project) => {
-      if (!project.rawDeadline) return false;
-      const [pYear, pMonth, pDay] = project.rawDeadline.split("-").map(Number);
-      return pDay === dayNum && (pMonth - 1) === currentMonth && pYear === currentYear;
+      return (
+        project.pDay === dayNum &&
+        project.pMonth === currentMonth &&
+        project.pYear === currentYear
+      );
     });
-
     if (matchingProjects.length > 0) {
       taskCount += matchingProjects.length;
       if (!variant) {
         variant = matchingProjects[0].iconBg;
       }
     }
-
     return { count: taskCount, variant };
   };
-
   const getCellUiStyle = (dayNum, isCurrentMonth, tasksInfo) => {
     const today = new Date();
     const isToday = today.getDate() === dayNum && today.getMonth() === currentMonth && today.getFullYear() === currentYear;
-
     if (!isCurrentMonth) return { bg: "#F8FAFC", border: "1px solid #E2E8F0", dayColor: "#94A3B8", taskColor: "#94A3B8" };
     if (isToday) return { bg: "#2ECC71", border: "none", dayColor: "#FFFFFF", taskColor: "#FFFFFF" };
     if (tasksInfo.count === 0) return { bg: "#FFFFFF", border: "1px solid #E2E8F0", dayColor: "#1E1E2F", taskColor: "#94A3B8" };
@@ -200,7 +249,6 @@ export default function ProjectCalendar() {
     const theme = getStatusTheme(tasksInfo.variant);
     return { bg: theme.bg, border: theme.border, dayColor: theme.dayColor, taskColor: theme.primaryColor };
   };
-
   const handleAgendaSubmit = (e) => {
     e.preventDefault();
     dispatch(addAgenda({
@@ -211,36 +259,11 @@ export default function ProjectCalendar() {
     setAgendaData({ date: "", variant: "success", taskCount: "1" });
     setShowAgendaModal(false);
   };
-
-  const renderAvatarStack = (count) => {
-    const shown = Math.min(count || 0, 4);
-    if (shown === 0) return <div style={{ height: 22 }} />;
-    return (
-      <div className="d-flex align-items-center">
-        {Array.from({ length: shown }).map((_, i) => (
-          <div
-            key={i}
-            style={{
-              width: 22,
-              height: 22,
-              borderRadius: "50%",
-              backgroundColor: "#E2E8F0",
-              border: "2px solid #FFFFFF",
-              marginLeft: i === 0 ? 0 : -8,
-              flexShrink: 0
-            }}
-          />
-        ))}
-        {count > 4 && <span className="text-muted small ms-2">+{count - 4}</span>}
-      </div>
-    );
-  };
-
   return (
     <div style={{ backgroundColor: "#F9FAFC", minHeight: "100vh", padding: "2rem 1.5rem" }}>
       <Container fluid>
         <Row className="g-4">
-          {/* LEFT PANEL (Project Details - Scrollbar & Invite Button Removed) */}
+          {/* LEFT PANEL (Project Details Sidebar) */}
           <Col xl={4} lg={5} md={12}>
             <Card className="border-0 shadow-sm p-4 h-100" style={{ borderRadius: "24px" }}>
               <div className="mb-2">
@@ -248,33 +271,53 @@ export default function ProjectCalendar() {
               </div>
               <p className="text-muted small mb-4">{sidebarSubtitle}</p>
 
-              <div className="d-flex flex-column gap-4">
+              <div className="d-flex flex-column gap-3">
                 {combinedSidebarItems.length === 0 ? (
                   <div className="text-muted text-center py-5 small fst-italic">No projects or agendas added yet</div>
                 ) : (
                   combinedSidebarItems.map((project, index) => {
                     const theme = getStatusTheme(project.iconBg);
                     return (
-                      <div key={project.id || index} className="d-flex align-items-start gap-3">
+                      <div key={project.id || index} className="d-flex align-items-start gap-3 border-bottom pb-3 mb-2">
+                        {/* 1. LEFT SIDE: STAR ICON */}
                         <div
                           className="rounded-circle d-flex align-items-center justify-content-center"
                           style={{
+                            width: "44px",
+                            height: "44px",
                             backgroundColor: theme.bg,
-                            width: "42px",
-                            height: "42px",
                             flexShrink: 0
                           }}
                         >
-                          <StarFill size={16} style={{ color: theme.primaryColor }} />
+                          <span style={{ color: theme.primaryColor, fontSize: "1.2rem", lineHeight: "1" }}>★</span>
                         </div>
-
-                        <div className="flex-grow-1 border-bottom pb-3">
-                          <h6 className="fw-bold mb-2 text-dark" style={{ fontSize: "0.9rem", lineHeight: "1.4" }}>
+                        {/* 2. RIGHT SIDE: Title, Image, and Date */}
+                        <div className="flex-grow-1">
+                          <h6 className="fw-bold mb-1 text-dark" style={{ fontSize: "0.95rem", lineHeight: "1.4" }}>
                             {project.title}
                           </h6>
-                          <div className="d-flex justify-content-between align-items-center">
-                            {renderAvatarStack(project.avatars)}
-                            <span className="text-muted" style={{ fontSize: "0.75rem" }}>{project.date}</span>
+
+                          <div className="d-flex align-items-center gap-2 mt-1">
+                            <img
+                              src={project.image}
+                              alt="Client Avatar"
+                              style={{
+                                width: "32px",
+                                height: "32px",
+                                borderRadius: "50%",
+                                objectFit: "cover",
+                                border: "1.5px solid #FFFFFF",
+                                boxShadow: "0px 2px 4px rgba(0,0,0,0.12)",
+                                display: "block"
+                              }}
+                              onError={(e) => {
+                                e.target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${project.title}`;
+                              }}
+                            />
+                            {/* Contact/PersonBadge icon is successfully removed here */}
+                            <span className="text-muted ms-2 fw-semibold" style={{ fontSize: "0.75rem" }}>
+                              {project.date}
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -284,7 +327,6 @@ export default function ProjectCalendar() {
               </div>
             </Card>
           </Col>
-
           {/* RIGHT PANEL CALENDAR GRID */}
           <Col xl={8} lg={7} md={12}>
             <Card className="border-0 shadow-sm p-4 h-100" style={{ borderRadius: "24px" }}>
@@ -317,18 +359,17 @@ export default function ProjectCalendar() {
                   >
                     <Plus size={16} /> New Agenda
                   </Button>
-                  {/* Navigation Switch Views Toggle */}
                   <div className="d-flex align-items-center gap-2 border-start ps-3" style={{ borderColor: "#E5E7EB" }}>
-                    <button 
-                      onClick={() => router.push("/kanban")} 
+                    <button
+                      onClick={() => router.push("/kanban")}
                       title="Kanban View"
-                      className="btn btn-link p-2 text-muted hover-primary d-flex align-items-center justify-content-center" 
+                      className="btn btn-link p-2 text-muted hover-primary d-flex align-items-center justify-content-center"
                       style={{ borderRadius: "8px", transition: "all 0.2s" }}
                     >
                       <BsGrid3X3GapFill size={19} style={{ color: "#9CA3AF" }} />
                     </button>
-                    <button 
-                      onClick={() => router.push("/calendar")} 
+                    <button
+                      onClick={() => router.push("/calendar")}
                       title="Calendar View"
                       className="btn btn-link p-2 text-muted hover-primary d-flex align-items-center justify-content-center"
                       style={{ borderRadius: "8px", transition: "all 0.2s", backgroundColor: "#EBFBEE" }}
@@ -383,7 +424,6 @@ export default function ProjectCalendar() {
 
         </Row>
       </Container>
-
       {/* AGENDA CREATION MODAL */}
       <Modal show={showAgendaModal} onHide={() => setShowAgendaModal(false)} centered style={{ borderRadius: "24px" }}>
         <Modal.Header closeButton className="border-0 pt-4 px-4">

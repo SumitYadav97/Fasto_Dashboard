@@ -254,3 +254,109 @@ a {
     letter-spacing: 0;
   }
 }
+/* Sidebar Container */
+.sidebar-container {
+  width: 260px;
+  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 30px 20px;
+  border-right: 1px solid #f1f1f1;
+  font-family: 'Poppins', -apple-system, sans-serif;
+}
+
+/* Sidebar Links */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  width: 100%;
+  padding: 15px 20px;
+  margin-bottom: 8px;
+  color: #888888;
+  font-weight: 500;
+  font-size: 15px;
+  border-radius: 16px; /* High radius border matching the design */
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+/* Icons & text alignment */
+.icon-wrapper {
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  color: #a2a2a2; /* Soft grey icons */
+}
+
+.link-text {
+  color: #828282;
+  font-weight: 500;
+}
+
+/* Arrow styling on the right side */
+.arrow-indicator {
+  color: #c0c0c0;
+}
+
+/* Active State Styles (Specifically matched to green look) */
+.sidebar-link.active {
+  background-color: #f1fbf6; /* Light green tint */
+}
+
+.sidebar-link.active .link-text {
+  color: #2bc155 !important; /* Vivid brand green */
+  font-weight: 600;
+}
+
+.sidebar-link.active .icon-wrapper {
+  color: #2bc155 !important;
+}
+
+/* Submenu layout styles */
+.sidebar-submenu {
+  display: flex;
+  flex-direction: column;
+  padding-left: 56px; /* Aligns subtext directly with above texts */
+  margin-bottom: 12px;
+}
+
+.submenu-link {
+  text-decoration: none;
+  color: #8c8c8c;
+  font-size: 14px;
+  padding: 10px 0;
+  transition: color 0.2s ease;
+}
+
+.submenu-link:hover, .submenu-link.active-sub {
+  color: #2bc155;
+}
+
+/* Footer Section */
+.sidebar-footer {
+  padding: 20px 10px 0 10px;
+  font-size: 11px;
+  color: #b5b5b5;
+  line-height: 1.6;
+}
+
+.footer-title {
+  font-weight: 600;
+  color: #8a8a8a;
+  margin-bottom: 4px;
+}
+
+.footer-copy {
+  margin-bottom: 12px;
+}
+
+.footer-author {
+  font-size: 10px;
+  color: #a0a0a0;
+}
+
+.heart-icon {
+  color: #ff3b30;
+}

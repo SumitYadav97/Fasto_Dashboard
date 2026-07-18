@@ -7,7 +7,7 @@ import { FaPhone, FaCommentDots, FaVideo, FaEllipsisVertical } from 'react-icons
 import { Grid3x3GapFill, List } from 'react-bootstrap-icons';
 
 // Import the mock data from your data directory
-import { contactsData } from './../Data/contacts/page';
+import { contactsData } from '../Data/contacts_data/page';
 
 const Contacts = () => {
   const dispatch = useDispatch();
@@ -147,7 +147,7 @@ const Contacts = () => {
         <div className="w-100 w-sm-auto d-flex justify-content-between justify-content-sm-end align-items-center gap-3">
           <Button
             variant="success"
-            className="px-3 px-sm-4 py-2 rounded-3 fw-bold border-0 small w-100 w-sm-auto text-nowrap"
+            className="px-3 px-sm-4 py-2 rounded-3 fw-bold border-0 small  w-sm-auto"
             style={{ backgroundColor: '#4de193' }}
             onClick={() => setShowModal(true)}
           >
