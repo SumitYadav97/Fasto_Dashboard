@@ -1,47 +1,38 @@
 "use client";
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import {
-  HouseDoorFill,
-  StarFill,
-  PersonFill,
-  GridFill,
-  Calendar2Fill,
-  ChatRightTextFill,
-  GearFill,
-  ChevronDown,
-  ChevronRight
-} from "react-bootstrap-icons";
-
+import { usePathname, useRouter } from 'next/navigation'; // Added useRouter
+import { HouseDoorFill, StarFill, PersonFill, GridFill, Calendar2Fill, GearFill, ChevronRight, BoxArrowLeft, Heart } from "react-bootstrap-icons";
+import { BsFillHeartFill } from 'react-icons/bs';
 const Sidebar = ({ isOpen = true }) => {
   const pathname = usePathname();
+  const router = useRouter();
+  const isActive = (path) => {
+    const cleanPathname = pathname?.replace(/\/$/, "") || "";
+    const cleanTarget = path?.replace(/\/$/, "") || "";
+    return cleanPathname === cleanTarget;
+  };
+  const handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("login");
 
-  // Manage open/closed state of dropdowns
-  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
-
-  // Helper to check active routes
-  const isActive = (path) => pathname === path;
+    router.push("/");
+  };
 
   if (!isOpen) return null;
-
   return (
     <div className="sidebar-container d-flex flex-column justify-content-between">
-      {/* Navigation Links */}
       <div className="sidebar-links-wrapper">
-
-        {/* Dashboard Link (Active State Example) */}
         <Link
-          href="/"
-          className={`sidebar-link ${isActive('/') ? 'active' : ''}`}
+          href="/dashboard"
+          className={`sidebar-link ${isActive('/dashboard') ? 'active' : ''}`}
         >
           <span className="icon-wrapper">
             <HouseDoorFill size={20} />
           </span>
           <span className="link-text">Dashboard</span>
         </Link>
-
-        {/* Projects (Standard Link - No Dropdown) */}
+        {/* Projects */}
         <Link
           href="/projects"
           className={`sidebar-link ${isActive('/projects') ? 'active' : ''}`}
@@ -64,7 +55,6 @@ const Sidebar = ({ isOpen = true }) => {
           </span>
           <span className="arrow-indicator"><ChevronRight size={14} /></span>
         </Link>
-
         {/* Kanban */}
         <Link
           href="/kanban"
@@ -78,7 +68,6 @@ const Sidebar = ({ isOpen = true }) => {
           </span>
           <span className="arrow-indicator"><ChevronRight size={14} /></span>
         </Link>
-
         {/* Calendar */}
         <Link
           href="/calendar"
@@ -89,21 +78,6 @@ const Sidebar = ({ isOpen = true }) => {
           </span>
           <span className="link-text">Calendar</span>
         </Link>
-
-        {/* Messages */}
-        <Link
-          href="/messages"
-          className={`sidebar-link justify-content-between ${isActive('/messages') ? 'active' : ''}`}
-        >
-          <span className="d-flex align-items-center">
-            <span className="icon-wrapper">
-              <ChatRightTextFill size={20} />
-            </span>
-            <span className="link-text">Messages</span>
-          </span>
-          <span className="arrow-indicator"><ChevronRight size={14} /></span>
-        </Link>
-
         {/* Settings */}
         <Link
           href="/settings"
@@ -115,14 +89,25 @@ const Sidebar = ({ isOpen = true }) => {
           <span className="link-text">Settings</span>
         </Link>
 
+        {/* Logout Link Option */}
+        <a
+          href="#"
+          onClick={handleLogout}
+          className="sidebar-link logout-link mt-2"
+          style={{ cursor: 'pointer' }}
+        >
+          <span className="icon-wrapper text-danger">
+            <BoxArrowLeft size={20} />
+          </span>
+          <span className="link-text text-danger fw-semibold">Logout</span>
+        </a>
       </div>
-
       {/* Footer Branding Area */}
       <div className="sidebar-footer">
         <p className="footer-title">Fasto Saas Admin Dashboard</p>
-        <p className="footer-copy">© 2020 All Rights Reserved</p>
+        <p className="footer-copy">© 2026 All Rights Reserved</p>
         <p className="footer-author">
-          Made with <span className="heart-icon">❤️</span> by Peterdraw
+          Made with <span className="heart-icon"><BsFillHeartFill /></span> by Peterdraw
         </p>
       </div>
     </div>
