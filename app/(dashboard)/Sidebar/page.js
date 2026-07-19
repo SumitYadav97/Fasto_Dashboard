@@ -78,6 +78,16 @@ const Sidebar = ({ isOpen = true }) => {
           </span>
           <span className="link-text">Calendar</span>
         </Link>
+         {/* messages */}
+        <Link
+          href="/messages"
+          className={`sidebar-link ${isActive('/messages') ? 'active' : ''}`}
+        >
+          <span className="icon-wrapper">
+            <Calendar2Fill size={20} />
+          </span>
+          <span className="link-text">messages</span>
+        </Link>
         {/* Settings */}
         <Link
           href="/settings"

@@ -117,7 +117,7 @@ export default function ProjectDashboard() {
     setShowModal(false);
   };
 
-  // --- Native Interactive Calendar Helper Functions ---
+  // Native Interactive Calendar Helper Functions
   const getDaysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
   const getFirstDayOfMonth = (month, year) => new Date(year, month, 1).getDay(); // 0 = Sunday
 
@@ -166,14 +166,11 @@ export default function ProjectDashboard() {
     }
     return days;
   };
-
   return (
     <div style={{ backgroundColor: "#F8F9FB", minHeight: "100vh", padding: "1.5rem 2rem" }}>
       <Container fluid className="px-0">
-
         {/* TOP FILTER & ACTIONS HEADER */}
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 mt-2">
-
           {/* Filter Tabs */}
           <div className="d-flex align-items-center gap-4 flex-nowrap overflow-x-auto">
             <span onClick={() => setFilter("ALL")} className="d-flex align-items-center gap-2 text-nowrap" style={{ cursor: "pointer", fontSize: "0.95rem", fontWeight: filter === "ALL" ? "700" : "500", color: filter === "ALL" ? "#222" : "#888" }}>
@@ -217,7 +214,6 @@ export default function ProjectDashboard() {
             </div>
           </div>
         </div>
-
         {/* --- LIST VIEW WITH 5-COLUMN MATRIX --- */}
         {currentItems.map((project, index) => {
           const statusStyle = getStatusConfig(project.status);
@@ -225,7 +221,6 @@ export default function ProjectDashboard() {
             <Card key={project.id || index} className="mb-3 border-0 shadow-sm" style={{ borderRadius: "12px" }}>
               <Card.Body className="p-4">
                 <Row className="align-items-center gy-3 gy-md-0">
-
                   {/* Column 1 of 5: PROJECT DETAILS (4/12 Grid) */}
                   <Col xs={12} md={4}>
                     <div className="fw-bold mb-1.5" style={{ color: "#39D98A", fontSize: "0.8rem", letterSpacing: "0.5px" }}>
@@ -238,7 +233,6 @@ export default function ProjectDashboard() {
                       <Calendar2DateFill size={12} style={{ color: "#A0AEC0" }} /> Created on {project.createdDate || "Sep 8th, 2020"}
                     </small>
                   </Col>
-
                   {/* Column 2 of 5: CLIENT WITH AVATAR (2/12 Grid) */}
                   <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
                     <img
@@ -252,7 +246,6 @@ export default function ProjectDashboard() {
                       <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.client}</div>
                     </div>
                   </Col>
-
                   {/* Column 3 of 5: PERSON IN CHARGE (2/12 Grid) */}
                   <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
                     <img
@@ -266,7 +259,6 @@ export default function ProjectDashboard() {
                       <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.personInCharge || "Yoast Esec"}</div>
                     </div>
                   </Col>
-
                   {/* Column 4 of 5: DEADLINE (2/12 Grid) */}
                   <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
                     <div className="d-flex align-items-center justify-content-center rounded-circle text-white"
@@ -278,7 +270,6 @@ export default function ProjectDashboard() {
                       <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.deadline || "Tuesday, Sep 29th 2020"}</div>
                     </div>
                   </Col>
-
                   {/* Column 5 of 5: STATUS PILL (Full Width) & DOT MENU (2/12 Grid) */}
                   <Col xs={12} md={2} className="d-flex align-items-center justify-content-start justify-content-md-end gap-2">
                     <Button
@@ -306,11 +297,9 @@ export default function ProjectDashboard() {
             </Card>
           );
         })}
-
         {safeData.length === 0 && (
           <div className="text-center text-muted my-5">No projects found.</div>
         )}
-
         {/* --- PAGINATION FOOTER --- */}
         {totalPages > 1 && (
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 user-select-none gap-3">
@@ -326,7 +315,6 @@ export default function ProjectDashboard() {
               >
                 &lt;&lt; Previous
               </button>
-
               {/* Pagination Numbers */}
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
                 <button
@@ -346,7 +334,6 @@ export default function ProjectDashboard() {
                   {pageNum}
                 </button>
               ))}
-
               <button
                 onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                 disabled={currentPage === totalPages}
@@ -358,9 +345,7 @@ export default function ProjectDashboard() {
             </div>
           </div>
         )}
-
       </Container>
-
       {/* INPUT FORM MODAL */}
       <Modal show={showModal} onHide={() => setShowModal(false)} centered backdrop="static" size="md">
         <Modal.Header closeButton className="border-0 pb-0">
@@ -424,14 +409,12 @@ export default function ProjectDashboard() {
                       <div key={dayName} style={{ width: "14.28%" }}>{dayName}</div>
                     ))}
                   </div>
-
                   {/* Days Numeric Grid */}
                   <div className="d-flex flex-wrap text-center">
                     {renderCalendarDays()}
                   </div>
                 </Card>
               </Col>
-
               <Col xs={12}>
                 <Form.Group className="mb-2">
                   <Form.Label className="small text-muted fw-bold">Initial Status</Form.Label>
