@@ -1,25 +1,38 @@
 "use client";
 import React from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation'; // Added useRouter
-import { HouseDoorFill, StarFill, PersonFill, GridFill, Calendar2Fill, GearFill, ChevronRight, BoxArrowLeft, Heart } from "react-bootstrap-icons";
+import { usePathname, useRouter } from 'next/navigation';
+import {
+  HouseDoorFill,
+  StarFill,
+  PersonFill,
+  GridFill,
+  Calendar2Fill,
+  GearFill,
+  ChevronRight
+} from "react-bootstrap-icons";
 import { BsFillHeartFill } from 'react-icons/bs';
+import { RiSettingsFill } from 'react-icons/ri';
+
 const Sidebar = ({ isOpen = true }) => {
   const pathname = usePathname();
   const router = useRouter();
+
   const isActive = (path) => {
     const cleanPathname = pathname?.replace(/\/$/, "") || "";
     const cleanTarget = path?.replace(/\/$/, "") || "";
     return cleanPathname === cleanTarget;
   };
+
   const handleLogout = (e) => {
     e.preventDefault();
     localStorage.removeItem("login");
-
+    localStorage.removeItem("user");
     router.push("/");
   };
 
   if (!isOpen) return null;
+
   return (
     <div className="sidebar-container d-flex flex-column justify-content-between">
       <div className="sidebar-links-wrapper">
@@ -32,6 +45,7 @@ const Sidebar = ({ isOpen = true }) => {
           </span>
           <span className="link-text">Dashboard</span>
         </Link>
+
         {/* Projects */}
         <Link
           href="/projects"
@@ -42,6 +56,7 @@ const Sidebar = ({ isOpen = true }) => {
           </span>
           <span className="link-text">Projects</span>
         </Link>
+
         {/* Contact */}
         <Link
           href="/contacts"
@@ -55,6 +70,7 @@ const Sidebar = ({ isOpen = true }) => {
           </span>
           <span className="arrow-indicator"><ChevronRight size={14} /></span>
         </Link>
+
         {/* Kanban */}
         <Link
           href="/kanban"
@@ -68,6 +84,7 @@ const Sidebar = ({ isOpen = true }) => {
           </span>
           <span className="arrow-indicator"><ChevronRight size={14} /></span>
         </Link>
+
         {/* Calendar */}
         <Link
           href="/calendar"
@@ -78,7 +95,8 @@ const Sidebar = ({ isOpen = true }) => {
           </span>
           <span className="link-text">Calendar</span>
         </Link>
-         {/* messages */}
+
+        {/* Messages */}
         <Link
           href="/messages"
           className={`sidebar-link ${isActive('/messages') ? 'active' : ''}`}
@@ -86,32 +104,21 @@ const Sidebar = ({ isOpen = true }) => {
           <span className="icon-wrapper">
             <Calendar2Fill size={20} />
           </span>
-          <span className="link-text">messages</span>
-        </Link>
-        {/* Settings */}
-        <Link
-          href="/settings"
-          className={`sidebar-link ${isActive('/settings') ? 'active' : ''}`}
-        >
-          <span className="icon-wrapper">
-            <GearFill size={20} />
-          </span>
-          <span className="link-text">Settings</span>
+          <span className="link-text">Messages</span>
         </Link>
 
-        {/* Logout Link Option */}
-        <a
-          href="#"
-          onClick={handleLogout}
-          className="sidebar-link logout-link mt-2"
-          style={{ cursor: 'pointer' }}
+        {/* setting */}
+        <Link
+          href="/setting"
+          className={`sidebar-link ${isActive('/setting') ? 'active' : ''}`}
         >
-          <span className="icon-wrapper text-danger">
-            <BoxArrowLeft size={20} />
+          <span className="icon-wrapper">
+            <RiSettingsFill size={20} />
           </span>
-          <span className="link-text text-danger fw-semibold">Logout</span>
-        </a>
+          <span className="link-text">setting</span>
+        </Link>
       </div>
+
       {/* Footer Branding Area */}
       <div className="sidebar-footer">
         <p className="footer-title">Fasto Saas Admin Dashboard</p>
