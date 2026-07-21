@@ -1,19 +1,15 @@
-// middleware.js
 import { NextResponse } from 'next/server';
 
 export function middleware(request) {
   // 1. Check if the token cookie exists
   const token = request.cookies.get('token')?.value;
   const { pathname } = request.nextUrl;
-
-  // 2. Define EXPLICIT public routes (Updated to match your actual route!)
   const publicRoutes = ['/auth/login', '/auth/signup'];
-  
   const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
 
   // 3. IF NOT LOGGED IN & tries to access any protected route -> redirect to /auth/login
   if (!token && !isPublicRoute) {
-    const loginUrl = new URL('/auth/login', request.url); // 👈 FIXED HERE
+    const loginUrl = new URL('/auth/login', request.url); 
     return NextResponse.redirect(loginUrl);
   }
 
@@ -25,7 +21,6 @@ export function middleware(request) {
 
   return NextResponse.next();
 }
-
 // 5. Matcher configuration
 export const config = {
   matcher: [
