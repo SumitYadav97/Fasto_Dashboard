@@ -19,15 +19,13 @@ const getStatusConfig = (status) => {
       return { bg: "#FEEFD0", color: "#FFAB2D" };
   }
 };
-
-const getRandomAvatar = (id) => `https://i.pravatar.cc/100?u=${encodeURIComponent(id || 'default')}`;
-
+// Static profile image path set to custom URL
+const STATIC_AVATAR = "https://i.pravatar.cc/100?u=akshat";
 // Months for the custom Calendar selector
 const MONTHS = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
-
 export default function ProjectDashboard() {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -37,7 +35,6 @@ export default function ProjectDashboard() {
   const [filter, setFilter] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-
   const [showModal, setShowModal] = useState(false);
 
   // Custom Calendar state inside Modal
@@ -58,17 +55,14 @@ export default function ProjectDashboard() {
     if (filter === "ALL") return true;
     return p.status?.toUpperCase() === filter;
   });
-
   const safeData = filteredData || [];
   const LastItem = currentPage * itemsPerPage;
   const FirstItem = LastItem - itemsPerPage;
   const currentItems = safeData.slice(FirstItem, LastItem);
   const totalPages = Math.max(1, Math.ceil(safeData.length / itemsPerPage));
-
   React.useEffect(() => {
     setCurrentPage(1);
   }, [filter]);
-
   // Project Metrics
   const totalProjects = allProjects.length;
   const onProgressCount = allProjects.filter((p) => p.status?.toUpperCase() === "ON PROGRESS").length;
@@ -84,16 +78,14 @@ export default function ProjectDashboard() {
   const formatDisplayDate = (dateObj) => {
     if (!dateObj) return "Choose a date";
     const options = { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' };
-    return dateObj.toLocaleDateString("en-US", options); // e.g. "Tuesday, Sep 29, 2020"
+    return dateObj.toLocaleDateString("en-US", options);
   };
-
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (!selectedDate) {
       alert("Please select a deadline using the calendar.");
       return;
     }
-
     const newProjectItem = {
       id: `PRJ-${Math.floor(1000 + Math.random() * 9000)}`,
       title: formData.title,
@@ -108,7 +100,6 @@ export default function ProjectDashboard() {
       }),
     };
     dispatch(addProject(newProjectItem));
-
     // Reset Form
     setFormData({ title: "", client: "", personInCharge: "", status: "PENDING" });
     setSelectedDate(null);
@@ -116,28 +107,24 @@ export default function ProjectDashboard() {
     setCalMonth(today.getMonth());
     setShowModal(false);
   };
-
   // Native Interactive Calendar Helper Functions
   const getDaysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
-  const getFirstDayOfMonth = (month, year) => new Date(year, month, 1).getDay(); // 0 = Sunday
+  const getFirstDayOfMonth = (month, year) => new Date(year, month, 1).getDay();
 
   const renderCalendarDays = () => {
     const daysInMonth = getDaysInMonth(calMonth, calYear);
     const firstDay = getFirstDayOfMonth(calMonth, calYear);
     const days = [];
-
     // Blank cells before the start of the month
     for (let i = 0; i < firstDay; i++) {
       days.push(<div key={`empty-${i}`} style={{ width: "14.28%", height: "35px" }}></div>);
     }
-
     // Days of the month
     for (let day = 1; day <= daysInMonth; day++) {
       const isSelected = selectedDate &&
         selectedDate.getDate() === day &&
         selectedDate.getMonth() === calMonth &&
         selectedDate.getFullYear() === calYear;
-
       days.push(
         <div
           key={`day-${day}`}
@@ -186,14 +173,12 @@ export default function ProjectDashboard() {
               Closed <span className="badge rounded-pill px-2 py-1" style={{ backgroundColor: "#FF544B", color: "#fff", fontSize: "0.75rem" }}>{closedCount}</span>
             </span>
           </div>
-
           {/* Actions & View Toggles */}
           <div className="d-flex align-items-center gap-3">
             <Button onClick={() => setShowModal(true)} className="px-4 py-2 border-0 fw-bold d-flex align-items-center gap-1" style={{ backgroundColor: '#39D98A', color: '#fff', borderRadius: '10px', fontSize: '0.85rem' }}>
               <Plus size={20} /> New Project
             </Button>
             <div className="d-flex align-items-center gap-1 ps-2">
-              {/* Grid / Kanban Page Redirect */}
               <button
                 onClick={() => router.push("/kanban")}
                 className="btn btn-link p-1.5 text-muted d-flex align-items-center justify-content-center"
@@ -202,7 +187,6 @@ export default function ProjectDashboard() {
               >
                 <BsGrid3X3GapFill size={18} style={{ color: "#A0AEC0" }} />
               </button>
-              {/* Calendar Page Redirect */}
               <button
                 onClick={() => router.push("/calendar")}
                 className="btn btn-link p-1.5 text-muted d-flex align-items-center justify-content-center"
@@ -221,7 +205,7 @@ export default function ProjectDashboard() {
             <Card key={project.id || index} className="mb-3 border-0 shadow-sm" style={{ borderRadius: "12px" }}>
               <Card.Body className="p-4">
                 <Row className="align-items-center gy-3 gy-md-0">
-                  {/* Column 1 of 5: PROJECT DETAILS (4/12 Grid) */}
+                  {/* Column 1 of 5: PROJECT DETAILS */}
                   <Col xs={12} md={4}>
                     <div className="fw-bold mb-1.5" style={{ color: "#39D98A", fontSize: "0.8rem", letterSpacing: "0.5px" }}>
                       #{project.id || `P-000441425`}
@@ -233,10 +217,10 @@ export default function ProjectDashboard() {
                       <Calendar2DateFill size={12} style={{ color: "#A0AEC0" }} /> Created on {project.createdDate || "Sep 8th, 2020"}
                     </small>
                   </Col>
-                  {/* Column 2 of 5: CLIENT WITH AVATAR (2/12 Grid) */}
+                  {/* Column 2 of 5: CLIENT WITH STATIC AVATAR */}
                   <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
                     <img
-                      src={getRandomAvatar(project.client)}
+                      src={STATIC_AVATAR}
                       alt="Client"
                       className="rounded-circle bg-light"
                       style={{ width: "42px", height: "42px", objectFit: "cover", flexShrink: 0 }}
@@ -246,10 +230,10 @@ export default function ProjectDashboard() {
                       <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.client}</div>
                     </div>
                   </Col>
-                  {/* Column 3 of 5: PERSON IN CHARGE (2/12 Grid) */}
+                  {/* Column 3 of 5: PERSON IN CHARGE WITH STATIC AVATAR */}
                   <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
                     <img
-                      src={getRandomAvatar(project.personInCharge)}
+                      src={STATIC_AVATAR}
                       alt="PIC"
                       className="rounded-circle bg-light"
                       style={{ width: "42px", height: "42px", objectFit: "cover", flexShrink: 0 }}
@@ -259,7 +243,7 @@ export default function ProjectDashboard() {
                       <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.personInCharge || "Yoast Esec"}</div>
                     </div>
                   </Col>
-                  {/* Column 4 of 5: DEADLINE (2/12 Grid) */}
+                  {/* Column 4 of 5: DEADLINE */}
                   <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
                     <div className="d-flex align-items-center justify-content-center rounded-circle text-white"
                       style={{ width: "36px", height: "36px", backgroundColor: "#39D98A", flexShrink: 0 }}>
@@ -270,7 +254,7 @@ export default function ProjectDashboard() {
                       <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.deadline || "Tuesday, Sep 29th 2020"}</div>
                     </div>
                   </Col>
-                  {/* Column 5 of 5: STATUS PILL (Full Width) & DOT MENU (2/12 Grid) */}
+                  {/* Column 5 of 5: STATUS PILL & DOT MENU */}
                   <Col xs={12} md={2} className="d-flex align-items-center justify-content-start justify-content-md-end gap-2">
                     <Button
                       className="px-3 py-1.5 border-0 w-100"
@@ -315,7 +299,6 @@ export default function ProjectDashboard() {
               >
                 &lt;&lt; Previous
               </button>
-              {/* Pagination Numbers */}
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
                 <button
                   key={pageNum}
@@ -357,28 +340,21 @@ export default function ProjectDashboard() {
               <Form.Label className="small text-muted fw-bold">Project Title</Form.Label>
               <Form.Control type="text" name="title" required value={formData.title} onChange={handleInputChange} placeholder="Enter project name" style={{ borderRadius: "8px" }} />
             </Form.Group>
-
             <Form.Group className="mb-3">
               <Form.Label className="small text-muted fw-bold">Client Name</Form.Label>
               <Form.Control type="text" name="client" required value={formData.client} onChange={handleInputChange} placeholder="Enter client name" style={{ borderRadius: "8px" }} />
             </Form.Group>
-
             <Form.Group className="mb-3">
               <Form.Label className="small text-muted fw-bold">Person in Charge</Form.Label>
               <Form.Control type="text" name="personInCharge" required value={formData.personInCharge} onChange={handleInputChange} placeholder="Enter manager name" style={{ borderRadius: "8px" }} />
             </Form.Group>
-
             <Row className="gy-3">
-              {/* MOUSE-DRIVEN CUSTOM CALENDAR SELECTOR */}
               <Col xs={12}>
                 <Form.Label className="small text-muted fw-bold d-block">
                   Deadline Date: <span className="text-dark fw-bold ms-1">{formatDisplayDate(selectedDate)}</span>
                 </Form.Label>
-
-                {/* Calendar Card Container */}
                 <Card className="border p-3" style={{ borderRadius: "10px", backgroundColor: "#FCFDFE" }}>
                   <div className="d-flex justify-content-between align-items-center mb-3">
-                    {/* Month Picker Dropdown */}
                     <Dropdown onSelect={(ekey) => setCalMonth(parseInt(ekey))}>
                       <Dropdown.Toggle size="sm" variant="outline-secondary" className="fw-bold" style={{ borderRadius: "6px" }}>
                         {MONTHS[calMonth]}
@@ -389,8 +365,6 @@ export default function ProjectDashboard() {
                         ))}
                       </Dropdown.Menu>
                     </Dropdown>
-
-                    {/* Year Picker Dropdown */}
                     <Dropdown onSelect={(ekey) => setCalYear(parseInt(ekey))}>
                       <Dropdown.Toggle size="sm" variant="outline-secondary" className="fw-bold" style={{ borderRadius: "6px" }}>
                         {calYear}
@@ -402,14 +376,11 @@ export default function ProjectDashboard() {
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>
-
-                  {/* Day Names Grid Header */}
                   <div className="d-flex text-center text-muted fw-bold mb-1" style={{ fontSize: "0.75rem" }}>
                     {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((dayName) => (
                       <div key={dayName} style={{ width: "14.28%" }}>{dayName}</div>
                     ))}
                   </div>
-                  {/* Days Numeric Grid */}
                   <div className="d-flex flex-wrap text-center">
                     {renderCalendarDays()}
                   </div>

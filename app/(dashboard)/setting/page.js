@@ -34,7 +34,7 @@ export default function setting() {
             {/* Profile Overview Section */}
             <div className="d-flex align-items-center gap-3 pb-4 mb-4 border-bottom">
               <img
-                src={`https://i.pravatar.cc/100?u=${encodeURIComponent(user.name || "User")}`}
+                src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=faces'
                 alt="User Avatar"
                 width="64"
                 height="64"
@@ -85,7 +85,6 @@ export default function setting() {
                 <span className="link-text text-danger fw-semibold">Logout</span>
               </a>
             </div>
-
           </div>
         </div>
       </div>

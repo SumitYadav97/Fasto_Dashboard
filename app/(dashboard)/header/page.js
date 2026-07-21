@@ -8,7 +8,6 @@ const Header = ({ onToggleSidebar, title, user: userProp }) => {
   const [currentUser, setCurrentUser] = useState(userProp || null);
 
   useEffect(() => {
-    // If user wasn't passed via props, read it from localStorage
     if (!currentUser) {
       const storedUserData = localStorage.getItem("user");
       if (storedUserData) {
@@ -69,7 +68,6 @@ const Header = ({ onToggleSidebar, title, user: userProp }) => {
               }}
             />
           </div>
-
           {/* Right Aligned Section */}
           <div className="text-muted position-relative d-inline-block ms-auto" style={{ fontSize: '1.4rem', cursor: 'pointer' }}>
             <Messenger />
@@ -97,7 +95,7 @@ const Header = ({ onToggleSidebar, title, user: userProp }) => {
           <div className="ms-3 d-flex align-items-center gap-2">
             <div className="text-dark"><b>{displayName}</b></div>
             <img
-              src={`https://i.pravatar.cc/100?u=${encodeURIComponent(displayName)}`}
+              src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=faces'
               alt="User profile"
               width="42"
               height="42"
