@@ -1,4 +1,11 @@
-import LoginPage from "./(dashboard)/auth/login/page";
+// app/page.js
+
+import LoginForm from "./(dashboard)/auth/login/page";
+
 export default function Home() {
-  return <LoginPage />;
+  return (
+    <main className="container py-5">
+      <LoginForm />
+    </main>
+  );
 }

@@ -1,27 +1,28 @@
 import { NextResponse } from 'next/server';
-
 export function middleware(request) {
-  // 1. Check if the token cookie exists
   const token = request.cookies.get('token')?.value;
   const { pathname } = request.nextUrl;
-  const publicRoutes = ['/auth/login', '/auth/signup'];
-  const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
-
-  // 3. IF NOT LOGGED IN & tries to access any protected route -> redirect to /auth/login
-  if (!token && !isPublicRoute) {
-    const loginUrl = new URL('/auth/login', request.url); 
-    return NextResponse.redirect(loginUrl);
+  // 1. DEFAULT ROUTE ('/'): Serve Login directly without changing the URL
+  if (pathname === '/') {
+    // If logged in, send them straight to dashboard
+    if (token) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+    // If not logged in, rewrite '/' to render your login page component
+    return NextResponse.rewrite(new URL('/auth/login', request.url));
   }
-
-  // 4. IF LOGGED IN & tries to access public auth routes -> redirect to /dashboard
-  if (token && isPublicRoute) {
-    const dashboardUrl = new URL('/dashboard', request.url);
-    return NextResponse.redirect(dashboardUrl);
+  const authRoutes = ['/auth/login', '/auth/signup'];
+  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
+  // 2. Protect private routes: Redirect unauthenticated users to '/' (which shows Login)
+  if (!token && !isAuthRoute) {
+    return NextResponse.redirect(new URL('/', request.url));
   }
-
+  // 3. Prevent logged-in users from visiting auth pages explicitly
+  if (token && isAuthRoute) {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
+  }
   return NextResponse.next();
 }
-// 5. Matcher configuration
 export const config = {
   matcher: [
     '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
