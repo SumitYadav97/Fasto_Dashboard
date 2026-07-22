@@ -109,7 +109,6 @@ const Sidebar = ({ isOpen = true }) => {
             </span>
             <span className="link-text">Messages</span>
           </Link>
-
           {/* Settings */}
           <Link
             href="/setting"
@@ -122,14 +121,11 @@ const Sidebar = ({ isOpen = true }) => {
           </Link>
         </div>
       </div>
-
       {/* Footer Branding Area */}
       <div className="sidebar-footer">
         <p className="footer-title">Fasto Saas Admin Dashboard</p>
-        <p className="footer-copy">© 2026 All Rights Reserved</p>
-        <p className="footer-author">
-          Made with <span className="heart-icon"><BsFillHeartFill /></span> by Peterdraw
-        </p>
+        <p className="footer-copy">© 2026 Indixpert Technologies Private Limited</p>
+
       </div>
     </div>
   );
