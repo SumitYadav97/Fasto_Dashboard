@@ -3,19 +3,19 @@ import React, { useState, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { addAgenda } from "./../store/calendarSlice";
-import { Container, Row, Col, Card, Button, Modal, Form } from "react-bootstrap";
-import { ChevronLeft, ChevronRight, Plus, Calendar3 } from "react-bootstrap-icons";
+import { Container, Row, Col, Card, Button, Modal, Form, InputGroup } from "react-bootstrap";
+import { ChevronLeft, ChevronRight, Plus, Calendar3, Calendar2DateFill } from "react-bootstrap-icons";
 import { BsGrid3X3GapFill } from "react-icons/bs";
 
 export default function ProjectCalendar() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // Redux store se projects list lena
+  // Redux store state
   const projectList = useSelector((state) => state.projects?.list) || [];
   const tasksByDate = useSelector((state) => state.calendar?.tasksByDate) || {};
 
-  // Har project ke liye unique real face image resolve karne ke liye helper
+  // Helper to resolve avatar image
   const getImageUrl = (project, index) => {
     let img =
       project.clientImage ||
@@ -24,25 +24,15 @@ export default function ProjectCalendar() {
       project.client?.image ||
       project.client?.avatar;
 
-    if (img && typeof img === 'object') {
+    if (img && typeof img === "object") {
       img = img.src || img.url || img.avatar || null;
     }
 
-    if (typeof img === 'string' && img.trim() !== "" && !img.includes("placeholder")) {
+    if (typeof img === "string" && img.trim() !== "" && !img.includes("placeholder")) {
       return img;
     }
 
-    const uniqueFaces = [
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80",
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80",
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80",
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80",
-      "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80",
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&h=150&q=80",
-      "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=150&h=150&q=80",
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80",
-    ];
-
+    const uniqueFaces = ["https://i.pravatar.cc/100?u=akshat"];
     const faceIndex = (project.id ? Number(project.id) : index) % uniqueFaces.length;
     return uniqueFaces[isNaN(faceIndex) ? 0 : faceIndex];
   };
@@ -55,8 +45,8 @@ export default function ProjectCalendar() {
       let pDay = null;
 
       if (project.deadline) {
-        if (typeof project.deadline === 'string' && project.deadline.includes('-') && !project.deadline.includes('T')) {
-          const parts = project.deadline.split('-');
+        if (typeof project.deadline === "string" && project.deadline.includes("-") && !project.deadline.includes("T")) {
+          const parts = project.deadline.split("-");
           if (parts.length === 3) {
             pYear = parseInt(parts[0], 10);
             pMonth = parseInt(parts[1], 10) - 1;
@@ -213,14 +203,15 @@ export default function ProjectCalendar() {
     const localizedStringValue = `${targetYear}-${formattedMonth}-${formattedDay}`;
     setAgendaData((prev) => ({
       ...prev,
-      date: localizedStringValue
+      date: localizedStringValue,
     }));
     setShowAgendaModal(true);
   };
+
   const getTasksInfoForDay = (dayNum, isCurrentMonth) => {
     if (!isCurrentMonth) return { count: 0, variant: "" };
-    const formattedMonth = String(currentMonth + 1).padStart(2, '0');
-    const formattedDay = String(dayNum).padStart(2, '0');
+    const formattedMonth = String(currentMonth + 1).padStart(2, "0");
+    const formattedDay = String(dayNum).padStart(2, "0");
     const lookupKey = `${currentYear}-${formattedMonth}-${formattedDay}`;
     let taskCount = tasksByDate[lookupKey]?.tasks || 0;
     let variant = tasksByDate[lookupKey]?.variant || "";
@@ -239,6 +230,7 @@ export default function ProjectCalendar() {
     }
     return { count: taskCount, variant };
   };
+
   const getCellUiStyle = (dayNum, isCurrentMonth, tasksInfo) => {
     const today = new Date();
     const isToday = today.getDate() === dayNum && today.getMonth() === currentMonth && today.getFullYear() === currentYear;
@@ -251,26 +243,28 @@ export default function ProjectCalendar() {
   };
   const handleAgendaSubmit = (e) => {
     e.preventDefault();
-    dispatch(addAgenda({
-      dateStr: agendaData.date,
-      variant: agendaData.variant,
-      taskCount: parseInt(agendaData.taskCount, 10)
-    }));
+    dispatch(
+      addAgenda({
+        dateStr: agendaData.date,
+        variant: agendaData.variant,
+        taskCount: parseInt(agendaData.taskCount, 10),
+      })
+    );
     setAgendaData({ date: "", variant: "success", taskCount: "1" });
     setShowAgendaModal(false);
   };
+
   return (
     <div style={{ backgroundColor: "#F9FAFC", minHeight: "100vh", padding: "2rem 1.5rem" }}>
       <Container fluid>
         <Row className="g-4">
-          {/* LEFT PANEL (Project Details Sidebar) */}
+          {/* LEFT PANEL */}
           <Col xl={4} lg={5} md={12}>
             <Card className="border-0 shadow-sm p-4 h-100" style={{ borderRadius: "24px" }}>
               <div className="mb-2">
                 <h5 className="fw-bold m-0" style={{ color: "#1E1E2F" }}>Projects Details</h5>
               </div>
               <p className="text-muted small mb-4">{sidebarSubtitle}</p>
-
               <div className="d-flex flex-column gap-3">
                 {combinedSidebarItems.length === 0 ? (
                   <div className="text-muted text-center py-5 small fst-italic">No projects or agendas added yet</div>
@@ -279,24 +273,21 @@ export default function ProjectCalendar() {
                     const theme = getStatusTheme(project.iconBg);
                     return (
                       <div key={project.id || index} className="d-flex align-items-start gap-3 border-bottom pb-3 mb-2">
-                        {/* 1. LEFT SIDE: STAR ICON */}
                         <div
                           className="rounded-circle d-flex align-items-center justify-content-center"
                           style={{
                             width: "44px",
                             height: "44px",
                             backgroundColor: theme.bg,
-                            flexShrink: 0
+                            flexShrink: 0,
                           }}
                         >
                           <span style={{ color: theme.primaryColor, fontSize: "1.2rem", lineHeight: "1" }}>★</span>
                         </div>
-                        {/* 2. RIGHT SIDE: Title, Image, and Date */}
                         <div className="flex-grow-1">
                           <h6 className="fw-bold mb-1 text-dark" style={{ fontSize: "0.95rem", lineHeight: "1.4" }}>
                             {project.title}
                           </h6>
-
                           <div className="d-flex align-items-center gap-2 mt-1">
                             <img
                               src={project.image}
@@ -308,13 +299,12 @@ export default function ProjectCalendar() {
                                 objectFit: "cover",
                                 border: "1.5px solid #FFFFFF",
                                 boxShadow: "0px 2px 4px rgba(0,0,0,0.12)",
-                                display: "block"
+                                display: "block",
                               }}
                               onError={(e) => {
                                 e.target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${project.title}`;
                               }}
                             />
-                            {/* Contact/PersonBadge icon is successfully removed here */}
                             <span className="text-muted ms-2 fw-semibold" style={{ fontSize: "0.75rem" }}>
                               {project.date}
                             </span>
@@ -331,17 +321,32 @@ export default function ProjectCalendar() {
           <Col xl={8} lg={7} md={12}>
             <Card className="border-0 shadow-sm p-4 h-100" style={{ borderRadius: "24px" }}>
               <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
-                <Button variant="outline-success" className="fw-semibold px-3 py-1 btn-sm" style={{ borderRadius: "10px", borderColor: "#2ECC71", color: "#2ECC71" }} onClick={handleResetToToday}>
+                <Button
+                  variant="outline-success"
+                  className="fw-semibold px-3 py-1 btn-sm"
+                  style={{ borderRadius: "10px", borderColor: "#2ECC71", color: "#2ECC71" }}
+                  onClick={handleResetToToday}
+                >
                   Today {new Date().getDate()}
                 </Button>
                 <div className="d-flex align-items-center gap-3">
-                  <Button variant="light" className="rounded-circle p-1 border-0 bg-light d-flex align-items-center justify-content-center" style={{ width: "32px", height: "32px" }} onClick={handlePrevMonth}>
+                  <Button
+                    variant="light"
+                    className="rounded-circle p-1 border-0 bg-light d-flex align-items-center justify-content-center"
+                    style={{ width: "32px", height: "32px" }}
+                    onClick={handlePrevMonth}
+                  >
                     <ChevronLeft size={14} className="text-dark" />
                   </Button>
                   <h5 className="m-0 fw-bold px-1 text-dark" style={{ fontSize: "1.1rem" }}>
                     {monthNames[currentMonth]} {currentYear}
                   </h5>
-                  <Button variant="light" className="rounded-circle p-1 border-0 bg-light d-flex align-items-center justify-content-center" style={{ width: "32px", height: "32px" }} onClick={handleNextMonth}>
+                  <Button
+                    variant="light"
+                    className="rounded-circle p-1 border-0 bg-light d-flex align-items-center justify-content-center"
+                    style={{ width: "32px", height: "32px" }}
+                    onClick={handleNextMonth}
+                  >
                     <ChevronRight size={14} className="text-dark" />
                   </Button>
                 </div>
@@ -351,9 +356,9 @@ export default function ProjectCalendar() {
                     style={{ backgroundColor: "#2ECC71", color: "#FFF", borderRadius: "10px" }}
                     onClick={() => {
                       const today = new Date();
-                      const formattedMonth = String(today.getMonth() + 1).padStart(2, '0');
-                      const formattedDay = String(today.getDate()).padStart(2, '0');
-                      setAgendaData(prev => ({ ...prev, date: `${today.getFullYear()}-${formattedMonth}-${formattedDay}` }));
+                      const formattedMonth = String(today.getMonth() + 1).padStart(2, "0");
+                      const formattedDay = String(today.getDate()).padStart(2, "0");
+                      setAgendaData((prev) => ({ ...prev, date: `${today.getFullYear()}-${formattedMonth}-${formattedDay}` }));
                       setShowAgendaModal(true);
                     }}
                   >
@@ -381,14 +386,15 @@ export default function ProjectCalendar() {
               </div>
               <Row className="g-0 mb-3 text-center text-muted fw-semibold" style={{ fontSize: "0.75rem" }}>
                 {daysOfWeek.map((day) => (
-                  <Col key={day} style={{ flex: "1 0 14.28%" }}>{day}</Col>
+                  <Col key={day} style={{ flex: "1 0 14.28%" }}>
+                    {day}
+                  </Col>
                 ))}
               </Row>
               <Row className="g-2 flex-wrap">
                 {calendarCells.map((cell, index) => {
                   const tasksInfo = getTasksInfoForDay(cell.dayNum, cell.isCurrentMonth);
                   const ui = getCellUiStyle(cell.dayNum, cell.isCurrentMonth, tasksInfo);
-
                   return (
                     <Col key={index} style={{ flex: "1 0 14.28%", minWidth: "13%", aspectRatio: "1/1.05" }}>
                       <div
@@ -399,13 +405,12 @@ export default function ProjectCalendar() {
                           borderRadius: "16px",
                           border: ui.border,
                           cursor: "pointer",
-                          transition: "all 0.15s ease-in-out"
+                          transition: "all 0.15s ease-in-out",
                         }}
                       >
                         <span className="fw-bold" style={{ fontSize: "1rem", color: ui.dayColor }}>
                           {cell.dayNum}
                         </span>
-
                         <div style={{ overflow: "hidden" }}>
                           {cell.isCurrentMonth && tasksInfo.count > 0 && (
                             <span className="fw-bold" style={{ fontSize: "0.75rem", color: ui.taskColor }}>
@@ -418,30 +423,43 @@ export default function ProjectCalendar() {
                   );
                 })}
               </Row>
-
             </Card>
           </Col>
-
         </Row>
       </Container>
       {/* AGENDA CREATION MODAL */}
       <Modal show={showAgendaModal} onHide={() => setShowAgendaModal(false)} centered style={{ borderRadius: "24px" }}>
         <Modal.Header closeButton className="border-0 pt-4 px-4">
-          <Modal.Title className="fw-bold" style={{ color: "#1E1E2F" }}>Add New Agenda Task</Modal.Title>
+          <Modal.Title className="fw-bold" style={{ color: "#1E1E2F" }}>
+            Add New Agenda Task
+          </Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleAgendaSubmit}>
           <Modal.Body className="px-4 pb-4">
-            <Form.Group className="mb-3" controlId="agendaDate">
-              <Form.Label className="small fw-bold text-secondary">Target Date</Form.Label>
-              <Form.Control
-                type="date"
-                required
-                value={agendaData.date}
-                onChange={(e) => setAgendaData({ ...agendaData, date: e.target.value })}
-                style={{ borderRadius: "10px", padding: "0.6rem" }}
-              />
+            <Form.Group className="mb-3">
+              <Form.Label className="small text-muted fw-bold">Deadline Date</Form.Label>
+              <InputGroup>
+                <InputGroup.Text
+                  style={{ backgroundColor: "#F8F9FA", borderRight: "none", cursor: "pointer", borderRadius: "8px 0 0 8px" }}
+                  onClick={(e) => {
+                    const inputElem = e.currentTarget.nextElementSibling;
+                    if (inputElem && typeof inputElem.showPicker === "function") {
+                      inputElem.showPicker();
+                    }
+                  }}
+                >
+                  <Calendar2DateFill style={{ color: "#39D98A" }} size={18} />
+                </InputGroup.Text>
+                <Form.Control
+                  type="date"
+                  name="date"
+                  required
+                  value={agendaData.date}
+                  onChange={(e) => setAgendaData({ ...agendaData, date: e.target.value })}
+                  style={{ borderRadius: "0 8px 8px 0", borderLeft: "none" }}
+                />
+              </InputGroup>
             </Form.Group>
-
             <Form.Group className="mb-3" controlId="agendaVariant">
               <Form.Label className="small fw-bold text-secondary">Visual Priority Color</Form.Label>
               <Form.Select
@@ -454,7 +472,6 @@ export default function ProjectCalendar() {
                 <option value="purple">Purple (In Progress)</option>
               </Form.Select>
             </Form.Group>
-
             <Form.Group className="mb-1" controlId="agendaCount">
               <Form.Label className="small fw-bold text-secondary">Task Queue Count</Form.Label>
               <Form.Control
@@ -469,8 +486,12 @@ export default function ProjectCalendar() {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer className="border-0 pt-0 px-4 pb-4 d-flex gap-2">
-            <Button variant="light" onClick={() => setShowAgendaModal(false)} style={{ borderRadius: "10px" }}>Cancel</Button>
-            <Button type="submit" variant="success" style={{ backgroundColor: "#2ECC71", borderColor: "#2ECC71", borderRadius: "10px" }}>Add Task Queue</Button>
+            <Button variant="light" onClick={() => setShowAgendaModal(false)} style={{ borderRadius: "10px" }}>
+              Cancel
+            </Button>
+            <Button type="submit" variant="success" style={{ backgroundColor: "#2ECC71", borderColor: "#2ECC71", borderRadius: "10px" }}>
+              Add Task Queue
+            </Button>
           </Modal.Footer>
         </Form>
       </Modal>
