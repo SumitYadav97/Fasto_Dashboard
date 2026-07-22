@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { addProject } from "./../store/ProjectSlice";
-import { Container, Row, Col, Card, Button, Modal, Form } from "react-bootstrap";
-import { Plus, Lock, ThreeDotsVertical, ChatRightText, Paperclip, PersonPlus, Calendar3 } from "react-bootstrap-icons";
+import { Container, Row, Col, Card, Button, Modal, Form, InputGroup } from "react-bootstrap";
+import { Plus, Lock, ThreeDotsVertical, ChatRightText, Paperclip, PersonPlus, Calendar3, Calendar2DateFill } from "react-bootstrap-icons";
 import { TbWriting } from "react-icons/tb";
 import { BsGrid3X3GapFill } from "react-icons/bs";
 
@@ -245,10 +245,29 @@ export default function KanbanDashboard() {
               <Form.Label className="small text-muted fw-bold">Category Tag (e.g., Content Writer, Software Engineer)</Form.Label>
               <Form.Control type="text" name="client" required value={formData.client} onChange={handleInputChange} placeholder="Graphic Designer" style={{ borderRadius: "8px" }} />
             </Form.Group>
-
-            <Form.Group className="mb-2">
+            <Form.Group className="mb-3">
               <Form.Label className="small text-muted fw-bold">Deadline Date</Form.Label>
-              <Form.Control type="date" name="deadline" value={formData.deadline} onChange={handleInputChange} style={{ borderRadius: "8px" }} />
+              <InputGroup>
+                <InputGroup.Text
+                  style={{ backgroundColor: "#F8F9FA", borderRight: "none", cursor: "pointer", borderRadius: "8px 0 0 8px" }}
+                  onClick={(e) => {
+                    const inputElem = e.currentTarget.nextSibling;
+                    if (inputElem && typeof inputElem.showPicker === "function") {
+                      inputElem.showPicker();
+                    }
+                  }}
+                >
+                  <Calendar2DateFill style={{ color: "#39D98A" }} size={18} />
+                </InputGroup.Text>
+                <Form.Control
+                  type="date"
+                  name="deadline"
+                  required
+                  value={formData.deadline}
+                  onChange={handleInputChange}
+                  style={{ borderRadius: "0 8px 8px 0", borderLeft: "none" }}
+                />
+              </InputGroup>
             </Form.Group>
           </Modal.Body>
           <Modal.Footer className="border-0 pt-0 d-flex justify-content-end gap-2">
@@ -257,7 +276,6 @@ export default function KanbanDashboard() {
           </Modal.Footer>
         </Form>
       </Modal>
-
       {/* INVITE FORM MODAL */}
       <Modal show={showInviteModal} onHide={() => setShowInviteModal(false)} centered backdrop="static" size="md">
         <Modal.Header closeButton className="border-0 pb-0">

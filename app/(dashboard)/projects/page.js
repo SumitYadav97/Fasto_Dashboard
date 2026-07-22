@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { addProject } from "./../store/ProjectSlice";
-import { Container, Row, Col, Card, Button, Modal, Form, Dropdown } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Modal, Form, InputGroup } from "react-bootstrap";
 import { Calendar2DateFill, Plus, LightningChargeFill, ThreeDotsVertical } from "react-bootstrap-icons";
 import { BsGrid3X3GapFill } from "react-icons/bs";
 
@@ -19,35 +19,23 @@ const getStatusConfig = (status) => {
       return { bg: "#FEEFD0", color: "#FFAB2D" };
   }
 };
-// Static profile image path set to custom URL
 const STATIC_AVATAR = "https://i.pravatar.cc/100?u=akshat";
-// Months for the custom Calendar selector
-const MONTHS = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
+
 export default function ProjectDashboard() {
   const dispatch = useDispatch();
   const router = useRouter();
 
   const allProjects = useSelector((state) => state.projects.list) || [];
-
   const [filter, setFilter] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const [showModal, setShowModal] = useState(false);
-
-  // Custom Calendar state inside Modal
-  const today = new Date();
-  const [calYear, setCalYear] = useState(today.getFullYear());
-  const [calMonth, setCalMonth] = useState(today.getMonth()); // 0-11
-  const [selectedDate, setSelectedDate] = useState(null); // Date object
-
   const [formData, setFormData] = useState({
     title: "",
     client: "",
     personInCharge: "",
     status: "PENDING",
+    deadline: "", // ISO string format YYYY-MM-DD from date input
   });
 
   // Filter & Pagination Logic
@@ -68,22 +56,22 @@ export default function ProjectDashboard() {
   const onProgressCount = allProjects.filter((p) => p.status?.toUpperCase() === "ON PROGRESS").length;
   const pendingCount = allProjects.filter((p) => p.status?.toUpperCase() === "PENDING").length;
   const closedCount = allProjects.filter((p) => p.status?.toUpperCase() === "CLOSED").length;
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-  // Format date for display
-  const formatDisplayDate = (dateObj) => {
-    if (!dateObj) return "Choose a date";
+  // Format YYYY-MM-DD input date string to display format (e.g. "Tuesday, Sep 29th, 2026")
+  const formatDisplayDate = (dateString) => {
+    if (!dateString) return "No date selected";
+    const [year, month, day] = dateString.split("-");
+    const dateObj = new Date(year, month - 1, day);
     const options = { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' };
     return dateObj.toLocaleDateString("en-US", options);
   };
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (!selectedDate) {
-      alert("Please select a deadline using the calendar.");
+    if (!formData.deadline) {
+      alert("Please select a deadline.");
       return;
     }
     const newProjectItem = {
@@ -91,7 +79,7 @@ export default function ProjectDashboard() {
       title: formData.title,
       client: formData.client,
       personInCharge: formData.personInCharge || "Yoast Esec",
-      deadline: formatDisplayDate(selectedDate),
+      deadline: formatDisplayDate(formData.deadline),
       status: formData.status,
       createdDate: new Date().toLocaleDateString("en-US", {
         year: "numeric",
@@ -101,57 +89,8 @@ export default function ProjectDashboard() {
     };
     dispatch(addProject(newProjectItem));
     // Reset Form
-    setFormData({ title: "", client: "", personInCharge: "", status: "PENDING" });
-    setSelectedDate(null);
-    setCalYear(today.getFullYear());
-    setCalMonth(today.getMonth());
+    setFormData({ title: "", client: "", personInCharge: "", status: "PENDING", deadline: "" });
     setShowModal(false);
-  };
-  // Native Interactive Calendar Helper Functions
-  const getDaysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
-  const getFirstDayOfMonth = (month, year) => new Date(year, month, 1).getDay();
-
-  const renderCalendarDays = () => {
-    const daysInMonth = getDaysInMonth(calMonth, calYear);
-    const firstDay = getFirstDayOfMonth(calMonth, calYear);
-    const days = [];
-    // Blank cells before the start of the month
-    for (let i = 0; i < firstDay; i++) {
-      days.push(<div key={`empty-${i}`} style={{ width: "14.28%", height: "35px" }}></div>);
-    }
-    // Days of the month
-    for (let day = 1; day <= daysInMonth; day++) {
-      const isSelected = selectedDate &&
-        selectedDate.getDate() === day &&
-        selectedDate.getMonth() === calMonth &&
-        selectedDate.getFullYear() === calYear;
-      days.push(
-        <div
-          key={`day-${day}`}
-          onClick={() => setSelectedDate(new Date(calYear, calMonth, day))}
-          className="d-flex align-items-center justify-content-center rounded-circle"
-          style={{
-            width: "14.28%",
-            height: "35px",
-            cursor: "pointer",
-            fontSize: "0.85rem",
-            fontWeight: isSelected ? "bold" : "normal",
-            backgroundColor: isSelected ? "#39D98A" : "transparent",
-            color: isSelected ? "#FFF" : "#2D3748",
-            transition: "all 0.15s ease"
-          }}
-          onMouseEnter={(e) => {
-            if (!isSelected) e.currentTarget.style.backgroundColor = "#EDF2F7";
-          }}
-          onMouseLeave={(e) => {
-            if (!isSelected) e.currentTarget.style.backgroundColor = "transparent";
-          }}
-        >
-          {day}
-        </div>
-      );
-    }
-    return days;
   };
   return (
     <div style={{ backgroundColor: "#F8F9FB", minHeight: "100vh", padding: "1.5rem 2rem" }}>
@@ -205,7 +144,6 @@ export default function ProjectDashboard() {
             <Card key={project.id || index} className="mb-3 border-0 shadow-sm" style={{ borderRadius: "12px" }}>
               <Card.Body className="p-4">
                 <Row className="align-items-center gy-3 gy-md-0">
-                  {/* Column 1 of 5: PROJECT DETAILS */}
                   <Col xs={12} md={4}>
                     <div className="fw-bold mb-1.5" style={{ color: "#39D98A", fontSize: "0.8rem", letterSpacing: "0.5px" }}>
                       #{project.id || `P-000441425`}
@@ -217,7 +155,6 @@ export default function ProjectDashboard() {
                       <Calendar2DateFill size={12} style={{ color: "#A0AEC0" }} /> Created on {project.createdDate || "Sep 8th, 2020"}
                     </small>
                   </Col>
-                  {/* Column 2 of 5: CLIENT WITH STATIC AVATAR */}
                   <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
                     <img
                       src={STATIC_AVATAR}
@@ -230,7 +167,6 @@ export default function ProjectDashboard() {
                       <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.client}</div>
                     </div>
                   </Col>
-                  {/* Column 3 of 5: PERSON IN CHARGE WITH STATIC AVATAR */}
                   <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
                     <img
                       src={STATIC_AVATAR}
@@ -243,7 +179,6 @@ export default function ProjectDashboard() {
                       <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.personInCharge || "Yoast Esec"}</div>
                     </div>
                   </Col>
-                  {/* Column 4 of 5: DEADLINE */}
                   <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
                     <div className="d-flex align-items-center justify-content-center rounded-circle text-white"
                       style={{ width: "36px", height: "36px", backgroundColor: "#39D98A", flexShrink: 0 }}>
@@ -254,7 +189,6 @@ export default function ProjectDashboard() {
                       <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.deadline || "Tuesday, Sep 29th 2020"}</div>
                     </div>
                   </Col>
-                  {/* Column 5 of 5: STATUS PILL & DOT MENU */}
                   <Col xs={12} md={2} className="d-flex align-items-center justify-content-start justify-content-md-end gap-2">
                     <Button
                       className="px-3 py-1.5 border-0 w-100"
@@ -348,55 +282,39 @@ export default function ProjectDashboard() {
               <Form.Label className="small text-muted fw-bold">Person in Charge</Form.Label>
               <Form.Control type="text" name="personInCharge" required value={formData.personInCharge} onChange={handleInputChange} placeholder="Enter manager name" style={{ borderRadius: "8px" }} />
             </Form.Group>
-            <Row className="gy-3">
-              <Col xs={12}>
-                <Form.Label className="small text-muted fw-bold d-block">
-                  Deadline Date: <span className="text-dark fw-bold ms-1">{formatDisplayDate(selectedDate)}</span>
-                </Form.Label>
-                <Card className="border p-3" style={{ borderRadius: "10px", backgroundColor: "#FCFDFE" }}>
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <Dropdown onSelect={(ekey) => setCalMonth(parseInt(ekey))}>
-                      <Dropdown.Toggle size="sm" variant="outline-secondary" className="fw-bold" style={{ borderRadius: "6px" }}>
-                        {MONTHS[calMonth]}
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu style={{ maxHeight: "200px", overflowY: "auto" }}>
-                        {MONTHS.map((m, idx) => (
-                          <Dropdown.Item key={m} eventKey={idx}>{m}</Dropdown.Item>
-                        ))}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                    <Dropdown onSelect={(ekey) => setCalYear(parseInt(ekey))}>
-                      <Dropdown.Toggle size="sm" variant="outline-secondary" className="fw-bold" style={{ borderRadius: "6px" }}>
-                        {calYear}
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu style={{ maxHeight: "200px", overflowY: "auto" }}>
-                        {Array.from({ length: 15 }, (_, i) => today.getFullYear() - 2 + i).map((yr) => (
-                          <Dropdown.Item key={yr} eventKey={yr}>{yr}</Dropdown.Item>
-                        ))}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                  <div className="d-flex text-center text-muted fw-bold mb-1" style={{ fontSize: "0.75rem" }}>
-                    {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((dayName) => (
-                      <div key={dayName} style={{ width: "14.28%" }}>{dayName}</div>
-                    ))}
-                  </div>
-                  <div className="d-flex flex-wrap text-center">
-                    {renderCalendarDays()}
-                  </div>
-                </Card>
-              </Col>
-              <Col xs={12}>
-                <Form.Group className="mb-2">
-                  <Form.Label className="small text-muted fw-bold">Initial Status</Form.Label>
-                  <Form.Select name="status" value={formData.status} onChange={handleInputChange} style={{ borderRadius: "8px" }}>
-                    <option value="PENDING">Pending</option>
-                    <option value="ON PROGRESS">On Progress</option>
-                    <option value="CLOSED">Closed</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-            </Row>
+            {/* DATE PICKER WITH CALENDAR ICON TRIGGER */}
+            <Form.Group className="mb-3">
+              <Form.Label className="small text-muted fw-bold">Deadline Date</Form.Label>
+              <InputGroup>
+                <InputGroup.Text
+                  style={{ backgroundColor: "#F8F9FA", borderRight: "none", cursor: "pointer", borderRadius: "8px 0 0 8px" }}
+                  onClick={(e) => {
+                    const inputElem = e.currentTarget.nextSibling;
+                    if (inputElem && typeof inputElem.showPicker === "function") {
+                      inputElem.showPicker();
+                    }
+                  }}
+                >
+                  <Calendar2DateFill style={{ color: "#39D98A" }} size={18} />
+                </InputGroup.Text>
+                <Form.Control
+                  type="date"
+                  name="deadline"
+                  required
+                  value={formData.deadline}
+                  onChange={handleInputChange}
+                  style={{ borderRadius: "0 8px 8px 0", borderLeft: "none" }}
+                />
+              </InputGroup>
+            </Form.Group>
+            <Form.Group className="mb-2">
+              <Form.Label className="small text-muted fw-bold">Initial Status</Form.Label>
+              <Form.Select name="status" value={formData.status} onChange={handleInputChange} style={{ borderRadius: "8px" }}>
+                <option value="PENDING">Pending</option>
+                <option value="ON PROGRESS">On Progress</option>
+                <option value="CLOSED">Closed</option>
+              </Form.Select>
+            </Form.Group>
           </Modal.Body>
           <Modal.Footer className="border-0 pt-0 d-flex justify-content-end gap-2">
             <Button variant="light" onClick={() => setShowModal(false)} style={{ borderRadius: "8px" }}>Cancel</Button>
