@@ -69,12 +69,8 @@ export default function LoginPage() {
         style={{ maxWidth: "440px", backgroundColor: "#ffffff" }}
       >
         <div className="text-center mb-4">
-          <div
-            className="mx-auto rounded-3 d-flex align-items-center justify-content-center text-white fw-bold fs-2 shadow-sm mb-3"
-            style={{ width: "48px", height: "48px", backgroundColor: "#50E98D" }}
-          >
-            F
-          </div>
+          <img src="/fasto.png" alt="Fasto Logo" width="42" height="42" />
+
           <h2
             className="fw-extrabold text-dark tracking-tight mb-1"
             style={{ fontSize: "1.75rem" }}
@@ -86,7 +82,7 @@ export default function LoginPage() {
             <Link
               href="/auth/signup"
               className="fw-semibold text-decoration-none"
-              style={{ color: "#4f46e5" }}
+              style={{ color: "#43DC80" }}
             >
               Sign up free
             </Link>
@@ -147,8 +143,8 @@ export default function LoginPage() {
               disabled={loading}
               className="btn text-white fw-semibold rounded-3 py-2.5 shadow"
               style={{
-                backgroundColor: "#4f46e5",
-                borderColor: "#4f46e5",
+                backgroundColor: "#43DC80",
+                borderColor: "#43DC80",
                 fontSize: "0.95rem",
               }}
             >

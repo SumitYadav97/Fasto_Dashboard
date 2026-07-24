@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
 import {
   BoxArrowLeft,
   PersonCircle,
@@ -9,8 +10,11 @@ import {
   ShieldCheck,
   Pencil,
   Key,
-  ExclamationTriangle
+  ExclamationTriangle,
 } from "react-bootstrap-icons";
+
+const STATIC_AVATAR_URL =
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=faces";
 
 export default function Settings() {
   const [user, setUser] = useState({ name: "", email: "" });
@@ -20,7 +24,6 @@ export default function Settings() {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [newName, setNewName] = useState("");
   const [passwords, setPasswords] = useState({ currentPassword: "", newPassword: "" });
-  const [message, setMessage] = useState({ type: "", text: "" });
   const [modalError, setModalError] = useState("");
 
   const router = useRouter();
@@ -43,12 +46,14 @@ export default function Settings() {
   const handleLogout = (e) => {
     if (e) e.preventDefault();
 
-    // 1. Clear LocalStorage
+    // 1. Clear active session data from LocalStorage
     localStorage.removeItem("login");
     localStorage.removeItem("user");
 
     // 2. Expire cookie for middleware
     document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
+    toast.info("Logged out successfully");
 
     // 3. Redirect to login root page
     router.push("/");
@@ -59,13 +64,16 @@ export default function Settings() {
     e.preventDefault();
     if (!newName.trim()) return;
 
+    // Update state & active session user object
     const updatedUser = { ...user, name: newName };
     setUser(updatedUser);
     localStorage.setItem("user", JSON.stringify(updatedUser));
 
+    // Also update registeredName so future logins pick up the changed name
+    localStorage.setItem("registeredName", newName);
+
     setShowNameModal(false);
-    setMessage({ type: "success", text: "Name updated successfully!" });
-    setTimeout(() => setMessage({ type: "", text: "" }), 3000);
+    toast.success("Name updated successfully!");
   };
 
   const handleUpdatePassword = (e) => {
@@ -78,19 +86,27 @@ export default function Settings() {
     // VERIFY CURRENT PASSWORD AGAINST LOCALSTORAGE
     if (!storedUser.password || passwords.currentPassword !== storedUser.password) {
       setModalError("Incorrect current password. Please try again or reset it.");
+      toast.error("Failed to update password");
       return;
     }
 
-    // UPDATE PASSWORD
+    // 1. UPDATE PASSWORD IN LOCALSTORAGE (Active user & persistent registration)
     const updatedUser = { ...storedUser, password: passwords.newPassword };
     localStorage.setItem("user", JSON.stringify(updatedUser));
-    setUser(updatedUser);
+    localStorage.setItem("registeredPassword", passwords.newPassword);
 
+    // 2. Clean up modal state
     setShowPasswordModal(false);
     setPasswords({ currentPassword: "", newPassword: "" });
     setModalError("");
-    setMessage({ type: "success", text: "Password changed successfully!" });
-    setTimeout(() => setMessage({ type: "", text: "" }), 3000);
+
+    // 3. Inform user and Trigger Automatic Logout
+    toast.success("Password changed successfully! Logging out...");
+    
+    // Brief delay to allow toast feedback before navigating away
+    setTimeout(() => {
+      handleLogout();
+    }, 1500);
   };
 
   const handleForgotPasswordClick = () => {
@@ -99,21 +115,21 @@ export default function Settings() {
     setModalError("");
     router.push("/auth/forgot-password");
   };
+
   return (
     <div className="container py-5">
+      {/* Toast Notification Container */}
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+
       <div className="row justify-content-center">
         <div className="col-12 col-md-8 col-lg-6">
           <div className="card border-0 shadow-sm rounded-4 p-4 bg-white">
             <h3 className="fw-bold text-dark mb-4">Account Settings</h3>
-            {message.text && (
-              <div className={`alert alert-${message.type} py-2 mb-4`} role="alert">
-                {message.text}
-              </div>
-            )}
+
             {/* Profile Overview */}
             <div className="d-flex align-items-center gap-3 pb-4 mb-4 border-bottom">
               <img
-                src={user.avatar || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=faces"}
+                src={STATIC_AVATAR_URL}
                 alt="User Avatar"
                 width="64"
                 height="64"
@@ -125,9 +141,11 @@ export default function Settings() {
                 <p className="text-muted small mb-0">{user.email || "No email available"}</p>
               </div>
             </div>
+
             {/* User Details */}
             <div className="mb-4">
               <h6 className="text-uppercase text-muted fw-semibold small mb-3">User Details</h6>
+              
               <div className="d-flex align-items-center justify-content-between p-3 bg-light rounded-3 mb-2">
                 <div className="d-flex align-items-center gap-3">
                   <PersonCircle size={20} className="text-secondary" />
@@ -144,6 +162,7 @@ export default function Settings() {
                   </button>
                 </div>
               </div>
+
               <div className="d-flex align-items-center justify-content-between p-3 bg-light rounded-3 mb-2">
                 <div className="d-flex align-items-center gap-3">
                   <Envelope size={20} className="text-secondary" />
@@ -151,6 +170,7 @@ export default function Settings() {
                 </div>
                 <span className="text-muted">{user.email || "N/A"}</span>
               </div>
+
               <div className="d-flex align-items-center justify-content-between p-3 bg-light rounded-3 mb-2">
                 <div className="d-flex align-items-center gap-3">
                   <ShieldCheck size={20} className="text-secondary" />
@@ -160,6 +180,7 @@ export default function Settings() {
                   Active
                 </span>
               </div>
+
               <div className="d-flex align-items-center justify-content-between p-3 bg-light rounded-3">
                 <div className="d-flex align-items-center gap-3">
                   <Key size={20} className="text-secondary" />
@@ -176,6 +197,7 @@ export default function Settings() {
                 </button>
               </div>
             </div>
+
             {/* Logout Option */}
             <div className="pt-3 border-top">
               <button
@@ -190,6 +212,7 @@ export default function Settings() {
           </div>
         </div>
       </div>
+
       {/* Edit Name Modal */}
       {showNameModal && (
         <div className="modal d-block bg-dark bg-opacity-50" style={{ zIndex: 1050 }}>
@@ -211,14 +234,19 @@ export default function Settings() {
                   />
                 </div>
                 <div className="modal-footer border-0">
-                  <button type="button" className="btn btn-light" onClick={() => setShowNameModal(false)}>Cancel</button>
-                  <button type="submit" className="btn btn-primary">Save Changes</button>
+                  <button type="button" className="btn btn-light" onClick={() => setShowNameModal(false)}>
+                    Cancel
+                  </button>
+                  <button type="submit" className="btn btn-primary">
+                    Save Changes
+                  </button>
                 </div>
               </form>
             </div>
           </div>
         </div>
       )}
+
       {/* Change Password Modal */}
       {showPasswordModal && (
         <div className="modal d-block bg-dark bg-opacity-50" style={{ zIndex: 1050 }}>
