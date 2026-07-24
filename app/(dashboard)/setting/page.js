@@ -176,7 +176,7 @@ export default function Settings() {
                   <ShieldCheck size={20} className="text-secondary" />
                   <span className="fw-medium text-dark">Account Status</span>
                 </div>
-                <span className="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">
+                <span  style={{background:"#43DC80",color:"#fffdfd",borderRadius:"10px"}} className="px-2 py-1">
                   Active
                 </span>
               </div>
@@ -190,8 +190,8 @@ export default function Settings() {
                   onClick={() => {
                     setModalError("");
                     setShowPasswordModal(true);
-                  }}
-                  className="btn btn-sm btn-outline-primary"
+                  }}style={{background:"#43DC80",color:"#fffdfd",borderRadius:"10px"}}
+                  className="btn btn-sm"
                 >
                   Change Password
                 </button>
@@ -261,7 +261,7 @@ export default function Settings() {
                     setShowPasswordModal(false);
                     setModalError("");
                     setPasswords({ currentPassword: "", newPassword: "" });
-                  }}
+                  }} 
                 ></button>
               </div>
               <form onSubmit={handleUpdatePassword}>
