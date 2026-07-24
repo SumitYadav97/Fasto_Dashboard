@@ -3,14 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import {
-  HouseDoorFill,
-  StarFill,
-  PersonFill,
-  GridFill,
-  Calendar2Fill,
-  ChatDotsFill,
-  ChevronRight,
+import {HouseDoorFill,StarFill,PersonFill,GridFill,Calendar2Fill,ChatDotsFill,ChevronRight,
 } from "react-bootstrap-icons";
 import { RiSettingsFill } from 'react-icons/ri';
 
@@ -18,9 +11,9 @@ const Sidebar = ({ isOpen = true, showMobileOffcanvas, setShowMobileOffcanvas })
   const pathname = usePathname();
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
     const handleResize = () => {
-      // Bootstrap md breakpoint is 768px
       setIsMobile(window.innerWidth < 768);
     };
 
@@ -42,7 +35,7 @@ const Sidebar = ({ isOpen = true, showMobileOffcanvas, setShowMobileOffcanvas })
   if (!isOpen) return null;
 
   const NavLinks = () => (
-    <div className="sidebar-container d-flex flex-column justify-content-between h-100">
+    <div className="sidebar-container d-flex flex-column h-100">
       <div className="sidebar-top">
         <div className="sidebar-links-wrapper">
           {/* Dashboard */}
@@ -54,6 +47,7 @@ const Sidebar = ({ isOpen = true, showMobileOffcanvas, setShowMobileOffcanvas })
             <span className="icon-wrapper"><HouseDoorFill size={20} /></span>
             <span className="link-text">Dashboard</span>
           </Link>
+
           {/* Projects */}
           <Link
             href="/projects"
@@ -63,6 +57,7 @@ const Sidebar = ({ isOpen = true, showMobileOffcanvas, setShowMobileOffcanvas })
             <span className="icon-wrapper"><StarFill size={20} /></span>
             <span className="link-text">Projects</span>
           </Link>
+
           {/* Contact */}
           <Link
             href="/contacts"
@@ -75,6 +70,7 @@ const Sidebar = ({ isOpen = true, showMobileOffcanvas, setShowMobileOffcanvas })
             </span>
             <span className="arrow-indicator"><ChevronRight size={14} /></span>
           </Link>
+
           {/* Kanban */}
           <Link
             href="/kanban"
@@ -87,6 +83,7 @@ const Sidebar = ({ isOpen = true, showMobileOffcanvas, setShowMobileOffcanvas })
             </span>
             <span className="arrow-indicator"><ChevronRight size={14} /></span>
           </Link>
+
           {/* Calendar */}
           <Link
             href="/calendar"
@@ -96,6 +93,7 @@ const Sidebar = ({ isOpen = true, showMobileOffcanvas, setShowMobileOffcanvas })
             <span className="icon-wrapper"><Calendar2Fill size={20} /></span>
             <span className="link-text">Calendar</span>
           </Link>
+
           {/* Messages */}
           <Link
             href="/messages"
@@ -105,6 +103,7 @@ const Sidebar = ({ isOpen = true, showMobileOffcanvas, setShowMobileOffcanvas })
             <span className="icon-wrapper"><ChatDotsFill size={20} /></span>
             <span className="link-text">Messages</span>
           </Link>
+
           {/* Settings */}
           <Link
             href="/setting"
@@ -114,34 +113,43 @@ const Sidebar = ({ isOpen = true, showMobileOffcanvas, setShowMobileOffcanvas })
             <span className="icon-wrapper"><RiSettingsFill size={20} /></span>
             <span className="link-text">Settings</span>
           </Link>
+
+          {/* Footer Branding Area - Positioned strictly right below Settings */}
+          <div className="sidebar-footer mt-4 pt-3 px-3">
+            <p className="footer-title mb-1 text-muted" style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>
+              Fasto Saas Admin Dashboard
+            </p>
+            <p className="footer-copy text-muted mb-0" style={{ fontSize: '0.7rem' }}>
+              © 2026 Indixpert Technologies Private Limited
+            </p>
+          </div>
         </div>
-      </div>
-      {/* Footer Branding Area */}
-      <div className="sidebar-footer">
-        <p className="footer-title">Fasto Saas Admin Dashboard</p>
-        <p className="footer-copy">© 2026 Indixpert Technologies Private Limited</p>
       </div>
     </div>
   );
+
   return (
     <>
       {/* DESKTOP VIEW */}
       {!isMobile && (
-        <div className="h-100">
+        <div className="h-100 d-none d-md-block">
           <NavLinks />
         </div>
       )}
 
-      {/* MOBILE VIEW: Offcanvas < 768px */}
+      {/* MOBILE VIEW */}
       {isMobile && (
         <Offcanvas
           show={!!showMobileOffcanvas}
           onHide={handleClose}
           placement="start"
-          className="bg-white"
+          className="bg-white d-md-none"
         >
           <Offcanvas.Header closeButton>
-            <Offcanvas.Title className="fw-bold fs-5">Fasto Menu</Offcanvas.Title>
+            <Offcanvas.Title className="fw-bold fs-6 d-flex align-items-center gap-2">
+              <img src="/fasto.png" alt="Fasto Logo" width="42" height="42" />
+              Fasto
+            </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body className="p-0">
             <NavLinks />
