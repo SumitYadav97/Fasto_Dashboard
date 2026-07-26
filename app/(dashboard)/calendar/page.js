@@ -10,13 +10,12 @@ import { BsGrid3X3GapFill } from "react-icons/bs";
 export default function ProjectCalendar() {
   const dispatch = useDispatch();
   const router = useRouter();
-
   // Redux store state
   const projectList = useSelector((state) => state.projects?.list) || [];
   const tasksByDate = useSelector((state) => state.calendar?.tasksByDate) || {};
 
   // Helper to resolve avatar image
-  const getImageUrl = (project, index) => {
+  const getImageUrl = (project) => {
     let img =
       project.clientImage ||
       project.image ||
@@ -32,9 +31,8 @@ export default function ProjectCalendar() {
       return img;
     }
 
-    const uniqueFaces = ["https://i.pravatar.cc/100?u=akshat"];
-    const faceIndex = (project.id ? Number(project.id) : index) % uniqueFaces.length;
-    return uniqueFaces[isNaN(faceIndex) ? 0 : faceIndex];
+    // Default static image URL for all agendas
+    return "https://i.pravatar.cc/100?u=akshat";
   };
 
   const allProjects = useMemo(() => {
@@ -89,7 +87,7 @@ export default function ProjectCalendar() {
         pDay,
         iconBg: themeVariant,
         avatars: 1,
-        image: getImageUrl(project, index),
+        image: getImageUrl(project),
       };
     });
   }, [projectList]);
@@ -153,14 +151,13 @@ export default function ProjectCalendar() {
           date: friendlyDateStr,
           avatars: agendaItem.tasks || 1,
           iconBg: agendaItem.variant || "success",
-          image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80",
+          image: "https://i.pravatar.cc/100?u=akshat",
         });
       }
     });
 
     return items;
   };
-
   const combinedSidebarItems = getCombinedSidebarItems();
 
   const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
@@ -253,7 +250,6 @@ export default function ProjectCalendar() {
     setAgendaData({ date: "", variant: "success", taskCount: "1" });
     setShowAgendaModal(false);
   };
-
   return (
     <div style={{ backgroundColor: "#F9FAFC", minHeight: "100vh", padding: "2rem 1.5rem" }}>
       <Container fluid>
@@ -302,7 +298,7 @@ export default function ProjectCalendar() {
                                 display: "block",
                               }}
                               onError={(e) => {
-                                e.target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${project.title}`;
+                                e.target.src = "https://i.pravatar.cc/100?u=akshat";
                               }}
                             />
                             <span className="text-muted ms-2 fw-semibold" style={{ fontSize: "0.75rem" }}>
