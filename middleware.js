@@ -4,7 +4,7 @@ export function middleware(request) {
   const { pathname } = request.nextUrl;
   // 1. DEFAULT ROUTE ('/'): Serve Login directly without changing the URL
   if (pathname === '/') {
-    // If logged in, send them straight to dashboard
+    // If logged in, send them straight to dashboard 
     if (token) {
       return NextResponse.redirect(new URL('/dashboard', request.url));
     }
