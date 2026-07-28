@@ -327,9 +327,11 @@ export default function Settings() {
                   </button>
                 </div>
               </form>
+              <ToastContainer />
             </div>
           </div>
         </div>
+
       )}
     </div>
   );

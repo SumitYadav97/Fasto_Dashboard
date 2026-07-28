@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { mockarooData } from "../Data/projects_data/page"; // Your initial mock data
+import { mockarooData } from "../Data/projects_data/projects_data"; // Your initial mock data
 
 const projectSlice = createSlice({
   name: "projects",

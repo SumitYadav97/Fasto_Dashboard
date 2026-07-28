@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { addProject } from "./../store/ProjectSlice";
+import { addProject } from "../store/ProjectSlice";
 import { Container, Row, Col, Card, Button, Modal, Form, InputGroup } from "react-bootstrap";
 import { Calendar2DateFill, Plus, LightningChargeFill, ThreeDotsVertical } from "react-bootstrap-icons";
 import { BsGrid3X3GapFill } from "react-icons/bs";
