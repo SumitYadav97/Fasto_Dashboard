@@ -1,30 +1,32 @@
 'use client';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import { addContact } from '../store/contactSlice';
 import { Container, Row, Col, Card, Button, Modal, Form } from 'react-bootstrap';
 import { FaPhone, FaCommentDots, FaVideo, FaEllipsisVertical } from 'react-icons/fa6';
-import { Grid3x3GapFill, List } from 'react-bootstrap-icons';
+import { Grid3x3GapFill, Calendar3, PersonPlus } from 'react-bootstrap-icons';
 
-// Import the mock data from your data directory
-import { contactsData } from '../Data/contacts_data/page';
+import { ContactsDataPage } from '../Data/contacts_data/page';
 
 const Contacts = () => {
   const dispatch = useDispatch();
-  const customContacts = useSelector((state) => state.contacts.customContacts);
-  const allCombinedData = [...customContacts, ...contactsData];
+  const router = useRouter();
 
-  // --- State Hooks ---
+  const customContacts = useSelector((state) => state.contacts.customContacts) || [];
+  const allCombinedData = [...customContacts, ...ContactsDataPage];
+
   const [currentPage, setCurrentPage] = useState(1);
   const [filterType, setFilterType] = useState('all'); // 'all' or 'pending'
   const itemsPerPage = 12;
+
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     company: '',
     activeChat: 'false'
   });
-  
+
   const totalItems = allCombinedData.length;
 
   const totalPendingCount = allCombinedData.filter(
@@ -37,36 +39,12 @@ const Contacts = () => {
     }
     return true;
   });
-  
+
   const displayCount = filteredContacts.length;
   const totalPages = Math.ceil(displayCount / itemsPerPage) || 1;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentContacts = filteredContacts.slice(indexOfFirstItem, indexOfLastItem);
-  
-  let paginationItems = [];
-  for (let number = 1; number <= totalPages; number++) {
-    const isActive = number === currentPage;
-    paginationItems.push(
-      <button
-        key={number}
-        onClick={() => setCurrentPage(number)}
-        className="border-0 d-flex align-items-center justify-content-center fw-semibold transition-all"
-        style={{
-          width: '32px',
-          height: '32px',
-          borderRadius: '50%',
-          backgroundColor: isActive ? '#32b866' : 'transparent',
-          color: isActive ? '#ffffff' : '#555555',
-          fontSize: '0.85rem',
-          cursor: 'pointer',
-          outline: 'none'
-        }}
-      >
-        {number}
-      </button>
-    );
-  }
 
   const handleFilterChange = (type) => {
     setFilterType(type);
@@ -94,202 +72,211 @@ const Contacts = () => {
     setShowModal(false);
   };
 
+  let paginationItems = [];
+  for (let number = 1; number <= totalPages; number++) {
+    const isActive = number === currentPage;
+    paginationItems.push(
+      <button
+        key={number}
+        onClick={() => setCurrentPage(number)}
+        className="border-0 d-flex align-items-center justify-content-center fw-semibold transition-all"
+        style={{
+          width: '32px',
+          height: '32px',
+          borderRadius: '50%',
+          backgroundColor: isActive ? '#32b866' : 'transparent',
+          color: isActive ? '#ffffff' : '#555555',
+          fontSize: '0.85rem',
+          cursor: 'pointer',
+          outline: 'none'
+        }}
+      >
+        {number}
+      </button>
+    );
+  }
   return (
-    <Container className="py-3 py-sm-4 bg-light" fluid="lg">
-      {/* HEADER SECTION: Adapts to column arrangement on extra small screens */}
-      <header className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4 pb-3 border-bottom">
-        <div className="d-flex gap-3 gap-sm-4 align-items-center w-100 w-sm-auto justify-content-between justify-content-sm-start">
-          {/* ALL CONTACTS BUTTON */}
-          <h5
-            className="mb-0 fw-bold text-dark d-flex align-items-center fs-6 fs-sm-5"
-            style={{ cursor: 'pointer' }}
-            onClick={() => handleFilterChange('all')}
-          >
-            All Contact
-            <span
-              className="ms-2 d-inline-flex align-items-center justify-content-center rounded-pill fw-bold text-white"
-              style={{
-                backgroundColor: '#43DC80',
-                fontSize: '0.7rem',
-                padding: '0.2rem 0.5rem',
-                minWidth: '22px',
-                height: '18px'
-              }}
+    <div style={{ backgroundColor: '#F9FAFC', minHeight: '100vh', padding: '2rem 1.5rem' }}>
+      <Container fluid>
+        {/* HEADER SECTION */}
+        <header className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4 pb-3 border-bottom">
+          <div className="d-flex gap-3 gap-sm-4 align-items-center w-100 w-sm-auto justify-content-between justify-content-sm-start">
+            {/* ALL CONTACTS FILTER TAB */}
+            <h5
+              className="mb-0 fw-bold d-flex align-items-center fs-6 fs-sm-5"
+              style={{ cursor: 'pointer', color: filterType === 'all' ? '#2ECC71' : '#212529' }}
+              onClick={() => handleFilterChange('all')}
             >
-              {totalItems}
-            </span>
-          </h5>
-          
-          {/* PENDING INVITATIONS BUTTON */}
-          <Button
-            variant="link"
-            className="p-0 text-decoration-none align-items-center"
-            onClick={() => handleFilterChange(filterType === 'pending' ? 'all' : 'pending')}
-          >
-            <h5 className="mb-0 text-dark fw-bold d-flex align-items-center fs-6 fs-sm-5">
-              Pending Invitation
+              All Contacts
               <span
                 className="ms-2 d-inline-flex align-items-center justify-content-center rounded-pill fw-bold text-white"
                 style={{
-                  backgroundColor: '#FFAB2D',
+                  backgroundColor: '#43DC80',
                   fontSize: '0.7rem',
                   padding: '0.2rem 0.5rem',
                   minWidth: '22px',
                   height: '18px'
                 }}
               >
-                {totalPendingCount}
+                {totalItems}
               </span>
             </h5>
-          </Button>
-        </div>
-        
-        <div className="w-100 w-sm-auto d-flex justify-content-between justify-content-sm-end align-items-center gap-3">
-          <Button
-            variant="success"
-            className="px-3 px-sm-4 py-2 rounded-3 fw-bold border-0 small  w-sm-auto"
-            style={{ backgroundColor: '#4de193' }}
-            onClick={() => setShowModal(true)}
-          >
-            New Contact
-          </Button>
-          <div className="d-flex text-muted gap-2 fs-5 pe-1">
-            <List style={{ cursor: 'pointer' }} className="text-secondary" />
-            <Grid3x3GapFill style={{ cursor: 'pointer', opacity: 0.5, color: "#43DC80" }} />
+
+            {/* PENDING INVITATIONS FILTER TAB */}
+            <Button
+              variant="link"
+              className="p-0 text-decoration-none align-items-center"
+              onClick={() => handleFilterChange(filterType === 'pending' ? 'all' : 'pending')}
+            >
+              <h5
+                className="mb-0 fw-bold d-flex align-items-center fs-6 fs-sm-5"
+                style={{ color: filterType === 'pending' ? '#2ECC71' : '#212529' }}
+              >
+                Pending Invitation
+                <span
+                  className="ms-2 d-inline-flex align-items-center justify-content-center rounded-pill fw-bold text-white"
+                  style={{
+                    backgroundColor: '#43DC80',
+                    fontSize: '0.7rem',
+                    padding: '0.2rem 0.5rem',
+                    minWidth: '22px',
+                    height: '18px'
+                  }}
+                >
+                  {totalPendingCount}
+                </span>
+              </h5>
+            </Button>
           </div>
-        </div>
-      </header>
-
-      {/* Grid system gracefully falls back to 1 column targets on mobile displays */}
-      <Row xs={1} sm={2} md={3} lg={4} className="g-3 g-sm-4">
-        {currentContacts.length > 0 ? (
-          currentContacts.map((contact) => (
-            <Col key={contact.id}>
-              <Card className="text-center h-100 border-0 shadow-sm position-relative p-2 pt-3 p-sm-3 pt-sm-4 rounded-4">
-                {/* Options menu top right */}
-                <Button variant="link" className="text-muted position-absolute top-0 end-0 m-1 m-sm-2 p-1">
-                  <FaEllipsisVertical size={14} />
-                </Button>
-
-                <div className="position-relative d-inline-block mx-auto mb-2 mb-sm-3" style={{ width: '72px', height: '72px' }}>
-                  <img
-                    src={contact.avatar || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10'}
-                    style={{
-                      height: '72px',
-                      width: '72px',
-                      objectFit: 'cover',
-                      backgroundColor: '#c4c4c4'
-                    }}
-                    className="rounded-circle"
-                    alt={contact.name}
-                  />
-                  {/* Green Status Dot Indicator styling for online users */}
-                  {(contact.activeChat === true || contact.activeChat === 'true') && (
-                    <span
-                      className="position-absolute rounded-circle border border-2 border-white shadow-sm"
-                      style={{
-                        bottom: '2px',
-                        right: '2px',
-                        width: '16px',
-                        height: '16px',
-                        backgroundColor: '#43DC80',
-                        zIndex: 2
-                      }}
-                    />
-                  )}
-                </div>
-                
-                <Card.Body className="p-0 mb-3 mb-sm-4">
-                  <Card.Title className="h6 fw-bold mb-1 text-dark" style={{ letterSpacing: '-0.3px' }}>
-                    {contact.name}
-                  </Card.Title>
-                  <Card.Text className="text-muted small fw-medium">{contact.company}</Card.Text>
-                </Card.Body>
-
-                <div className="d-flex justify-content-center gap-2 gap-sm-3 mt-auto pb-1 pb-sm-2">
-                  <Button
-                    variant="light"
-                    className="rounded-circle d-flex align-items-center justify-content-center border-0"
-                    style={{ width: '38px', height: '38px', backgroundColor: '#e2fbf0', color: '#32b866' }}
-                  >
-                    <FaPhone size={13} />
-                  </Button>
-
-                  <Button
-                    variant="light"
-                    className="rounded-circle d-flex align-items-center justify-content-center border-0"
-                    style={{ width: '38px', height: '38px', backgroundColor: '#e2fbf0', color: '#32b866' }}
-                  >
-                    <FaCommentDots size={13} />
-                  </Button>
-
-                  <Button
-                    variant="light"
-                    className="rounded-circle d-flex align-items-center justify-content-center border-0"
-                    style={{ width: '38px', height: '38px', backgroundColor: '#e2fbf0', color: '#32b866' }}
-                  >
-                    <FaVideo size={13} />
-                  </Button>
-                </div>
-              </Card>
-            </Col>
-          ))
-        ) : (
-          <Col xs={12} className="text-center py-5 text-muted">
-            No contacts found matching criteria.
-          </Col>
-        )}
-      </Row>
-
-      {/* FOOTER PAGINATION SECTION: Compresses size signatures dynamically across small displays */}
-      {totalPages > 1 && (
-        <footer className="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3 mt-5 user-select-none">
-          <div className="d-flex justify-content-center align-items-center gap-2 w-100 justify-content-sm-center">
-            {/* Previous Capsule Action Button */}
-            <button
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="btn bg-white d-inline-flex align-items-center justify-content-center gap-1 fw-medium px-3 py-2 rounded-pill shadow-sm transition-all text-nowrap"
-              style={{
-                border: '1px solid #43DC80',
-                color: '#32b866',
-                opacity: currentPage === 1 ? 0.4 : 1,
-                fontSize: '0.85rem'
-              }}
+          {/* ACTION BUTTON & NAVIGATION REDIRECTS */}
+          <div className="w-100 w-sm-auto d-flex justify-content-between justify-content-sm-end align-items-center gap-3">
+            <Button
+              className="border-0 px-4 py-2 d-flex align-items-center gap-2 fw-bold"
+              style={{ backgroundColor: '#2ECC71', color: '#fff', borderRadius: '10px', fontSize: '0.9rem' }}
+              onClick={() => setShowModal(true)}
             >
-              &lt;&lt; <span className="d-none d-sm-inline">Previous</span>
-            </button>
-            
-            {/* Combined Centered Pages Numbers Wrapper Track Capsule */}
-            <div
-              className="d-inline-flex align-items-center gap-1 p-1 rounded-pill mx-1"
-              style={{ backgroundColor: '#f0f0f2' }}
-            >
-              {paginationItems}
+              <PersonPlus size={18} /> New Contact
+            </Button>
+            <div className="d-flex align-items-center gap-2 border-start ps-3" style={{ borderColor: '#E5E7EB' }}>
+              {/* REDIRECT TO KANBAN */}
+              <button
+                onClick={() => router.push('/kanban')}
+                title="Go to Kanban Board"
+                className="btn btn-link p-2 text-muted hover-primary d-flex align-items-center justify-content-center"
+                style={{ borderRadius: '8px', transition: 'all 0.2s' }}
+              >
+                <Grid3x3GapFill size={19} style={{ color: '#9CA3AF' }} />
+              </button>
+              {/* REDIRECT TO CALENDAR */}
+              <button
+                onClick={() => router.push('/calendar')}
+                title="Go to Calendar"
+                className="btn btn-link p-2 text-muted hover-primary d-flex align-items-center justify-content-center"
+                style={{ borderRadius: '8px', transition: 'all 0.2s' }}
+              >
+                <Calendar3 size={18} style={{ color: '#9CA3AF' }} />
+              </button>
             </div>
-
-            {/* Next Capsule Action Button */}
-            <button
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="btn bg-white d-inline-flex align-items-center justify-content-center gap-1 fw-medium px-3 py-2 rounded-pill shadow-sm transition-all text-nowrap"
-              style={{
-                border: '1px solid #43DC80',
-                color: '#32b866',
-                opacity: currentPage === totalPages ? 0.4 : 1,
-                fontSize: '0.85rem'
-              }}
-            >
-              <span className="d-none d-sm-inline">Next</span> &gt;&gt;
-            </button>
           </div>
-        </footer>
-      )}
+        </header>
+        {/* GRID CONTENT VIEW */}
+        <Row xs={1} sm={2} md={3} lg={4} className="g-3 g-sm-4">
+          {currentContacts.length > 0 ? (
+            currentContacts.map((contact) => (
+              <Col key={contact.id}>
+                <Card className="text-center h-100 border-0 shadow-sm position-relative p-2 pt-3 p-sm-3 pt-sm-4 rounded-4">
+                  <Button variant="link" className="text-muted position-absolute top-0 end-0 m-1 m-sm-2 p-1 border-0">
+                    <FaEllipsisVertical size={14} />
+                  </Button>
+                  <div className="position-relative d-inline-block mx-auto mb-2 mb-sm-3" style={{ width: '72px', height: '72px' }}>
+                    <img
+                      src={contact.avatar || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10'}
+                      style={{ height: '72px', width: '72px', objectFit: 'cover', backgroundColor: '#c4c4c4' }}
+                      className="rounded-circle"
+                      alt={contact.name}
+                    />
+                    {(contact.activeChat === true || contact.activeChat === 'true') && (
+                      <span
+                        className="position-absolute rounded-circle border border-2 border-white shadow-sm"
+                        style={{
+                          bottom: '2px',
+                          right: '2px',
+                          width: '16px',
+                          height: '16px',
+                          backgroundColor: '#43DC80',
+                          zIndex: 2
+                        }}
+                      />
+                    )}
+                  </div>
+                  <Card.Body className="p-0 mb-3 mb-sm-4">
+                    <Card.Title className="h6 fw-bold mb-1 text-dark" style={{ letterSpacing: '-0.3px' }}>
+                      {contact.name}
+                    </Card.Title>
+                    <Card.Text className="text-muted small fw-medium">{contact.company}</Card.Text>
+                  </Card.Body>
+                  <div className="d-flex justify-content-center gap-2 gap-sm-3 mt-auto pb-1 pb-sm-2">
+                    <Button variant="light" className="rounded-circle d-flex align-items-center justify-content-center border-0" style={{ width: '38px', height: '38px', backgroundColor: '#e2fbf0', color: '#32b866' }}>
+                      <FaPhone size={13} />
+                    </Button>
+                    <Button variant="light" className="rounded-circle d-flex align-items-center justify-content-center border-0" style={{ width: '38px', height: '38px', backgroundColor: '#e2fbf0', color: '#32b866' }}>
+                      <FaCommentDots size={13} />
+                    </Button>
+                    <Button variant="light" className="rounded-circle d-flex align-items-center justify-content-center border-0" style={{ width: '38px', height: '38px', backgroundColor: '#e2fbf0', color: '#32b866' }}>
+                      <FaVideo size={13} />
+                    </Button>
+                  </div>
+                </Card>
+              </Col>
+            ))
+          ) : (
+            <Col xs={12} className="text-center py-5 text-muted">
+              No contacts found matching criteria.
+            </Col>
+          )}
+        </Row>
+        {/* FOOTER PAGINATION */}
+        {totalPages > 1 && (
+          <footer className="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3 mt-5 user-select-none">
+            <div className="d-flex justify-content-center align-items-center gap-2 w-100 justify-content-sm-center">
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="btn bg-white d-inline-flex align-items-center justify-content-center gap-1 fw-medium px-3 py-2 rounded-pill shadow-sm text-nowrap"
+                style={{
+                  border: '1px solid #43DC80',
+                  color: '#32b866',
+                  opacity: currentPage === 1 ? 0.4 : 1,
+                  fontSize: '0.85rem'
+                }}
+              >
+                &lt;&lt; <span className="d-none d-sm-inline">Previous</span>
+              </button>
 
-      {/* MODAL CONFIG FOR ADDING COMPLIANT CONTACT OBJECT SCHEMAS */}
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered backdrop="static" className="p-2">
+              <div className="d-inline-flex align-items-center gap-1 p-1 rounded-pill mx-1" style={{ backgroundColor: '#f0f0f2' }}>
+                {paginationItems}
+              </div>
+              <button
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="btn bg-white d-inline-flex align-items-center justify-content-center gap-1 fw-medium px-3 py-2 rounded-pill shadow-sm text-nowrap"
+                style={{
+                  border: '1px solid #43DC80',
+                  color: '#32b866',
+                  opacity: currentPage === totalPages ? 0.4 : 1,
+                  fontSize: '0.85rem'
+                }}
+              >
+                <span className="d-none d-sm-inline">Next</span> &gt;&gt;
+              </button>
+            </div>
+          </footer>
+        )}
+      </Container>
+      {/* NEW CONTACT MODAL */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered backdrop="static" size="md">
         <Modal.Header closeButton className="border-0 pb-0">
-          <Modal.Title className="fw-bold text-dark fs-5">Add New Contact</Modal.Title>
+          <Modal.Title className="fw-bold fs-5">Add New Contact</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleFormSubmit}>
           <Modal.Body className="py-3">
@@ -302,10 +289,9 @@ const Contacts = () => {
                 value={formData.name}
                 onChange={handleInputChange}
                 placeholder="John Doe"
-                style={{ borderRadius: "8px" }}
+                style={{ borderRadius: '8px' }}
               />
             </Form.Group>
-
             <Form.Group className="mb-3">
               <Form.Label className="small text-muted fw-bold">Company / Role</Form.Label>
               <Form.Control
@@ -315,43 +301,33 @@ const Contacts = () => {
                 value={formData.company}
                 onChange={handleInputChange}
                 placeholder="Google Inc."
-                style={{ borderRadius: "8px" }}
+                style={{ borderRadius: '8px' }}
               />
             </Form.Group>
-
             <Form.Group className="mb-2">
               <Form.Label className="small text-muted fw-bold">Invitation Status (Active Chat)</Form.Label>
               <Form.Select
                 name="activeChat"
                 value={formData.activeChat}
                 onChange={handleInputChange}
-                style={{ borderRadius: "8px" }}
+                style={{ borderRadius: '8px' }}
               >
                 <option value="false">Connected (All Contacts)</option>
                 <option value="true">Pending Invitation</option>
               </Form.Select>
             </Form.Group>
           </Modal.Body>
-          <Modal.Footer className="border-0 pt-0">
-            <Button
-              variant="light"
-              onClick={() => setShowModal(false)}
-              style={{ borderRadius: "8px" }}
-            >
+          <Modal.Footer className="border-0 pt-0 d-flex justify-content-end gap-2">
+            <Button variant="light" onClick={() => setShowModal(false)} style={{ borderRadius: '8px' }}>
               Cancel
             </Button>
-            <Button
-              type="submit"
-              className="text-white border-0"
-              style={{ backgroundColor: "#2ECC71", borderRadius: "8px" }}
-            >
+            <Button type="submit" style={{ backgroundColor: '#2ECC71', borderColor: '#2ECC71', borderRadius: '8px' }}>
               Save Contact
             </Button>
           </Modal.Footer>
         </Form>
       </Modal>
-    </Container>
+    </div>
   );
 };
-
 export default Contacts;
