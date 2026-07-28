@@ -4,13 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import {
-  BoxArrowLeft,
-  PersonCircle,
-  Envelope,
-  ShieldCheck,
-  Pencil,
-  Key,
-  ExclamationTriangle,
+  BoxArrowLeft, PersonCircle, Envelope, ShieldCheck, Pencil, Key, ExclamationTriangle,
+
 } from "react-bootstrap-icons";
 
 const STATIC_AVATAR_URL =
@@ -73,7 +68,7 @@ export default function Settings() {
     localStorage.setItem("registeredName", newName);
 
     setShowNameModal(false);
-    toast.success("Name updated successfully!");
+    toast.success("Name updated successfully");
   };
 
   const handleUpdatePassword = (e) => {
@@ -102,7 +97,7 @@ export default function Settings() {
 
     // 3. Inform user and Trigger Automatic Logout
     toast.success("Password changed successfully! Logging out...");
-    
+
     // Brief delay to allow toast feedback before navigating away
     setTimeout(() => {
       handleLogout();
@@ -145,7 +140,7 @@ export default function Settings() {
             {/* User Details */}
             <div className="mb-4">
               <h6 className="text-uppercase text-muted fw-semibold small mb-3">User Details</h6>
-              
+
               <div className="d-flex align-items-center justify-content-between p-3 bg-light rounded-3 mb-2">
                 <div className="d-flex align-items-center gap-3">
                   <PersonCircle size={20} className="text-secondary" />
@@ -176,7 +171,7 @@ export default function Settings() {
                   <ShieldCheck size={20} className="text-secondary" />
                   <span className="fw-medium text-dark">Account Status</span>
                 </div>
-                <span  style={{background:"#43DC80",color:"#fffdfd",borderRadius:"10px"}} className="px-2 py-1">
+                <span style={{ background: "#43DC80", color: "#fffdfd", borderRadius: "10px" }} className="px-2 py-1">
                   Active
                 </span>
               </div>
@@ -190,7 +185,7 @@ export default function Settings() {
                   onClick={() => {
                     setModalError("");
                     setShowPasswordModal(true);
-                  }}style={{background:"#43DC80",color:"#fffdfd",borderRadius:"10px"}}
+                  }} style={{ background: "#43DC80", color: "#fffdfd", borderRadius: "10px" }}
                   className="btn btn-sm"
                 >
                   Change Password
@@ -237,7 +232,11 @@ export default function Settings() {
                   <button type="button" className="btn btn-light" onClick={() => setShowNameModal(false)}>
                     Cancel
                   </button>
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    type="submit"
+                    style={{ backgroundColor: "#43DC80", color: "#fffdfd", border: "none" }}
+                    className="px-2 py-1"
+                  >
                     Save Changes
                   </button>
                 </div>
@@ -261,7 +260,7 @@ export default function Settings() {
                     setShowPasswordModal(false);
                     setModalError("");
                     setPasswords({ currentPassword: "", newPassword: "" });
-                  }} 
+                  }}
                 ></button>
               </div>
               <form onSubmit={handleUpdatePassword}>
@@ -319,8 +318,12 @@ export default function Settings() {
                   >
                     Cancel
                   </button>
-                  <button type="submit" className="btn btn-primary">
-                    Update Password
+                  <button
+                    type="submit"
+                    style={{ backgroundColor: "#43DC80", color: "#fffdfd", border: "none" }}
+                    className="px-2 py-1"
+                  >
+                    update password
                   </button>
                 </div>
               </form>
