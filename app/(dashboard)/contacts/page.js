@@ -7,14 +7,14 @@ import { Container, Row, Col, Card, Button, Modal, Form } from 'react-bootstrap'
 import { FaPhone, FaCommentDots, FaVideo, FaEllipsisVertical } from 'react-icons/fa6';
 import { Grid3x3GapFill, Calendar3, PersonPlus } from 'react-bootstrap-icons';
 
-import { ContactsDataPage } from '../Data/contacts_data/page';
+import { contactsData } from '../Data/contacts_data/contactsData';
 
 const Contacts = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
   const customContacts = useSelector((state) => state.contacts.customContacts) || [];
-  const allCombinedData = [...customContacts, ...ContactsDataPage];
+  const allCombinedData = [...customContacts, ...contactsData];
 
   const [currentPage, setCurrentPage] = useState(1);
   const [filterType, setFilterType] = useState('all'); // 'all' or 'pending'
