@@ -9,27 +9,36 @@ import Sidebar from "./Sidebar/page";
 
 export default function DashboardLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [showMobileOffcanvas, setShowMobileOffcanvas] = useState(false);
   const pathname = usePathname();
   const cleanPath = pathname?.replace(/\/$/, "") || "/";
   const renderFullWidth =
     cleanPath === "/" ||
     cleanPath === "/auth/login" ||
     cleanPath === "/auth/signup";
-
   const handleToggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-  const getHeaderTitle = (path) => {
-    switch (path?.replace(/\/$/, "")) {
-      case "/dashboard": return "Dashboard";
-      case "/calendar": return "Calendar";
-      case "/contacts": return "Contacts";
-      case "/Data": return "Data Management";
-      case "/kanban": return "Kanban Board";
-      case "/messages": return "Messages";
-      case "/projects": return "Projects";
-      default: return "Dashboard";
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      // Mobile View <768px
+      setShowMobileOffcanvas(true);
+    } else {
+      // Desktop View 
+      setIsSidebarOpen((prev) => !prev);
     }
+  };
+
+  const getHeaderTitle = (path) => {
+    const normalized = path?.replace(/\/$/, "").toLowerCase() || "";
+
+    if (normalized.startsWith("/dashboard")) return "Dashboard";
+    if (normalized.startsWith("/calendar")) return "Calendar";
+    if (normalized.startsWith("/contacts") || normalized.startsWith("/contact")) return "Contacts";
+    if (normalized.startsWith("/data")) return "Data Management";
+    if (normalized.startsWith("/kanban")) return "Kanban Board";
+    if (normalized.startsWith("/messages")) return "Messages";
+    if (normalized.startsWith("/projects")) return "Projects";
+    if (normalized.startsWith("/setting")) return "Settings";
+
+    return "Dashboard";
   };
   return (
     <Provider store={store}>
@@ -40,8 +49,8 @@ export default function DashboardLayout({ children }) {
       ) : (
         <Container fluid className="overflow-hidden p-0">
           <Header title={getHeaderTitle(pathname)} onToggleSidebar={handleToggleSidebar} />
-
           <Row className="g-0 flex-nowrap">
+            {/* DESKTOP SIDEBAR */}
             <Col
               style={{
                 transition: "all 0.3s ease-in-out",
@@ -51,14 +60,23 @@ export default function DashboardLayout({ children }) {
                 opacity: isSidebarOpen ? 1 : 0,
                 overflow: "hidden",
               }}
-              className="bg-light min-vh-100"
+              className="bg-light min-vh-100 d-none d-md-block"
             >
               <Sidebar isOpen={isSidebarOpen} />
             </Col>
+            {/* MAIN CONTENT */}
             <Col className="bg-light min-vh-100 overflow-auto">
               {children}
             </Col>
           </Row>
+          {/* MOBILE OFFCANVAS */}
+          <div className="d-md-none">
+            <Sidebar
+              isOpen={true}
+              showMobileOffcanvas={showMobileOffcanvas}
+              setShowMobileOffcanvas={setShowMobileOffcanvas}
+            />
+          </div>
         </Container>
       )}
     </Provider>
