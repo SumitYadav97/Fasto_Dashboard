@@ -495,7 +495,6 @@ const Dashboard = () => (
             <Col md={6} lg={6}>
               <UpcomingProjects />
             </Col>
-
             <Col md={6} lg={6}>
               <div>
                 <div className="todo-card">

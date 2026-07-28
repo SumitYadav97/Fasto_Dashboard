@@ -10,6 +10,7 @@ import { BsGrid3X3GapFill } from "react-icons/bs";
 export default function ProjectCalendar() {
   const dispatch = useDispatch();
   const router = useRouter();
+
   // Redux store state
   const projectList = useSelector((state) => state.projects?.list) || [];
   const tasksByDate = useSelector((state) => state.calendar?.tasksByDate) || {};
@@ -105,7 +106,15 @@ export default function ProjectCalendar() {
     "July", "August", "September", "October", "November", "December"
   ];
 
-  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const daysOfWeek = [
+    { full: "Monday", short: "Mon" },
+    { full: "Tuesday", short: "Tue" },
+    { full: "Wednesday", short: "Wed" },
+    { full: "Thursday", short: "Thu" },
+    { full: "Friday", short: "Fri" },
+    { full: "Saturday", short: "Sat" },
+    { full: "Sunday", short: "Sun" },
+  ];
 
   const getStatusTheme = (variant) => {
     switch (variant) {
@@ -238,6 +247,7 @@ export default function ProjectCalendar() {
     const theme = getStatusTheme(tasksInfo.variant);
     return { bg: theme.bg, border: theme.border, dayColor: theme.dayColor, taskColor: theme.primaryColor };
   };
+
   const handleAgendaSubmit = (e) => {
     e.preventDefault();
     dispatch(
@@ -250,38 +260,39 @@ export default function ProjectCalendar() {
     setAgendaData({ date: "", variant: "success", taskCount: "1" });
     setShowAgendaModal(false);
   };
+
   return (
-    <div style={{ backgroundColor: "#F9FAFC", minHeight: "100vh", padding: "2rem 1.5rem" }}>
+    <div style={{ backgroundColor: "#F9FAFC", minHeight: "100vh" }} className="py-3 py-md-4 px-2 px-md-3">
       <Container fluid>
-        <Row className="g-4">
+        <Row className="g-3 g-md-4">
           {/* LEFT PANEL */}
           <Col xl={4} lg={5} md={12}>
-            <Card className="border-0 shadow-sm p-4 h-100" style={{ borderRadius: "24px" }}>
+            <Card className="border-0 shadow-sm p-3 p-md-4 h-100" style={{ borderRadius: "20px" }}>
               <div className="mb-2">
                 <h5 className="fw-bold m-0" style={{ color: "#1E1E2F" }}>Projects Details</h5>
               </div>
-              <p className="text-muted small mb-4">{sidebarSubtitle}</p>
+              <p className="text-muted small mb-3 mb-md-4">{sidebarSubtitle}</p>
               <div className="d-flex flex-column gap-3">
                 {combinedSidebarItems.length === 0 ? (
-                  <div className="text-muted text-center py-5 small fst-italic">No projects or agendas added yet</div>
+                  <div className="text-muted text-center py-4 py-md-5 small fst-italic">No projects or agendas added yet</div>
                 ) : (
                   combinedSidebarItems.map((project, index) => {
                     const theme = getStatusTheme(project.iconBg);
                     return (
-                      <div key={project.id || index} className="d-flex align-items-start gap-3 border-bottom pb-3 mb-2">
+                      <div key={project.id || index} className="d-flex align-items-start gap-3 border-bottom pb-3 mb-1">
                         <div
                           className="rounded-circle d-flex align-items-center justify-content-center"
                           style={{
-                            width: "44px",
-                            height: "44px",
+                            width: "40px",
+                            height: "40px",
                             backgroundColor: theme.bg,
                             flexShrink: 0,
                           }}
                         >
-                          <span style={{ color: theme.primaryColor, fontSize: "1.2rem", lineHeight: "1" }}>★</span>
+                          <span style={{ color: theme.primaryColor, fontSize: "1.1rem", lineHeight: "1" }}>★</span>
                         </div>
                         <div className="flex-grow-1">
-                          <h6 className="fw-bold mb-1 text-dark" style={{ fontSize: "0.95rem", lineHeight: "1.4" }}>
+                          <h6 className="fw-bold mb-1 text-dark" style={{ fontSize: "0.9rem", lineHeight: "1.3" }}>
                             {project.title}
                           </h6>
                           <div className="d-flex align-items-center gap-2 mt-1">
@@ -289,8 +300,8 @@ export default function ProjectCalendar() {
                               src={project.image}
                               alt="Client Avatar"
                               style={{
-                                width: "32px",
-                                height: "32px",
+                                width: "28px",
+                                height: "28px",
                                 borderRadius: "50%",
                                 objectFit: "cover",
                                 border: "1.5px solid #FFFFFF",
@@ -301,7 +312,7 @@ export default function ProjectCalendar() {
                                 e.target.src = "https://i.pravatar.cc/100?u=akshat";
                               }}
                             />
-                            <span className="text-muted ms-2 fw-semibold" style={{ fontSize: "0.75rem" }}>
+                            <span className="text-muted ms-1 fw-semibold" style={{ fontSize: "0.75rem" }}>
                               {project.date}
                             </span>
                           </div>
@@ -313,19 +324,20 @@ export default function ProjectCalendar() {
               </div>
             </Card>
           </Col>
+
           {/* RIGHT PANEL CALENDAR GRID */}
           <Col xl={8} lg={7} md={12}>
-            <Card className="border-0 shadow-sm p-4 h-100" style={{ borderRadius: "24px" }}>
-              <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+            <Card className="border-0 shadow-sm p-3 p-md-4 h-100" style={{ borderRadius: "20px" }}>
+              <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 gap-md-3 mb-3 mb-md-4">
                 <Button
                   variant="outline-success"
-                  className="fw-semibold px-3 py-1 btn-sm"
+                  className="fw-semibold px-2 px-md-3 py-1 btn-sm"
                   style={{ borderRadius: "10px", borderColor: "#2ECC71", color: "#2ECC71" }}
                   onClick={handleResetToToday}
                 >
                   Today {new Date().getDate()}
                 </Button>
-                <div className="d-flex align-items-center gap-3">
+                <div className="d-flex align-items-center gap-2 gap-md-3">
                   <Button
                     variant="light"
                     className="rounded-circle p-1 border-0 bg-light d-flex align-items-center justify-content-center"
@@ -334,7 +346,7 @@ export default function ProjectCalendar() {
                   >
                     <ChevronLeft size={14} className="text-dark" />
                   </Button>
-                  <h5 className="m-0 fw-bold px-1 text-dark" style={{ fontSize: "1.1rem" }}>
+                  <h5 className="m-0 fw-bold px-1 text-dark" style={{ fontSize: "1rem" }}>
                     {monthNames[currentMonth]} {currentYear}
                   </h5>
                   <Button
@@ -346,9 +358,9 @@ export default function ProjectCalendar() {
                     <ChevronRight size={14} className="text-dark" />
                   </Button>
                 </div>
-                <div className="d-flex align-items-center gap-2">
+                <div className="d-flex align-items-center gap-2 ms-auto ms-sm-0">
                   <Button
-                    className="border-0 px-3 py-1.5 fw-bold btn-sm d-flex align-items-center gap-1"
+                    className="border-0 px-2 px-md-3 py-1.5 fw-bold btn-sm d-flex align-items-center gap-1"
                     style={{ backgroundColor: "#2ECC71", color: "#FFF", borderRadius: "10px" }}
                     onClick={() => {
                       const today = new Date();
@@ -358,59 +370,65 @@ export default function ProjectCalendar() {
                       setShowAgendaModal(true);
                     }}
                   >
-                    <Plus size={16} /> New Agenda
+                    <Plus size={16} /> <span className="d-none d-sm-inline">New Agenda</span><span className="d-inline d-sm-none">Add</span>
                   </Button>
-                  <div className="d-flex align-items-center gap-2 border-start ps-3" style={{ borderColor: "#E5E7EB" }}>
+                  <div className="d-flex align-items-center gap-1 gap-md-2 border-start ps-2 ps-md-3" style={{ borderColor: "#E5E7EB" }}>
                     <button
                       onClick={() => router.push("/kanban")}
                       title="Kanban View"
-                      className="btn btn-link p-2 text-muted hover-primary d-flex align-items-center justify-content-center"
+                      className="btn btn-link p-1.5 p-md-2 text-muted hover-primary d-flex align-items-center justify-content-center"
                       style={{ borderRadius: "8px", transition: "all 0.2s" }}
                     >
-                      <BsGrid3X3GapFill size={19} style={{ color: "#9CA3AF" }} />
+                      <BsGrid3X3GapFill size={18} style={{ color: "#9CA3AF" }} />
                     </button>
                     <button
                       onClick={() => router.push("/calendar")}
                       title="Calendar View"
-                      className="btn btn-link p-2 text-muted hover-primary d-flex align-items-center justify-content-center"
+                      className="btn btn-link p-1.5 p-md-2 text-muted hover-primary d-flex align-items-center justify-content-center"
                       style={{ borderRadius: "8px", transition: "all 0.2s", backgroundColor: "#EBFBEE" }}
                     >
-                      <Calendar3 size={19} style={{ color: "#2ECC71" }} />
+                      <Calendar3 size={18} style={{ color: "#2ECC71" }} />
                     </button>
                   </div>
                 </div>
               </div>
-              <Row className="g-0 mb-3 text-center text-muted fw-semibold" style={{ fontSize: "0.75rem" }}>
-                {daysOfWeek.map((day) => (
-                  <Col key={day} style={{ flex: "1 0 14.28%" }}>
-                    {day}
+
+              {/* DAYS OF WEEK HEADER */}
+              <Row className="g-0 mb-2 text-center text-muted fw-semibold" style={{ fontSize: "0.75rem" }}>
+                {daysOfWeek.map((day, idx) => (
+                  <Col key={idx} style={{ flex: "1 0 14.28%" }}>
+                    <span className="d-none d-sm-inline">{day.full}</span>
+                    <span className="d-inline d-sm-none">{day.short}</span>
                   </Col>
                 ))}
               </Row>
-              <Row className="g-2 flex-wrap">
+
+              {/* CALENDAR CELLS GRID */}
+              <Row className="g-1 g-sm-2 flex-wrap">
                 {calendarCells.map((cell, index) => {
                   const tasksInfo = getTasksInfoForDay(cell.dayNum, cell.isCurrentMonth);
                   const ui = getCellUiStyle(cell.dayNum, cell.isCurrentMonth, tasksInfo);
                   return (
-                    <Col key={index} style={{ flex: "1 0 14.28%", minWidth: "13%", aspectRatio: "1/1.05" }}>
+                    <Col key={index} style={{ flex: "1 0 14.28%", minWidth: "14.28%" }}>
                       <div
-                        className="p-3 h-100 d-flex flex-column justify-content-between position-relative"
+                        className="p-1 p-sm-2 p-md-3 h-100 d-flex flex-column justify-content-between position-relative"
                         onClick={() => handleDayCellClick(cell)}
                         style={{
                           backgroundColor: ui.bg,
-                          borderRadius: "16px",
+                          borderRadius: "12px",
                           border: ui.border,
                           cursor: "pointer",
+                          minHeight: "52px",
                           transition: "all 0.15s ease-in-out",
                         }}
                       >
-                        <span className="fw-bold" style={{ fontSize: "1rem", color: ui.dayColor }}>
+                        <span className="fw-bold" style={{ fontSize: "0.85rem", color: ui.dayColor }}>
                           {cell.dayNum}
                         </span>
                         <div style={{ overflow: "hidden" }}>
                           {cell.isCurrentMonth && tasksInfo.count > 0 && (
-                            <span className="fw-bold" style={{ fontSize: "0.75rem", color: ui.taskColor }}>
-                              {tasksInfo.count} {tasksInfo.count === 1 ? "Task" : "Tasks"}
+                            <span className="fw-bold d-block text-truncate" style={{ fontSize: "0.65rem", color: ui.taskColor }}>
+                              {tasksInfo.count} <span className="d-none d-sm-inline">{tasksInfo.count === 1 ? "Task" : "Tasks"}</span>
                             </span>
                           )}
                         </div>
@@ -423,6 +441,7 @@ export default function ProjectCalendar() {
           </Col>
         </Row>
       </Container>
+
       {/* AGENDA CREATION MODAL */}
       <Modal show={showAgendaModal} onHide={() => setShowAgendaModal(false)} centered style={{ borderRadius: "24px" }}>
         <Modal.Header closeButton className="border-0 pt-4 px-4">

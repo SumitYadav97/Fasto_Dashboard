@@ -19,4 +19,5 @@ export const mockarooData = [
   { id: '#P-000441418', title: 'Real-time Chat Feature Sync', createdDate: 'Sep 17th, 2020', client: 'Wynny Mees', pic: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10', deadline: 'Friday, Oct 23rd 2020', status: 'PENDING' },
   { id: '#P-000441419', title: 'Enterprise CRM Tool Setup', createdDate: 'Sep 18th, 2020', client: 'Loren Chalfain', pic: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10', deadline: 'Tuesday, Oct 27th 2020', status: 'ON PROGRESS' },
   { id: '#P-000441420', title: 'Internal Knowledge Base Wiki', createdDate: 'Sep 18th, 2020', client: 'Freddie Wassell', pic: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10', deadline: 'Wednesday, Oct 28th 2020', status: 'CLOSED' },
+
 ];

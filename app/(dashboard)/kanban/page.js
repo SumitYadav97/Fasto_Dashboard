@@ -151,7 +151,7 @@ export default function KanbanDashboard() {
           </div>
         </section>
 
-        {/* CLEAN 4 COLUMNS IN ONE ROW WITH NO SCROLLBAR CONTAINER */}
+        {/* CLEAN 4 COLUMNS IN ONE ROW */}
         <Row className="g-4">
           {["PENDING", "ON PROGRESS", "CLOSED", "REVISED"].map((colStatus) => {
             const columnConfig = getColumnConfig(colStatus);
@@ -194,9 +194,32 @@ export default function KanbanDashboard() {
                           <div className="d-flex align-items-center gap-2 text-muted" style={{ fontSize: "0.75rem" }}>
                             <span className="d-flex align-items-center gap-1"><ChatRightText size={12} /> 4</span>
                             <span className="d-flex align-items-center gap-1"><Paperclip size={12} /> 1</span>
+                            
+                            {/* 2 Static Images with Negative Margin */}
                             <div className="d-flex align-items-center ms-1">
-                              <div className="rounded-circle" style={{ width: "20px", height: "20px", backgroundColor: "#CBD5E1", border: "1px solid #FFF" }} />
-                              <div className="rounded-circle" style={{ width: "20px", height: "20px", backgroundColor: "#94A3B8", border: "1px solid #FFF", marginLeft: "-6px" }} />
+                              <img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                alt="Assignee 1"
+                                className="rounded-circle border border-white shadow-sm"
+                                style={{
+                                  width: "22px",
+                                  height: "22px",
+                                  objectFit: "cover",
+                                  zIndex: 1,
+                                }}
+                              />
+                              <img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSWHhjLYmF_qh7AF05ua-ciqqYu8qWyvjV8lsSW_3C2g&s=10"
+                                alt="Assignee 2"
+                                className="rounded-circle border border-white shadow-sm"
+                                style={{
+                                  width: "22px",
+                                  height: "22px",
+                                  objectFit: "cover",
+                                  marginLeft: "-8px",
+                                  zIndex: 2,
+                                }}
+                              />
                             </div>
                           </div>
                         </div>
@@ -273,44 +296,6 @@ export default function KanbanDashboard() {
           <Modal.Footer className="border-0 pt-0 d-flex justify-content-end gap-2">
             <Button variant="light" onClick={() => setShowModal(false)} style={{ borderRadius: "8px" }}>Cancel</Button>
             <Button type="submit" style={{ backgroundColor: "#2ECC71", borderColor: "#2ECC71", borderRadius: "8px" }}>Save Card</Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>
-      {/* INVITE FORM MODAL */}
-      <Modal show={showInviteModal} onHide={() => setShowInviteModal(false)} centered backdrop="static" size="md">
-        <Modal.Header closeButton className="border-0 pb-0">
-          <Modal.Title className="fw-bold fs-5">Invite Team Member</Modal.Title>
-        </Modal.Header>
-        <Form onSubmit={handleInviteSubmit}>
-          <Modal.Body className="py-3">
-            <Form.Group className="mb-3">
-              <Form.Label className="small text-muted fw-bold">Colleague Full Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                required
-                value={inviteFormData.name}
-                onChange={handleInviteInputChange}
-                placeholder="Alex Morgan"
-                style={{ borderRadius: "8px" }}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="small text-muted fw-bold">Colleague Email</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                required
-                value={inviteFormData.email}
-                onChange={handleInviteInputChange}
-                placeholder="alex@company.com"
-                style={{ borderRadius: "8px" }}
-              />
-            </Form.Group>
-          </Modal.Body>
-          <Modal.Footer className="border-0 pt-0 d-flex justify-content-end gap-2">
-            <Button variant="light" onClick={() => setShowInviteModal(false)} style={{ borderRadius: "8px" }}>Cancel</Button>
-            <Button type="submit" style={{ backgroundColor: "#2ECC71", borderColor: "#2ECC71", borderRadius: "8px" }}>Send Invitation</Button>
           </Modal.Footer>
         </Form>
       </Modal>
