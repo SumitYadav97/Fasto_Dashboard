@@ -77,7 +77,7 @@ a {
   flex-shrink: 0;
 }
 
-/* Underline Colors */
+/*Underline Colors */
 .underline-purple {
   background-color: #864AD1;
 }
@@ -203,7 +203,6 @@ a {
 }
 
 @media (max-width: 767.98px) {
-
   .sidebar-panel {
     height: auto !important;
     border-right: none !important;
@@ -254,6 +253,7 @@ a {
     letter-spacing: 0;
   }
 }
+
 /* Sidebar Container */
 .sidebar-container {
   width: 260px;
@@ -277,7 +277,7 @@ a {
   color: #888888;
   font-weight: 500;
   font-size: 15px;
-  border-radius: 16px; /* High radius border matching the design */
+  border-radius: 16px;
   transition: all 0.2s ease-in-out;
   outline: none;
 }
@@ -287,7 +287,7 @@ a {
   margin-right: 20px;
   display: flex;
   align-items: center;
-  color: #a2a2a2; /* Soft grey icons */
+  color: #a2a2a2;
 }
 
 .link-text {
@@ -300,13 +300,14 @@ a {
   color: #c0c0c0;
 }
 
-/* Active State Styles (Specifically matched to green look) */
 .sidebar-link.active {
-  background-color: #f1fbf6; /* Light green tint */
+  background-color: #f1fbf6;
+  /* Light green tint */
 }
 
 .sidebar-link.active .link-text {
-  color: #2bc155 !important; /* Vivid brand green */
+  color: #2bc155 !important;
+  /* Vivid brand green */
   font-weight: 600;
 }
 
@@ -318,7 +319,7 @@ a {
 .sidebar-submenu {
   display: flex;
   flex-direction: column;
-  padding-left: 56px; /* Aligns subtext directly with above texts */
+  padding-left: 56px;
   margin-bottom: 12px;
 }
 
@@ -330,7 +331,8 @@ a {
   transition: color 0.2s ease;
 }
 
-.submenu-link:hover, .submenu-link.active-sub {
+.submenu-link:hover,
+.submenu-link.active-sub {
   color: #2bc155;
 }
 
