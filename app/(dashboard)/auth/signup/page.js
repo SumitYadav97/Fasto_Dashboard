@@ -32,24 +32,18 @@ export default function SignUpPage() {
 
     try {
       // Simulating minor network delay
-      await new Promise((resolve) => setTimeout(resolve, 1200));
-
-      /* 
-        Saves user credentials directly to local storage. 
-        You can check these variables on your LoginPage dynamically if needed!
-      */
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       localStorage.setItem("registeredEmail", formData.email);
       localStorage.setItem("registeredPassword", formData.password);
       localStorage.setItem("registeredName", formData.fullName);
 
-      // Redirect seamlessly to the login layout page route
+      // Redirect  to the login layout page route
       window.location.href = "/auth/login";
     } catch (err) {
       setError("An error occurred during sign up. Please try again.");
       setLoading(false);
     }
   };
-
   return (
     <div className="container-fluid min-vh-screen d-flex align-items-center justify-content-center bg-light px-3">
       <div className="card w-100 p-4 p-sm-5 border-0 rounded-4 shadow-lg" style={{ maxWidth: "440px", backgroundColor: "#ffffff" }}>

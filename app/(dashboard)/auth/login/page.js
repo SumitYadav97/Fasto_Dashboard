@@ -34,7 +34,7 @@ export default function LoginPage() {
       formData.password === "password123";
 
     if (isValidSavedUser || isValidAdmin) {
-      // 1. Save user state (including password for Settings verification)
+      // 1. Save user state 
       localStorage.setItem("login", "true");
 
       const userName = isValidAdmin
@@ -46,7 +46,7 @@ export default function LoginPage() {
         JSON.stringify({
           name: userName,
           email: formData.email,
-          password: formData.password, // Saved for Settings current password check
+          password: formData.password, 
           avatar: "https://i.pravatar.cc/100?u=Sumit%20Yadav",
         })
       );
