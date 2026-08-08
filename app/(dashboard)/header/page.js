@@ -62,7 +62,7 @@ const Header = ({ onToggleSidebar, title, user: userProp }) => {
           <h3 style={{ color: "#4B8067" }} className="mb-0"><b>Fasto</b></h3>
 
           {/* Grid & Title (Centered on mobile with 50px left margin) */}
-          <div className="d-flex align-items-center mobile-center-title">
+          <div className="d-flex align-items-center mobile-center-title" style={{marginLeft:"50px"}}>
             <img
               src="grid.png"
               alt="toggle menu"
@@ -90,26 +90,26 @@ const Header = ({ onToggleSidebar, title, user: userProp }) => {
           </div>
 
           {/* Messenger Icon (Hidden on mobile) */}
-        <div className="text-muted position-relative d-inline-block ms-auto mobile-hide" style={{ fontSize: '1.4rem', cursor: 'pointer' }}>
-  <Messenger />
-  <span
-    className="position-absolute top-0 start-100 translate-middle rounded-circle px-2 py-1 text-white"
-    style={{ ...badgeStyle, backgroundColor: '#43DC80' }}
-  >
-    6
-  </span>
-</div>
+          <div className="text-muted position-relative d-inline-block ms-auto mobile-hide" style={{ fontSize: '1.4rem', cursor: 'pointer' }}>
+            <Messenger />
+            <span
+              className="position-absolute top-0 start-100 translate-middle rounded-circle px-2 py-1 text-white"
+              style={{ ...badgeStyle, backgroundColor: '#43DC80' }}
+            >
+              6
+            </span>
+          </div>
 
-{/* Notifications Icon (Hidden on mobile) */}
-<div className="text-muted position-relative d-inline-block ms-3 mobile-hide" style={{ fontSize: '1.4rem', cursor: 'pointer' }}>
-  <IoNotifications />
-  <span
-    className="position-absolute top-0 start-100 translate-middle rounded-circle px-2 py-1 text-white"
-    style={{ ...badgeStyle, backgroundColor: '#43DC80' }}
-  >
-    4
-  </span>
-</div>
+          {/* Notifications Icon (Hidden on mobile) */}
+          <div className="text-muted position-relative d-inline-block ms-3 mobile-hide" style={{ fontSize: '1.4rem', cursor: 'pointer' }}>
+            <IoNotifications />
+            <span
+              className="position-absolute top-0 start-100 translate-middle rounded-circle px-2 py-1 text-white"
+              style={{ ...badgeStyle, backgroundColor: '#43DC80' }}
+            >
+              4
+            </span>
+          </div>
           {/* Dynamic User Profile Info (Hidden on mobile) */}
           <div className="ms-3 align-items-center gap-2 mobile-hide" style={{ display: 'flex' }}>
             <div className="text-dark"><b>{displayName}</b></div>
