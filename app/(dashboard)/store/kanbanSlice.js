@@ -5,7 +5,7 @@ const initialState = {
 };
 const kanbanSlice = createSlice({
     name: "kanban",
-    initialState,
+    initialState, 
     reducers: {
         addBoard: (state, action) => {
             state.boards.push(action.payload);
