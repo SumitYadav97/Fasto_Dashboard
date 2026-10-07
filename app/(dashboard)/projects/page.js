@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { addProject } from "../store/ProjectSlice";
-import { Container, Row, Col, Card, Button, Modal, Form, InputGroup } from "react-bootstrap";
+import { addProject, setProjects } from "../store/ProjectSlice";
+import { Container, Row, Col, Card, Button, Modal, Form, InputGroup, Spinner } from "react-bootstrap";
 import { Calendar2DateFill, Plus, LightningChargeFill, ThreeDotsVertical } from "react-bootstrap-icons";
 import { BsGrid3X3GapFill } from "react-icons/bs";
 
@@ -26,6 +26,7 @@ export default function ProjectDashboard() {
   const router = useRouter();
 
   const allProjects = useSelector((state) => state.projects.list) || [];
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -35,63 +36,113 @@ export default function ProjectDashboard() {
     client: "",
     personInCharge: "",
     status: "PENDING",
-    deadline: "", // ISO string format YYYY-MM-DD from date input
+    deadline: "",
   });
 
-  // Filter & Pagination Logic
+  // Fetch projects from FastAPI backend
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/projects")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch projects from backend");
+        return res.json();
+      })
+      .then((data) => {
+        dispatch(setProjects(data));
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching projects:", err);
+        setLoading(false);
+      });
+  }, [dispatch]);
+
+  // Filtering
   const filteredData = allProjects.filter((p) => {
     if (filter === "ALL") return true;
     return p.status?.toUpperCase() === filter;
   });
   const safeData = filteredData || [];
-  const LastItem = currentPage * itemsPerPage;
+
+  // Dynamic Pagination Calculations
+  const totalItems = safeData.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+  const activePage = Math.min(currentPage, totalPages);
+  const LastItem = activePage * itemsPerPage;
   const FirstItem = LastItem - itemsPerPage;
   const currentItems = safeData.slice(FirstItem, LastItem);
-  const totalPages = Math.max(1, Math.ceil(safeData.length / itemsPerPage));
-  React.useEffect(() => {
+
+  useEffect(() => {
     setCurrentPage(1);
   }, [filter]);
+
   // Project Metrics
   const totalProjects = allProjects.length;
   const onProgressCount = allProjects.filter((p) => p.status?.toUpperCase() === "ON PROGRESS").length;
   const pendingCount = allProjects.filter((p) => p.status?.toUpperCase() === "PENDING").length;
   const closedCount = allProjects.filter((p) => p.status?.toUpperCase() === "CLOSED").length;
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  // Format YYYY-MM-DD input date string to display format (e.g. "Tuesday, Sep 29th, 2026")
+
   const formatDisplayDate = (dateString) => {
     if (!dateString) return "No date selected";
     const [year, month, day] = dateString.split("-");
     const dateObj = new Date(year, month - 1, day);
-    const options = { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' };
+    const options = { weekday: "long", month: "short", day: "numeric", year: "numeric" };
     return dateObj.toLocaleDateString("en-US", options);
   };
-  const handleFormSubmit = (e) => {
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (!formData.deadline) {
       alert("Please select a deadline.");
       return;
     }
-    const newProjectItem = {
-      id: `PRJ-${Math.floor(1000 + Math.random() * 9000)}`,
-      title: formData.title,
-      client: formData.client,
-      personInCharge: formData.personInCharge || "Yoast Esec",
-      deadline: formatDisplayDate(formData.deadline),
-      status: formData.status,
-      createdDate: new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      }),
-    };
-    dispatch(addProject(newProjectItem));
-    // Reset Form
-    setFormData({ title: "", client: "", personInCharge: "", status: "PENDING", deadline: "" });
-    setShowModal(false);
+
+    try {
+      // Send new project to FastAPI & SQL Server
+      const response = await fetch("http://127.0.0.1:8000/api/projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) throw new Error("Failed to save to database");
+
+      const savedProject = await response.json();
+      
+      // Normalize deadline formatting for cards if needed
+      savedProject.deadline = formatDisplayDate(savedProject.deadline);
+
+      // Dispatch to Redux Store
+      dispatch(addProject(savedProject));
+
+      // Reset form and close modal
+      setFormData({ title: "", client: "", personInCharge: "", status: "PENDING", deadline: "" });
+      setShowModal(false);
+    } catch (err) {
+      console.error("Submit error:", err);
+      // Fallback local dispatch in case backend is offline
+      const fallbackItem = {
+        id: `PRJ-${Math.floor(1000 + Math.random() * 9000)}`,
+        title: formData.title,
+        client: formData.client,
+        personInCharge: formData.personInCharge || "Yoast Esec",
+        deadline: formatDisplayDate(formData.deadline),
+        status: formData.status,
+        createdDate: new Date().toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        }),
+      };
+      dispatch(addProject(fallbackItem));
+      setShowModal(false);
+    }
   };
+
   return (
     <div style={{ backgroundColor: "#F8F9FB", minHeight: "100vh", padding: "1.5rem 2rem" }}>
       <Container fluid className="px-0">
@@ -99,22 +150,75 @@ export default function ProjectDashboard() {
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 mt-2">
           {/* Filter Tabs */}
           <div className="d-flex align-items-center gap-4 flex-nowrap overflow-x-auto">
-            <span onClick={() => setFilter("ALL")} className="d-flex align-items-center gap-2 text-nowrap" style={{ cursor: "pointer", fontSize: "0.95rem", fontWeight: filter === "ALL" ? "700" : "500", color: filter === "ALL" ? "#222" : "#888" }}>
-              All Projects <span className="badge rounded-pill px-2 py-1" style={{ background: "#39D98A", color: "#fff", fontSize: "0.75rem" }}>{totalProjects}</span>
+            <span
+              onClick={() => setFilter("ALL")}
+              className="d-flex align-items-center gap-2 text-nowrap"
+              style={{
+                cursor: "pointer",
+                fontSize: "0.95rem",
+                fontWeight: filter === "ALL" ? "700" : "500",
+                color: filter === "ALL" ? "#222" : "#888",
+              }}
+            >
+              All Projects{" "}
+              <span className="badge rounded-pill px-2 py-1" style={{ background: "#39D98A", color: "#fff", fontSize: "0.75rem" }}>
+                {totalProjects}
+              </span>
             </span>
-            <span onClick={() => setFilter("ON PROGRESS")} className="d-flex align-items-center gap-2 text-nowrap" style={{ cursor: "pointer", fontSize: "0.95rem", fontWeight: filter === "ON PROGRESS" ? "700" : "500", color: filter === "ON PROGRESS" ? "#222" : "#888" }}>
-              On Progress <span className="badge rounded-pill px-2 py-1" style={{ backgroundColor: "#32A5FD", color: "#fff", fontSize: "0.75rem" }}>{onProgressCount}</span>
+            <span
+              onClick={() => setFilter("ON PROGRESS")}
+              className="d-flex align-items-center gap-2 text-nowrap"
+              style={{
+                cursor: "pointer",
+                fontSize: "0.95rem",
+                fontWeight: filter === "ON PROGRESS" ? "700" : "500",
+                color: filter === "ON PROGRESS" ? "#222" : "#888",
+              }}
+            >
+              On Progress{" "}
+              <span className="badge rounded-pill px-2 py-1" style={{ backgroundColor: "#32A5FD", color: "#fff", fontSize: "0.75rem" }}>
+                {onProgressCount}
+              </span>
             </span>
-            <span onClick={() => setFilter("PENDING")} className="d-flex align-items-center gap-2 text-nowrap" style={{ cursor: "pointer", fontSize: "0.95rem", fontWeight: filter === "PENDING" ? "700" : "500", color: filter === "PENDING" ? "#222" : "#888" }}>
-              Pending <span className="badge rounded-pill px-2 py-1" style={{ backgroundColor: "#FFAB2D", color: "#fff", fontSize: "0.75rem" }}>{pendingCount}</span>
+            <span
+              onClick={() => setFilter("PENDING")}
+              className="d-flex align-items-center gap-2 text-nowrap"
+              style={{
+                cursor: "pointer",
+                fontSize: "0.95rem",
+                fontWeight: filter === "PENDING" ? "700" : "500",
+                color: filter === "PENDING" ? "#222" : "#888",
+              }}
+            >
+              Pending{" "}
+              <span className="badge rounded-pill px-2 py-1" style={{ backgroundColor: "#FFAB2D", color: "#fff", fontSize: "0.75rem" }}>
+                {pendingCount}
+              </span>
             </span>
-            <span onClick={() => setFilter("CLOSED")} className="d-flex align-items-center gap-2 text-nowrap" style={{ cursor: "pointer", fontSize: "0.95rem", fontWeight: filter === "CLOSED" ? "700" : "500", color: filter === "CLOSED" ? "#222" : "#888" }}>
-              Closed <span className="badge rounded-pill px-2 py-1" style={{ backgroundColor: "#FF544B", color: "#fff", fontSize: "0.75rem" }}>{closedCount}</span>
+            <span
+              onClick={() => setFilter("CLOSED")}
+              className="d-flex align-items-center gap-2 text-nowrap"
+              style={{
+                cursor: "pointer",
+                fontSize: "0.95rem",
+                fontWeight: filter === "CLOSED" ? "700" : "500",
+                color: filter === "CLOSED" ? "#222" : "#888",
+              }}
+            >
+              Closed{" "}
+              <span className="badge rounded-pill px-2 py-1" style={{ backgroundColor: "#FF544B", color: "#fff", fontSize: "0.75rem" }}>
+                {closedCount}
+              </span>
             </span>
           </div>
+
           {/* Actions & View Toggles */}
           <div className="d-flex align-items-center gap-3">
-            <Button onClick={() => setShowModal(true)} className="px-4 py-2 border-0 fw-bold d-flex align-items-center gap-1" style={{ backgroundColor: '#39D98A', color: '#fff', borderRadius: '10px', fontSize: '0.85rem' }}>
+            <Button
+              onClick={() => setShowModal(true)}
+              className="px-4 py-2 border-0 fw-bold d-flex align-items-center gap-1"
+              style={{ backgroundColor: "#39D98A", color: "#fff", borderRadius: "10px", fontSize: "0.85rem" }}
+            >
               <Plus size={20} /> New Project
             </Button>
             <div className="d-flex align-items-center gap-1 ps-2">
@@ -137,99 +241,118 @@ export default function ProjectDashboard() {
             </div>
           </div>
         </div>
-        {/* --- LIST VIEW WITH 5-COLUMN MATRIX --- */}
-        {currentItems.map((project, index) => {
-          const statusStyle = getStatusConfig(project.status);
-          return (
-            <Card key={project.id || index} className="mb-3 border-0 shadow-sm" style={{ borderRadius: "12px" }}>
-              <Card.Body className="p-4">
-                <Row className="align-items-center gy-3 gy-md-0">
-                  <Col xs={12} md={4}>
-                    <div className="fw-bold mb-1.5" style={{ color: "#39D98A", fontSize: "0.8rem", letterSpacing: "0.5px" }}>
-                      #{project.id || `P-000441425`}
-                    </div>
-                    <h5 className="mb-2 text-wrap text-break" style={{ fontSize: "1.05rem", fontWeight: "700", color: "#1E2022" }}>
-                      {project.title}
-                    </h5>
-                    <small className="text-muted d-flex align-items-center gap-1" style={{ fontSize: "0.8rem" }}>
-                      <Calendar2DateFill size={12} style={{ color: "#A0AEC0" }} /> Created on {project.createdDate || "Sep 8th, 2020"}
-                    </small>
-                  </Col>
-                  <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
-                    <img
-                      src={STATIC_AVATAR}
-                      alt="Client"
-                      className="rounded-circle bg-light"
-                      style={{ width: "42px", height: "42px", objectFit: "cover", flexShrink: 0 }}
-                    />
-                    <div>
-                      <div className="text-muted" style={{ fontSize: "0.75rem" }}>Client</div>
-                      <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.client}</div>
-                    </div>
-                  </Col>
-                  <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
-                    <img
-                      src={STATIC_AVATAR}
-                      alt="PIC"
-                      className="rounded-circle bg-light"
-                      style={{ width: "42px", height: "42px", objectFit: "cover", flexShrink: 0 }}
-                    />
-                    <div>
-                      <div className="text-muted" style={{ fontSize: "0.75rem" }}>Person in charge</div>
-                      <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.personInCharge || "Yoast Esec"}</div>
-                    </div>
-                  </Col>
-                  <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
-                    <div className="d-flex align-items-center justify-content-center rounded-circle text-white"
-                      style={{ width: "36px", height: "36px", backgroundColor: "#39D98A", flexShrink: 0 }}>
-                      <LightningChargeFill size={16} />
-                    </div>
-                    <div>
-                      <div className="text-muted" style={{ fontSize: "0.75rem" }}>Deadline</div>
-                      <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.deadline || "Tuesday, Sep 29th 2020"}</div>
-                    </div>
-                  </Col>
-                  <Col xs={12} md={2} className="d-flex align-items-center justify-content-start justify-content-md-end gap-2">
-                    <Button
-                      className="px-3 py-1.5 border-0 w-100"
-                      style={{
-                        backgroundColor: statusStyle.bg,
-                        color: statusStyle.color,
-                        borderRadius: "14px",
-                        fontSize: "0.7rem",
-                        fontWeight: "700",
-                        letterSpacing: "0.6px",
-                        width: "100%",
-                        textTransform: "uppercase",
-                        textAlign: "center"
-                      }}
-                    >
-                      {project.status}
-                    </Button>
-                    <button className="btn btn-link p-1 text-muted d-flex align-items-center justify-content-center" style={{ border: "none", background: "none" }}>
-                      <ThreeDotsVertical size={16} style={{ color: "#A0AEC0" }} />
-                    </button>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          );
-        })}
-        {safeData.length === 0 && (
+
+        {/* LOADING INDICATOR */}
+        {loading && (
+          <div className="d-flex justify-content-center align-items-center my-5 py-4">
+            <Spinner animation="border" variant="success" />
+            <span className="ms-3 text-muted fw-semibold">Loading projects from SQL Server...</span>
+          </div>
+        )}
+
+        {/* --- LIST VIEW --- */}
+        {!loading &&
+          currentItems.map((project, index) => {
+            const statusStyle = getStatusConfig(project.status);
+            return (
+              <Card key={project.id || index} className="mb-3 border-0 shadow-sm" style={{ borderRadius: "12px" }}>
+                <Card.Body className="p-4">
+                  <Row className="align-items-center gy-3 gy-md-0">
+                    <Col xs={12} md={4}>
+                      <div className="fw-bold mb-1.5" style={{ color: "#39D98A", fontSize: "0.8rem", letterSpacing: "0.5px" }}>
+                        #{project.id || `P-000441425`}
+                      </div>
+                      <h5 className="mb-2 text-wrap text-break" style={{ fontSize: "1.05rem", fontWeight: "700", color: "#1E2022" }}>
+                        {project.title}
+                      </h5>
+                      <small className="text-muted d-flex align-items-center gap-1" style={{ fontSize: "0.8rem" }}>
+                        <Calendar2DateFill size={12} style={{ color: "#A0AEC0" }} /> Created on {project.createdDate || "Sep 8th, 2026"}
+                      </small>
+                    </Col>
+                    <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
+                      <img
+                        src={STATIC_AVATAR}
+                        alt="Client"
+                        className="rounded-circle bg-light"
+                        style={{ width: "42px", height: "42px", objectFit: "cover", flexShrink: 0 }}
+                      />
+                      <div>
+                        <div className="text-muted" style={{ fontSize: "0.75rem" }}>Client</div>
+                        <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.client}</div>
+                      </div>
+                    </Col>
+                    <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
+                      <img
+                        src={STATIC_AVATAR}
+                        alt="PIC"
+                        className="rounded-circle bg-light"
+                        style={{ width: "42px", height: "42px", objectFit: "cover", flexShrink: 0 }}
+                      />
+                      <div>
+                        <div className="text-muted" style={{ fontSize: "0.75rem" }}>Person in charge</div>
+                        <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.personInCharge || "Yoast Esec"}</div>
+                      </div>
+                    </Col>
+                    <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
+                      <div
+                        className="d-flex align-items-center justify-content-center rounded-circle text-white"
+                        style={{ width: "36px", height: "36px", backgroundColor: "#39D98A", flexShrink: 0 }}
+                      >
+                        <LightningChargeFill size={16} />
+                      </div>
+                      <div>
+                        <div className="text-muted" style={{ fontSize: "0.75rem" }}>Deadline</div>
+                        <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.deadline || "Tuesday, Sep 29th 2026"}</div>
+                      </div>
+                    </Col>
+                    <Col xs={12} md={2} className="d-flex align-items-center justify-content-start justify-content-md-end gap-2">
+                      <Button
+                        className="px-3 py-1.5 border-0 w-100" 
+                        style={{
+                          backgroundColor: statusStyle.bg,
+                          color: statusStyle.color,
+                          borderRadius: "14px",
+                          fontSize: "0.7rem",
+                          fontWeight: "700",
+                          letterSpacing: "0.6px",
+                          width: "100%",
+                          textTransform: "uppercase",
+                          textAlign: "center",
+                        }}
+                      >
+                        {project.status}
+                      </Button>
+                      <button className="btn btn-link p-1 text-muted d-flex align-items-center justify-content-center" style={{ border: "none", background: "none" }}>
+                        <ThreeDotsVertical size={16} style={{ color: "#A0AEC0" }} />
+                      </button>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+            );
+          })}
+
+        {!loading && totalItems === 0 && (
           <div className="text-center text-muted my-5">No projects found.</div>
         )}
-        {/* --- PAGINATION FOOTER --- */}
-        {totalPages > 1 && (
+
+        {/* --- DYNAMIC PAGINATION FOOTER --- */}
+        {!loading && totalPages > 1 && (
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 user-select-none gap-3">
             <div className="text-muted small fw-medium">
-              Showing {FirstItem + 1} to {Math.min(LastItem, safeData.length)} from {safeData.length} data
+              Showing {FirstItem + 1} to {Math.min(LastItem, totalItems)} from {totalItems} data
             </div>
             <div className="d-flex align-items-center gap-2">
               <button
                 onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-                disabled={currentPage === 1}
+                disabled={activePage === 1}
                 className="btn bg-white rounded-pill px-3 py-1.5 shadow-sm d-flex align-items-center gap-1"
-                style={{ border: '1px solid #E2E8F0', color: '#39D98A', fontSize: "0.85rem", fontWeight: "600" }}
+                style={{
+                  border: "1px solid #E2E8F0",
+                  color: activePage === 1 ? "#A0AEC0" : "#39D98A",
+                  fontSize: "0.85rem",
+                  fontWeight: "600",
+                }}
               >
                 &lt;&lt; Previous
               </button>
@@ -244,8 +367,8 @@ export default function ProjectDashboard() {
                     fontSize: "0.85rem",
                     fontWeight: "600",
                     border: "none",
-                    backgroundColor: currentPage === pageNum ? "#39D98A" : "transparent",
-                    color: currentPage === pageNum ? "#FFF" : "#718096"
+                    backgroundColor: activePage === pageNum ? "#39D98A" : "transparent",
+                    color: activePage === pageNum ? "#FFF" : "#718096",
                   }}
                 >
                   {pageNum}
@@ -253,9 +376,14 @@ export default function ProjectDashboard() {
               ))}
               <button
                 onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-                disabled={currentPage === totalPages}
+                disabled={activePage === totalPages}
                 className="btn bg-white rounded-pill px-3 py-1.5 shadow-sm d-flex align-items-center gap-1"
-                style={{ border: '1px solid #E2E8F0', color: '#39D98A', fontSize: "0.85rem", fontWeight: "600" }}
+                style={{
+                  border: "1px solid #E2E8F0",
+                  color: activePage === totalPages ? "#A0AEC0" : "#39D98A",
+                  fontSize: "0.85rem",
+                  fontWeight: "600",
+                }}
               >
                 Next &gt;&gt;
               </button>
@@ -263,6 +391,7 @@ export default function ProjectDashboard() {
           </div>
         )}
       </Container>
+
       {/* INPUT FORM MODAL */}
       <Modal show={showModal} onHide={() => setShowModal(false)} centered backdrop="static" size="md">
         <Modal.Header closeButton className="border-0 pb-0">
@@ -282,7 +411,6 @@ export default function ProjectDashboard() {
               <Form.Label className="small text-muted fw-bold">Person in Charge</Form.Label>
               <Form.Control type="text" name="personInCharge" required value={formData.personInCharge} onChange={handleInputChange} placeholder="Enter manager name" style={{ borderRadius: "8px" }} />
             </Form.Group>
-            {/* DATE PICKER WITH CALENDAR ICON TRIGGER */}
             <Form.Group className="mb-3">
               <Form.Label className="small text-muted fw-bold">Deadline Date</Form.Label>
               <InputGroup>
