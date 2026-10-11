@@ -112,7 +112,7 @@ export default function ProjectDashboard() {
       if (!response.ok) throw new Error("Failed to save to database");
 
       const savedProject = await response.json();
-      
+
       // Normalize deadline formatting for cards if needed
       savedProject.deadline = formatDisplayDate(savedProject.deadline);
 
@@ -270,24 +270,39 @@ export default function ProjectDashboard() {
                       </small>
                     </Col>
                     <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
-                      <img
-                        src={STATIC_AVATAR}
-                        alt="Client"
-                        className="rounded-circle bg-light"
-                        style={{ width: "42px", height: "42px", objectFit: "cover", flexShrink: 0 }}
-                      />
-                      <div>
+                      {project.imageURL && (
+                        <img
+                          src={project.imageURL}
+                          alt={project.title || "Project image"}
+                          style={{
+                            width: "100%",
+                            maxWidth: "50px",
+                            height: "50px",
+                            objectFit: "cover",
+                            borderRadius: "8px",
+                            marginBottom: "12px",
+                          }}
+                        />
+                      )}
+                      <div> 
                         <div className="text-muted" style={{ fontSize: "0.75rem" }}>Client</div>
                         <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.client}</div>
                       </div>
                     </Col>
                     <Col xs={12} sm={4} md={2} className="d-flex align-items-center gap-3">
                       <img
-                        src={STATIC_AVATAR}
-                        alt="PIC"
-                        className="rounded-circle bg-light"
-                        style={{ width: "42px", height: "42px", objectFit: "cover", flexShrink: 0 }}
+                        src={project.imageURL}
+                        alt={project.title || "Project image"}
+                        style={{
+                          width: "100%",
+                          maxWidth: "50px",
+                          height: "50px",
+                          objectFit: "cover",
+                          borderRadius: "8px",
+                          marginBottom: "12px",
+                        }}
                       />
+
                       <div>
                         <div className="text-muted" style={{ fontSize: "0.75rem" }}>Person in charge</div>
                         <div className="text-dark fw-bold" style={{ fontSize: "0.88rem" }}>{project.personInCharge || "Yoast Esec"}</div>
@@ -307,7 +322,7 @@ export default function ProjectDashboard() {
                     </Col>
                     <Col xs={12} md={2} className="d-flex align-items-center justify-content-start justify-content-md-end gap-2">
                       <Button
-                        className="px-3 py-1.5 border-0 w-100" 
+                        className="px-3 py-1.5 border-0 w-100"
                         style={{
                           backgroundColor: statusStyle.bg,
                           color: statusStyle.color,
